@@ -1,6 +1,10 @@
 # /implement Command
 
-When user types `/implement` or `/implement --all`:
+When user types `/implement` or `/implement --interactive` (or `/implement -i`):
+
+## IMPORTANT: Mode Behavior
+- **`/implement`** (default): Batch mode - execute all tasks automatically without any pauses
+- **`/implement --interactive`** (or `-i`): Interactive mode - MUST pause after each task and wait for user confirmation
 
 ## Execution Steps
 
@@ -12,26 +16,25 @@ When user types `/implement` or `/implement --all`:
    - Read tasks.md for task list and progress
    - Identify current task status
 3. **Implementation mode**:
-   - **Default (`/implement`)**: Interactive mode with pauses
-   - **All (`/implement --all`)**: Execute entire plan without pausing
+   - **Default (`/implement`)**: Batch mode - execute entire plan without any pauses or questions
+   - **Interactive (`/implement --interactive` or `-i`)**: Interactive mode - MUST pause after each task and ask for confirmation
 4. **Execute tasks sequentially**:
    - Follow the technical approach from plan.md
    - Implement each task according to specifications
    - Respect parallelization markers `[P]` when possible
    - Handle blocked tasks `[B]` appropriately
-5. **After each major step**:
-   - Update tasks.md marking completed tasks
-   - **Interactive mode**: Ask "Continue with next step? (y/n/q)"
-   - **All mode**: Continue automatically
+5. **After each task completion**:
+   - Update tasks.md marking completed tasks by changing `- [ ]` to `- [x]`
+   - **Batch mode (`/implement`)**: Continue to next task automatically without any prompts
+   - **Interactive mode (`/implement --interactive` or `-i`)**: ALWAYS ask "Continue with T### - [task name]? (y/n)" and wait for user input
 6. **Progress tracking**:
-   - Mark tasks as completed in tasks.md
-   - Update progress overview counters
+   - Mark tasks as completed in tasks.md by checking boxes: `- [x] T### - Task description`
+   - Update progress overview counters (Completed count)
    - Create commit suggestions with task numbers
 
 ## Interactive Controls
 - **y/yes**: Continue to next task
-- **n/no**: Pause implementation (resume later)
-- **q/quit**: Stop implementation entirely
+- **n/no**: Stop implementation and save progress
 
 ## Implementation Guidelines
 - Follow the technical approach outlined in plan.md
@@ -45,17 +48,31 @@ When user types `/implement` or `/implement --all`:
 - If dependencies missing: Update tasks.md with setup requirements
 - If clarification needed: Update spec with `[NEEDS CLARIFICATION]`
 
-## Example Interaction
+## Example Interactions
+
+### Batch Mode (`/implement`)
 ```
 Starting implementation of JWT Authentication System...
 
 ✓ T001 - Setup authentication middleware
-Continue with T002 - Create user model? (y/n/q): y
-
 ✓ T002 - Create user model
 ✓ T003 - Add JWT token generation
-Continue with T004 - Create login endpoint? (y/n/q): n
+✓ T004 - Create login endpoint
+✓ T005 - Add authentication tests
 
-Implementation paused. Progress saved to tasks.md
+All tasks completed successfully!
+```
+
+### Interactive Mode (`/implement --interactive`)
+```
+Starting implementation of JWT Authentication System...
+
+✓ T001 - Setup authentication middleware
+Continue with T002 - Create user model? (y/n): y
+
+✓ T002 - Create user model
+Continue with T003 - Add JWT token generation? (y/n): n
+
+Implementation stopped. Progress saved to tasks.md
 Resume anytime with /implement
 ```

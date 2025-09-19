@@ -19,6 +19,7 @@ When user types `/tasks`:
    - **Testing & Validation**: Tests based on project methodology
    - **Core Implementation**: Main feature implementation
    - **Polish & Documentation**: Cleanup, docs, final touches
+   - **Format each task with checkboxes**: `- [ ] T### - Task description`
 7. **Apply task rules**:
    - Number sequentially (T001, T002, T003...)
    - Mark `[P]` for tasks that can run in parallel (different files)
@@ -38,9 +39,17 @@ When user types `/tasks`:
 - Respect project's testing methodology (TDD, post-implementation, or none)
 - Consider parallel execution for independent tasks
 - Break large tasks into smaller, manageable pieces
+- **Use checkbox format**: `- [ ] T### - Task description [P]` (unchecked by default)
+- Add parallelization markers `[P]` and blocking markers `[B]` after task description
 
 ## Example Output
 ```
 Task list created at specs/feature-auth/tasks.md
 Generated 12 implementation tasks. Use /implement to start interactive implementation.
+
+Example tasks format:
+- [ ] T001 - Setup authentication middleware
+- [ ] T002 - Create user model [P]
+- [ ] T003 - Add JWT token generation
+- [ ] T004 - Create login endpoint [B]
 ```

@@ -164,6 +164,12 @@ When user types `/spec [description]`:
 
 Similar instruction files will be created for `/plan`, `/tasks`, and `/implement` commands.
 
+#### Key Implementation Details:
+- **Tasks format**: Generated with checkboxes `- [ ] T### - Task description`
+- **Progress tracking**: `/implement` updates `- [ ]` to `- [x]` as tasks complete
+- **Interactive control**: `/implement --interactive` asks "Continue with T### - [task name]? (y/n)"
+- **Batch mode**: `/implement` (default) executes all tasks without pauses
+
 ---
 
 ## Visual Output (Chalk)
@@ -386,13 +392,9 @@ pnpm publish
 npx nanospec init
 npx nanospec init --config
 
-# Using pnpx (pnpm)
-pnpx nanospec init
-pnpx nanospec init --config
-
-# Using bunx (bun)
-bunx nanospec init
-bunx nanospec init --config
+# Alternative package managers
+pnpx nanospec init     # pnpm
+bunx nanospec init     # bun
 ```
 
 ### Entry Point (src/index.ts)
@@ -438,12 +440,17 @@ npx nanospec init --config
 ### Developer uses in Claude Code:
 ```
 /spec Create authentication system
+/plan
+/tasks
+/implement              # Batch mode
+/implement --interactive # Interactive mode
 ```
 
 ### Claude Code executes:
-1. Reads `.claude/commands/spec.md` (markdown instruction file)
-2. Follows the instructions contained in the file
-3. Creates `specs/auth/spec.md` using the template from `.nanospec/templates/spec.md`
+1. Reads `.claude/commands/[command].md` (markdown instruction files)
+2. Follows the instructions contained in the files
+3. Creates/updates files in `specs/[branch]/` using templates from `.nanospec/templates/`
+4. Updates checkboxes in tasks.md during implementation
 
 ---
 

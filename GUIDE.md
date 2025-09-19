@@ -17,11 +17,19 @@ This guide covers everything you need to know about using ccspec for specificati
 
 ```mermaid
 graph LR
-    A[/spec] --> B[/plan] --> C[/tasks] --> D[/implement]
-    A --> A1[spec.md]
-    B --> B1[plan.md]
-    C --> C1[tasks.md]
-    D --> D1[Feature Implementation]
+    User --> A["/spec"]
+    User --> C["/plan"]
+    User --> E["/tasks"]
+    User --> G["/implement"]
+
+    A --> B["spec.md"]
+    C --> D["plan.md"]
+    E --> F["tasks.md"]
+    G --> H["Code"]
+
+    B -.-> C
+    D -.-> E
+    F -.-> G
 ```
 
 ### 1. Create Specification (`/spec`)

@@ -1,6 +1,6 @@
 {
   "name": "ccspec",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Simplified Spec-Driven Development for Claude Code",
   "author": "Adeonir Kohl <me@adeonir.dev> (https://adeonir.dev/)",
   "main": "index.js",

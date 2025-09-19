@@ -1,50 +1,36 @@
-# NanoSpec
+# ccspec
 
 > Simplified Spec-Driven Development for Claude Code
 
-NanoSpec is a lightweight CLI tool that streamlines specification-driven development by integrating seamlessly with Claude Code. It generates structured templates and provides slash commands for creating specifications, technical plans, and implementation tasks interactively.
+**ccspec** (Claude Code Specification) is a lightweight CLI tool that streamlines specification-driven development by integrating seamlessly with Claude Code. It generates structured templates and provides slash commands for creating specifications, technical plans, and implementation tasks interactively.
 
 ## Features
 
-- **Quick Setup**: Initialize your project with `nanospec init`
+- **Quick Setup**: Initialize your project with `ccspec init`
 - **Structured Templates**: Auto-generated spec, plan, and task templates
 - **Claude Code Integration**: Custom slash commands for interactive development
 - **Git Integration**: Branch-based organization and workflow
-- **Configurable**: Optional `.nanospecrc.json` for customization
+- **Configurable**: Optional `.ccspecrc.json` for customization
 - **Zero Dependencies**: Templates bundled in executable, no external files needed
-
-## Installation
-
-### Via npx (Recommended)
-
-No installation required! Use directly with npx:
-
-```bash
-npx nanospec init
-```
-
-### From Source (Development)
-
-```bash
-git clone https://github.com/adeonir/nanospec.git
-cd nanospec
-pnpm install
-pnpm build
-pnpm link --global
-```
 
 ## Quick Start
 
 ### 1. Initialize Your Project
 
+Use any package runner (no installation required):
+
 ```bash
 cd your-project
-npx nanospec init
+
+# Choose your preferred package runner:
+npx ccspec init     # npm
+pnpx ccspec init    # pnpm
+bunx ccspec init    # bun
 ```
 
 This creates:
 - `.claude/commands/` - Slash command instructions for Claude Code
-- `.nanospec/templates/` - Specification templates
+- `.ccspec/templates/` - Specification templates
 
 ### 2. Open Claude Code
 
@@ -139,7 +125,7 @@ your-project/
 │       ├── plan.md
 │       ├── tasks.md
 │       └── implement.md
-├── .nanospec/
+├── .ccspec/
 │   └── templates/         # Specification templates
 │       ├── spec.md
 │       ├── plan.md
@@ -149,12 +135,12 @@ your-project/
 │       ├── spec.md
 │       ├── plan.md
 │       └── tasks.md
-└── .nanospecrc.json       # Optional configuration
+└── .ccspecrc.json       # Optional configuration
 ```
 
 ## Configuration
 
-Create `.nanospecrc.json` to customize behavior:
+Create `.ccspecrc.json` to customize behavior:
 
 ```json
 {
@@ -259,8 +245,8 @@ When using `/implement --interactive`:
 
 | Command | Description |
 |---------|-------------|
-| `npx nanospec init` | Initialize NanoSpec in current project |
-| `npx nanospec init --config` | Initialize with `.nanospecrc.json` |
+| `npx ccspec init` | Initialize ccspec in current project |
+| `npx ccspec init --config` | Initialize with `.ccspecrc.json` |
 
 ### Slash Commands (Claude Code)
 
@@ -293,10 +279,10 @@ When using `/implement --interactive`:
 
 ### Custom Templates
 
-Modify templates in `.nanospec/templates/` to match your workflow:
+Modify templates in `.ccspec/templates/` to match your workflow:
 
 ```markdown
-<!-- .nanospec/templates/spec.md -->
+<!-- .ccspec/templates/spec.md -->
 # Feature Specification: {FEATURE_NAME}
 
 **Epic**: {EPIC_NAME}
@@ -306,7 +292,7 @@ Modify templates in `.nanospec/templates/` to match your workflow:
 
 ### Team Workflows
 
-1. **Shared Configuration**: Commit `.nanospecrc.json` to establish team standards
+1. **Shared Configuration**: Commit `.ccspecrc.json` to establish team standards
 2. **Template Customization**: Modify templates for project-specific requirements
 3. **Branch Conventions**: Use `branchPrefix` to enforce naming patterns
 4. **Review Process**: Use generated specs for feature reviews
@@ -315,7 +301,7 @@ Modify templates in `.nanospec/templates/` to match your workflow:
 
 ### CI/CD Integration
 
-NanoSpec works seamlessly with existing CI/CD pipelines:
+ccspec works seamlessly with existing CI/CD pipelines:
 
 ```yaml
 # .github/workflows/ci.yml
@@ -329,10 +315,10 @@ NanoSpec works seamlessly with existing CI/CD pipelines:
 
 ### Common Issues
 
-**Command not found: nanospec**
+**Command not found: ccspec**
 ```bash
 # Use npx instead
-npx nanospec init
+npx ccspec init
 # Or check if npm is installed
 npm --version
 ```
@@ -340,7 +326,7 @@ npm --version
 **Claude Code slash commands not working**
 ```bash
 # Reinitialize
-npx nanospec init
+npx ccspec init
 # Check files exist
 ls .claude/commands/
 ```
@@ -348,14 +334,14 @@ ls .claude/commands/
 **Configuration not loading**
 ```bash
 # Verify JSON syntax
-cat .nanospecrc.json | jq .
+cat .ccspecrc.json | jq .
 ```
 
 ### Debug Mode
 
 Set environment variable for verbose output:
 ```bash
-DEBUG=nanospec npx nanospec init
+DEBUG=ccspec npx ccspec init
 ```
 
 ## Development
@@ -365,8 +351,8 @@ This is a personal project. For bug reports or feature requests, please open an 
 ### Local Development Setup
 
 ```bash
-git clone https://github.com/adeonir/nanospec.git
-cd nanospec
+git clone https://github.com/adeonir/ccspec.git
+cd ccspec
 pnpm install
 pnpm dev           # Watch mode
 pnpm build         # Production build

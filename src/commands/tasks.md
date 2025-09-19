@@ -12,7 +12,7 @@ When user types `/tasks`:
    - Dependencies and setup requirements
    - Architecture decisions
    - Testing strategy (if any)
-4. **Copy template** from `.nanospec/templates/tasks.md`
+4. **Copy template** from `.ccspec/templates/tasks.md`
 5. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
 6. **Generate tasks by category**:
    - **Setup & Dependencies**: Project setup, dependencies, configuration

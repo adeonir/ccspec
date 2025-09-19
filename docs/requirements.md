@@ -1,7 +1,7 @@
-# NanoSpec - Requirements Planning
+# ccspec - Requirements Planning
 
 ## Objective
-NanoSpec is a lightweight specification-driven development tool designed to streamline feature planning and implementation workflows. It provides structured templates for requirements, technical planning, and task management, with native integration for Claude Code through slash commands. The tool emphasizes simplicity, atomic commits, and interactive implementation to boost developer productivity.
+ccspec is a lightweight specification-driven development tool designed to streamline feature planning and implementation workflows. It provides structured templates for requirements, technical planning, and task management, with native integration for Claude Code through slash commands. The tool emphasizes simplicity, atomic commits, and interactive implementation to boost developer productivity.
 
 ---
 
@@ -9,12 +9,12 @@ NanoSpec is a lightweight specification-driven development tool designed to stre
 
 ```
 project/
-├── .nanospec/
+├── .ccspec/
 │   └── templates/          # Default templates
 │       ├── spec.md
 │       ├── plan.md
 │       └── tasks.md
-├── .nanospecrc.json        # Optional configuration
+├── .ccspecrc.json        # Optional configuration
 ├── specs/                  # Or as per specDir config
 │   └── <branch-name>/      # Created on demand
 │       ├── spec.md         # Filled copy of template
@@ -27,14 +27,14 @@ project/
 
 ## CLI Commands
 
-### `npx nanospec init`
-Creates initial NanoSpec structure in project
+### `npx ccspec init`
+Creates initial ccspec structure in project
 - Creates `.claude/commands/` with slash command instructions
-- Creates `.nanospec/templates/` with the 3 default templates
-- Does **not** create `.nanospecrc.json` by default
+- Creates `.ccspec/templates/` with the 3 default templates
+- Does **not** create `.ccspecrc.json` by default
 
-### `npx nanospec init --config`
-Same as `init` but also creates `.nanospecrc.json` with customizable settings
+### `npx ccspec init --config`
+Same as `init` but also creates `.ccspecrc.json` with customizable settings
 
 
 ---
@@ -52,7 +52,7 @@ Generates feature specification
 4. If no → asks for new branch name and creates it with `git switch -c`
 5. Creates `specs/<branch>/` if it doesn't exist
 6. Analyzes prompt and generates specification content
-7. Copies `.nanospec/templates/spec.md` and fills with generated content
+7. Copies `.ccspec/templates/spec.md` and fills with generated content
 8. Marks ambiguities with `[NEEDS CLARIFICATION]`
 9. Saves as `specs/<branch>/spec.md`
 
@@ -61,14 +61,14 @@ Generates technical plan with research
 1. Verifies if `spec.md` exists
 2. Reads `spec.md` + `.claude.md` for context
 3. Does codebase research (plan mode style)
-4. Copies `.nanospec/templates/plan.md` and fills with research findings and technical decisions
+4. Copies `.ccspec/templates/plan.md` and fills with research findings and technical decisions
 5. Saves as `specs/<branch>/plan.md`
 
 ### `/tasks`
 Generates progress tracking checklist with checkboxes
 1. Verifies if `plan.md` exists
 2. Analyzes plan and extracts key milestones and deliverables
-3. Copies `.nanospec/templates/tasks.md` and fills with checkbox tasks
+3. Copies `.ccspec/templates/tasks.md` and fills with checkbox tasks
 4. Creates numbered tasks with checkboxes (- [ ] T001, - [ ] T002...)
 5. Marks parallel tasks with `[P]` and blocked tasks with `[B]`
 6. Saves as `specs/<branch>/tasks.md` (used for progress verification and real-time tracking)
@@ -89,7 +89,7 @@ Implements the technical plan with checkbox tracking
 
 ---
 
-## Optional Configuration (.nanospecrc.json)
+## Optional Configuration (.ccspecrc.json)
 
 ```json
 {
@@ -111,7 +111,7 @@ Implements the technical plan with checkbox tracking
 
 ```bash
 # 1. Initial setup (once per project)
-npx nanospec init
+npx ccspec init
 
 # 2. In Claude Code
 /spec Create JWT authentication with refresh tokens
@@ -145,7 +145,7 @@ npx nanospec init
 
 ---
 
-## NanoSpec Principles
+## ccspec Principles
 
 1. **Simplicity first** - Direct templates, no over-engineering
 2. **Flexibility** - Optional configuration, sensible defaults
@@ -164,4 +164,4 @@ npx nanospec init
 
 ---
 
-**NanoSpec = Simplified Spec-Driven Development + productivity focus**
+**ccspec = Simplified Spec-Driven Development + productivity focus**

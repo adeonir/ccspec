@@ -1,6 +1,6 @@
 {
-  "name": "nanospec",
-  "version": "0.1.0",
+  "name": "ccspec",
+  "version": "0.0.0",
   "description": "Simplified Spec-Driven Development for Claude Code",
   "author": "Adeonir Kohl <me@adeonir.dev> (https://adeonir.dev/)",
   "main": "index.js",
@@ -16,11 +16,11 @@
   "license": "ISC",
   "repository": {
     "type": "git",
-    "url": "https://github.com/adeonir/nanospec.git"
+    "url": "https://github.com/adeonir/ccspec.git"
   },
-  "homepage": "https://github.com/adeonir/nanospec#readme",
+  "homepage": "https://github.com/adeonir/ccspec#readme",
   "bugs": {
-    "url": "https://github.com/adeonir/nanospec/issues"
+    "url": "https://github.com/adeonir/ccspec/issues"
   },
   "engines": {
     "node": ">=20.0.0"
@@ -39,7 +39,7 @@
     "release": "np --no-tests"
   },
   "bin": {
-    "nanospec": "./dist/index.js"
+    "ccspec": "./dist/index.js"
   },
   "dependencies": {
     "chalk": "5.6.2",

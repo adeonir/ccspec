@@ -13,7 +13,7 @@ When user types `/plan`:
    - Find similar implementations
    - Detect framework and libraries in use
    - Understand project structure
-5. **Copy template** from `.nanospec/templates/plan.md`
+5. **Copy template** from `.ccspec/templates/plan.md`
 6. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
 7. **Fill template** with research findings:
    - Replace `{FEATURE_NAME}` with spec feature name

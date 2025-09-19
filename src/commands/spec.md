@@ -16,8 +16,8 @@ When user types `/spec [description]`:
    - If **yes**: Continue with current branch
    - If **no**: Ask "Enter new branch name:" and create it with `git switch -c {new-branch}`
 3. **Load configuration**:
-   - **DO NOT** attempt to read `.nanospecrc.json` unless you verify it exists first
-   - Use Glob tool to check for `.nanospecrc.json` file existence
+   - **DO NOT** attempt to read `.ccspecrc.json` unless you verify it exists first
+   - Use Glob tool to check for `.ccspecrc.json` file existence
    - Only if file exists, then read it with Read tool
    - If file doesn't exist, use these defaults: `{"specDir": "specs", "branchPrefix": "", "autoNumbering": false}`
    - **NEVER** show "Error reading file" messages for missing config
@@ -25,7 +25,7 @@ When user types `/spec [description]`:
    - Remove `branchPrefix` if present in config
    - Add auto-numbering if `autoNumbering: true` (scan existing folders)
 5. **Create directory**: `{specDir}/{processed-branch}/`
-6. **Copy template** from `.nanospec/templates/spec.md`
+6. **Copy template** from `.ccspec/templates/spec.md`
 7. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
 8. **Fill template** based on user description:
    - Replace `{FEATURE_NAME}` with extracted feature name

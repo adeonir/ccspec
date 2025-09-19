@@ -1,4 +1,4 @@
-# NanoSpec - Technical Planning
+# ccspec - Technical Planning
 
 ## Technology Stack
 
@@ -24,7 +24,7 @@
 ## Project Structure
 
 ```
-nanospec/
+ccspec/
 ├── src/
 │   ├── index.ts           # Entry point & CLI setup
 │   ├── cli/               # CLI command implementations
@@ -52,35 +52,35 @@ nanospec/
 
 ## CLI Commands
 
-### `nanospec init`
-Creates NanoSpec base structure
+### `ccspec init`
+Creates ccspec base structure
 
 **Actions:**
-1. Check if `.nanospec/` already exists (warn if yes)
+1. Check if `.ccspec/` already exists (warn if yes)
 2. Create `.claude/commands/`
-3. Create `.nanospec/templates/`
+3. Create `.ccspec/templates/`
 4. Write slash command instructions (markdown files) to `.claude/commands/`:
    - `spec.md` - Instructions for `/spec` command
    - `plan.md` - Instructions for `/plan` command
    - `tasks.md` - Instructions for `/tasks` command
    - `implement.md` - Instructions for `/implement` command
-5. Write spec templates to `.nanospec/templates/`:
+5. Write spec templates to `.ccspec/templates/`:
    - `spec.md` - Feature specification template
    - `plan.md` - Technical plan template
    - `tasks.md` - Task list template
 6. Display success message with next steps
 
-### `nanospec init --config`
-Same as `init` + create `.nanospecrc.json`
+### `ccspec init --config`
+Same as `init` + create `.ccspecrc.json`
 
 **Additional actions:**
-7. Write `.nanospecrc.json` with default configuration values
+7. Write `.ccspecrc.json` with default configuration values
 
 ---
 
 ## Template System
 
-NanoSpec uses a hybrid approach for templates and command instructions:
+ccspec uses a hybrid approach for templates and command instructions:
 
 ### Native Markdown Files
 Templates and command instructions are written as native `.md` files for the best developer experience:
@@ -142,12 +142,12 @@ When user types `/spec [description]`:
 3. If git exists → Get current branch: `git branch --show-current`
 4. Ask about branch usage: "Use current branch? (y/n)"
 5. If no → ask for new branch name and create with `git switch -c`
-6. Load `.nanospecrc.json` if exists (read config)
+6. Load `.ccspecrc.json` if exists (read config)
 7. Process branch name:
    - Remove `branchPrefix` if present in config
    - Add auto-numbering if `autoNumbering: true` (scan existing folders)
 8. Create directory: `{specDir}/{processed-branch}/`
-9. Copy template from `.nanospec/templates/spec.md`
+9. Copy template from `.ccspec/templates/spec.md`
 10. Fill template based on user description:
     - Parse feature name
     - Generate user stories from description
@@ -176,15 +176,15 @@ Similar instruction files will be created for `/plan`, `/tasks`, and `/implement
 
 ### Success Messages
 ```typescript
-console.log(chalk.blue.bold('\nInitializing NanoSpec...\n'));
+console.log(chalk.blue.bold('\nInitializing ccspec...\n'));
 console.log(chalk.green('✓') + ' Created .claude/commands/');
-console.log(chalk.green('✓') + ' Created .nanospec/templates/');
-console.log(chalk.green.bold('\nNanoSpec initialized!\n'));
+console.log(chalk.green('✓') + ' Created .ccspec/templates/');
+console.log(chalk.green.bold('\nccspec initialized!\n'));
 ```
 
 ### Error Messages
 ```typescript
-console.log(chalk.yellow.bold('\nNanoSpec already initialized!\n'));
+console.log(chalk.yellow.bold('\nccspec already initialized!\n'));
 console.log(chalk.red.bold('\nError: ...\n'));
 ```
 
@@ -198,11 +198,11 @@ console.log('  3. ' + chalk.white('Type /spec to get started\n'));
 
 ---
 
-## Configuration (.nanospecrc.json)
+## Configuration (.ccspecrc.json)
 
 ### Schema TypeScript
 ```typescript
-interface NanoSpecConfig {
+interface ccspecConfig {
   branchPrefix?: string;      // default: ''
   specDir?: string;           // default: 'specs'
   autoNumbering?: boolean;    // default: false
@@ -226,12 +226,12 @@ interface NanoSpecConfig {
 ```typescript
 export async function init(options: { config?: boolean }) {
   // 1. Check if already initialized
-  if (fs.existsSync('.nanospec')) {
-    console.log(chalk.yellow('.nanospec/ already exists'));
+  if (fs.existsSync('.ccspec')) {
+    console.log(chalk.yellow('.ccspec/ already exists'));
     return;
   }
 
-  console.log(chalk.blue.bold('\nInitializing NanoSpec...\n'));
+  console.log(chalk.blue.bold('\nInitializing ccspec...\n'));
 
   // 2. Create directories
   await createDirectories();
@@ -389,12 +389,12 @@ pnpm publish
 ### Direct Execution (No Installation Required)
 ```bash
 # Using npx (npm)
-npx nanospec init
-npx nanospec init --config
+npx ccspec init
+npx ccspec init --config
 
 # Alternative package managers
-pnpx nanospec init     # pnpm
-bunx nanospec init     # bun
+pnpx ccspec init     # pnpm
+bunx ccspec init     # bun
 ```
 
 ### Entry Point (src/index.ts)
@@ -407,14 +407,14 @@ import { init } from './cli/init';
 const program = new Command();
 
 program
-  .name('nanospec')
+  .name('ccspec')
   .description('Simplified Spec-Driven Development for Claude Code')
   .version('0.1.0');
 
 program
   .command('init')
-  .description('Initialize NanoSpec in current project')
-  .option('--config', 'Create .nanospecrc.json configuration file')
+  .description('Initialize ccspec in current project')
+  .option('--config', 'Create .ccspecrc.json configuration file')
   .action(init);
 
 program.parse();
@@ -426,15 +426,15 @@ program.parse();
 
 ### Developer executes:
 ```bash
-npx nanospec init --config
+npx ccspec init --config
 ```
 
 ### CLI executes:
-1. Checks if `.nanospec/` already exists
+1. Checks if `.ccspec/` already exists
 2. Creates directory structure
-3. Writes spec templates in `.nanospec/templates/`
+3. Writes spec templates in `.ccspec/templates/`
 4. Writes slash command instructions (markdown) in `.claude/commands/`
-5. Creates `.nanospecrc.json` (if --config flag used)
+5. Creates `.ccspecrc.json` (if --config flag used)
 6. Shows success message
 
 ### Developer uses in Claude Code:
@@ -449,7 +449,7 @@ npx nanospec init --config
 ### Claude Code executes:
 1. Reads `.claude/commands/[command].md` (markdown instruction files)
 2. Follows the instructions contained in the files
-3. Creates/updates files in `specs/[branch]/` using templates from `.nanospec/templates/`
+3. Creates/updates files in `specs/[branch]/` using templates from `.ccspec/templates/`
 4. Updates checkboxes in tasks.md during implementation
 
 ---
@@ -457,7 +457,7 @@ npx nanospec init --config
 ## Validations and Errors
 
 ### Checks
-- `.nanospec/` already exists → warn user
+- `.ccspec/` already exists → warn user
 - Not a git repository → warn user
 - Write permissions → handle errors
 

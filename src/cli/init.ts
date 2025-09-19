@@ -10,12 +10,12 @@ interface InitOptions {
 
 export async function init(options: InitOptions): Promise<void> {
   try {
-    if (fileExists('.nanospec')) {
-      console.log(chalk.yellow('\nNanoSpec already initialized!\n'))
+    if (fileExists('.ccspec')) {
+      console.log(chalk.yellow('\nccspec already initialized!\n'))
       return
     }
 
-    console.log(chalk.blue.bold('\nInitializing NanoSpec...\n'))
+    console.log(chalk.blue.bold('\nInitializing ccspec...\n'))
 
     const spinner = ora('Creating directories...').start()
     await createDirectories()
@@ -29,7 +29,7 @@ export async function init(options: InitOptions): Promise<void> {
       await createConfig()
     }
 
-    spinner.succeed('NanoSpec initialized!')
+    spinner.succeed('ccspec initialized!')
     printSuccess()
   } catch (error) {
     ora().fail('Initialization failed')
@@ -41,13 +41,13 @@ export async function init(options: InitOptions): Promise<void> {
 
 async function createDirectories(): Promise<void> {
   await ensureDir('.claude/commands')
-  await ensureDir('.nanospec/templates')
+  await ensureDir('.ccspec/templates')
 }
 
 async function writeTemplates(): Promise<void> {
-  await writeFile('.nanospec/templates/spec.md', templates.spec)
-  await writeFile('.nanospec/templates/plan.md', templates.plan)
-  await writeFile('.nanospec/templates/tasks.md', templates.tasks)
+  await writeFile('.ccspec/templates/spec.md', templates.spec)
+  await writeFile('.ccspec/templates/plan.md', templates.plan)
+  await writeFile('.ccspec/templates/tasks.md', templates.tasks)
 }
 
 async function writeCommands(): Promise<void> {
@@ -64,7 +64,7 @@ async function createConfig(): Promise<void> {
     // "autoNumbering": false
   }
 
-  await writeFile('.nanospecrc.json', JSON.stringify(config, null, 2))
+  await writeFile('.ccspecrc.json', JSON.stringify(config, null, 2))
 }
 
 function printSuccess(): void {

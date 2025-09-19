@@ -7,12 +7,12 @@ const packageJson = JSON.parse(readFileSync(join(__dirname, '../package.json'), 
 
 const program = new Command()
 
-program.name('nanospec').description('Simplified Spec-Driven Development for Claude Code').version(packageJson.version)
+program.name('ccspec').description('Simplified Spec-Driven Development for Claude Code').version(packageJson.version)
 
 program
   .command('init')
-  .description('Initialize NanoSpec in current project')
-  .option('--config', 'Create .nanospecrc.json configuration file')
+  .description('Initialize ccspec in current project')
+  .option('--config', 'Create .ccspecrc.json configuration file')
   .action(init)
 
 program.parse()

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-NanoSpec is a lightweight CLI tool for specification-driven development with Claude Code integration. It generates structured templates for feature specifications, technical plans, and task lists, then provides slash commands to implement features interactively.
+**ccspec** (Claude Code Specification) is a lightweight CLI tool for specification-driven development with Claude Code integration. It generates structured templates for feature specifications, technical plans, and task lists, then provides slash commands to implement features interactively.
 
 ## Development Commands
 
@@ -25,7 +25,7 @@ pnpm start
 pnpm link --global
 
 # Test CLI commands locally
-nanospec init
+ccspec init
 
 # Unlink when done
 pnpm unlink --global
@@ -52,9 +52,9 @@ pnpm check
 - `src/utils/` - File operation helpers
 
 ### CLI Workflow
-1. User runs `nanospec init` to create project structure
+1. User runs `ccspec init` to create project structure
 2. CLI creates `.claude/commands/` with slash command instruction files
-3. CLI creates `.nanospec/templates/` with spec templates
+3. CLI creates `.ccspec/templates/` with spec templates
 4. User runs slash commands in Claude Code to generate and implement specs
 
 ### Slash Commands Flow
@@ -64,7 +64,7 @@ pnpm check
 - `/implement` - Implements the technical plan interactively, updating task checklist
 
 ### Configuration
-Optional `.nanospecrc.json` supports:
+Optional `.ccspecrc.json` supports:
 - `specDir` - Custom specs folder name
 - `branchPrefix` - Branch prefix to remove from folder names
 - `autoNumbering` - Add 001-, 002- numbering to spec folders

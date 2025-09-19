@@ -1,0 +1,12 @@
+{
+  "name": "nanospec",
+  "version": "0.1.0",
+  "description": "Simplified Spec-Driven Development for Claude Code",
+  "main": "index.js",
+  "scripts": {
+  },
+  "keywords": [],
+  "author": "Adeonir Kohl <me@adeonir.dev> (https://adeonir.dev/)",
+  "license": "ISC",
+  "type": "commonjs"
+}

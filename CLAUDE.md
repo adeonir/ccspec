@@ -77,20 +77,36 @@ Optional `.nanospecrc.json` supports:
 
 ## Quality Guidelines
 
+### Development Workflow
+**After implementing features**, run this sequence to validate:
+```bash
+pnpm lint    # Fix formatting and linting issues
+pnpm check   # Type check and validation
+pnpm build   # Build the project
+```
+
+**Note**: Git hooks automatically run `pnpm lint` on pre-commit and `pnpm check + pnpm build` on pre-push.
+
 ### Commit Message Structure
-- **Commit message**: Concise and descriptive, focusing on WHAT functionality is being added/changed
-- **Commit body**: Detailed explanation of HOW the changes were implemented (when needed)
+Use Conventional Commit format: `<type>: <description>`
+
+#### Commit Types
+- `feat:` - New features or functionality
+- `fix:` - Bug fixes
+- `docs:` - Documentation changes
+- `refactor:` - Code refactoring without feature changes
+- `test:` - Adding or updating tests
+- `chore:` - Build, dependencies, or tooling changes
 
 #### Message Format
+- **Focus on staged files only**: Describe what is actually being committed, not development decisions
 - Be SPECIFIC about functionality, not generic
 - Focus on WHAT functionality is being added/fixed, not HOW
 - For dependencies, specify the PURPOSE
 - For fixes, describe the PROBLEM being solved
 - Use imperative mood (e.g., "add", "fix", "implement")
 - Keep it concise - no unnecessary details visible in diff
-- Avoid describing changes that are not in the staged area
 - Avoid mentioning future tasks, architectural decisions, or reasoning behind choices
-- Describe what is being committed, not what was planned or considered
 
 #### Body Format
 - Body is OPTIONAL when the message is clear enough

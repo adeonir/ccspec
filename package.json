@@ -2,17 +2,41 @@
   "name": "nanospec",
   "version": "0.1.0",
   "description": "Simplified Spec-Driven Development for Claude Code",
-  "main": "index.js",
-  "keywords": [],
   "author": "Adeonir Kohl <me@adeonir.dev> (https://adeonir.dev/)",
+  "main": "index.js",
+  "keywords": [
+    "cli",
+    "spec",
+    "specification",
+    "claude",
+    "claude-code",
+    "development",
+    "workflow"
+  ],
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/adeonir/nanospec.git"
+  },
+  "homepage": "https://github.com/adeonir/nanospec#readme",
+  "bugs": {
+    "url": "https://github.com/adeonir/nanospec/issues"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "files": [
+    "dist/"
+  ],
   "type": "commonjs",
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
     "start": "node dist/index.js",
     "lint": "biome check --write src/",
-    "check": "tsc --noEmit && biome ci src/"
+    "check": "tsc --noEmit && biome ci src/",
+    "prerelease": "pnpm check && pnpm build",
+    "release": "np --no-tests"
   },
   "bin": {
     "nanospec": "./dist/index.js"
@@ -28,6 +52,7 @@
     "@types/fs-extra": "11.0.4",
     "@types/node": "24.5.2",
     "lefthook": "1.13.1",
+    "np": "10.2.0",
     "tsup": "8.5.0",
     "typescript": "5.9.2"
   }

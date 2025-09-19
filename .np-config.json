@@ -1,0 +1,7 @@
+{
+  "branch": "main",
+  "tests": false,
+  "cleanup": false,
+  "yarn": false,
+  "2fa": true
+}

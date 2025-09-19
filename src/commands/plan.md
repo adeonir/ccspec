@@ -7,14 +7,15 @@ When user types `/plan`:
 1. **Verify spec exists**: Check `specs/{branch}/spec.md`
    - If not found: Error "No spec found. Run /spec first"
 2. **Load spec content**: Read and parse the specification
-3. **Enter plan mode**: Use Claude Code plan mode for codebase research
+3. **Read project guidelines**: Check for CLAUDE.md file and read project-specific conventions and guidelines
 4. **Analyze codebase**:
    - Identify existing patterns and architecture
    - Find similar implementations
    - Detect framework and libraries in use
    - Understand project structure
 5. **Copy template** from `.nanospec/templates/plan.md`
-6. **Fill template** with research findings:
+6. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
+7. **Fill template** with research findings:
    - Replace `{FEATURE_NAME}` with spec feature name
    - Replace `{BRANCH_NAME}` with current branch
    - Replace `{DATE}` with current date
@@ -26,11 +27,12 @@ When user types `/plan`:
    - Replace `{IMPLEMENTATION_STEPS}` with step-by-step plan
    - Replace `{DEPENDENCIES}` with required dependencies
    - Replace `{RISKS}` with identified risks
-7. **Resolve ambiguities**: Address any `[NEEDS CLARIFICATION]` items from spec
-8. **Save as**: `specs/{branch}/plan.md`
-9. **Response**: "Technical plan created at {path}. Use /tasks next"
+8. **Resolve ambiguities**: Address any `[NEEDS CLARIFICATION]` items from spec
+9. **Save as**: `specs/{branch}/plan.md`
+10. **Response**: "Technical plan created at {path}. Use /tasks next"
 
 ## Research Areas
+- Project guidelines and conventions (CLAUDE.md)
 - Existing code patterns to follow
 - Framework conventions and best practices
 - Database schema and models (if applicable)

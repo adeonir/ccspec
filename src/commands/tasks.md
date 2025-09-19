@@ -13,23 +13,24 @@ When user types `/tasks`:
    - Architecture decisions
    - Testing strategy (if any)
 4. **Copy template** from `.nanospec/templates/tasks.md`
-5. **Generate tasks by category**:
+5. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
+6. **Generate tasks by category**:
    - **Setup & Dependencies**: Project setup, dependencies, configuration
    - **Testing & Validation**: Tests based on project methodology
    - **Core Implementation**: Main feature implementation
    - **Polish & Documentation**: Cleanup, docs, final touches
-6. **Apply task rules**:
+7. **Apply task rules**:
    - Number sequentially (T001, T002, T003...)
    - Mark `[P]` for tasks that can run in parallel (different files)
    - Mark `[B]` for blocked tasks with dependencies
-7. **Fill template placeholders**:
+8. **Fill template placeholders**:
    - Replace `{FEATURE_NAME}` with plan feature name
    - Replace `{BRANCH_NAME}` with current branch
    - Replace `{DATE}` with current date
    - Replace task category placeholders with generated tasks
    - Calculate and replace progress overview numbers
-8. **Save as**: `specs/{branch}/tasks.md`
-9. **Response**: "Task list created at {path}. Use /implement to start"
+9. **Save as**: `specs/{branch}/tasks.md`
+10. **Response**: "Task list created at {path}. Use /implement to start"
 
 ## Task Generation Rules
 - Each task should be specific and actionable

@@ -1,13 +1,18 @@
-import { commands } from './commands'
-import { templates } from './templates'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { Command } from 'commander'
+import { init } from './cli/init'
 
-console.log('NanoSpec Templates:')
-console.log('- spec.md:', templates.spec.length, 'chars')
-console.log('- plan.md:', templates.plan.length, 'chars')
-console.log('- tasks.md:', templates.tasks.length, 'chars')
+const packageJson = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf8'))
 
-console.log('\nNanoSpec Commands:')
-console.log('- spec:', commands.spec.length, 'chars')
-console.log('- plan:', commands.plan.length, 'chars')
-console.log('- tasks:', commands.tasks.length, 'chars')
-console.log('- implement:', commands.implement.length, 'chars')
+const program = new Command()
+
+program.name('nanospec').description('Simplified Spec-Driven Development for Claude Code').version(packageJson.version)
+
+program
+  .command('init')
+  .description('Initialize NanoSpec in current project')
+  .option('--config', 'Create .nanospecrc.json configuration file')
+  .action(init)
+
+program.parse()

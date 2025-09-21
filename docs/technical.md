@@ -146,19 +146,18 @@ When user types `/spec [description]`:
 7. Process branch name:
    - Remove `branchPrefix` if present in config
    - Add auto-numbering if `autoNumbering: true` (scan existing folders)
-8. Create directory: `{specDir}/{processed-branch}/`
+8. Create directory: `specs/{processed-branch}/`
 9. Copy template from `.ccspec/templates/spec.md`
 10. Fill template based on user description:
     - Parse feature name
     - Generate user stories from description
     - Create functional requirements
     - Mark `[NEEDS CLARIFICATION]` for ambiguous items
-11. Save as: `{specDir}/{branch}/spec.md`
+11. Save as: `specs/{branch}/spec.md`
 12. Response: "Spec created at {path}. Review and use /plan next"
 
 ## Config Defaults:
 - branchPrefix: "" (empty)
-- specDir: "specs"
 - autoNumbering: false
 ```
 
@@ -204,7 +203,6 @@ console.log('  3. ' + chalk.white('Type /spec to get started\n'));
 ```typescript
 interface ccspecConfig {
   branchPrefix?: string;      // default: ''
-  specDir?: string;           // default: 'specs'
   autoNumbering?: boolean;    // default: false
 }
 ```
@@ -212,7 +210,6 @@ interface ccspecConfig {
 ### Generated Default File
 ```json
 {
-  "specDir": "specs"                    // Folder name for specifications
   // "branchPrefix": "feature/",        // Prefix to remove from branch names
   // "autoNumbering": false             // Add 001-, 002- numbering to folders
 }

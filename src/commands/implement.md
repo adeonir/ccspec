@@ -9,8 +9,8 @@ When user types `/implement` or `/implement --interactive` (or `/implement -i`):
 ## Gate Check: Tasks Validation
 
 1. **Verify plan and tasks exist**:
-   - Check `{specDir}/{branch}/plan.md` - If not found: Error "plan file not found. Run /plan first"
-   - Check `{specDir}/{branch}/tasks.md` - If not found: Error "tasks file not found. Run /tasks first"
+   - Check `specs/{branch}/plan.md` - If not found: Error "plan file not found. Run /plan first"
+   - Check `specs/{branch}/tasks.md` - If not found: Error "tasks file not found. Run /tasks first"
 2. **Validate tasks format**: Check tasks.md has properly formatted tasks
    - Verify tasks have T### numbering (T001, T002, etc.)
    - Verify tasks use checkbox format `- [ ]` or `- [x]`

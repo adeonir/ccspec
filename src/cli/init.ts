@@ -59,9 +59,8 @@ async function writeCommands(): Promise<void> {
 
 async function createConfig(): Promise<void> {
   const config = {
-    specDir: 'specs',
-    // "branchPrefix": "",
-    // "autoNumbering": false
+    branchPrefix: '',
+    autoNumbering: false,
   }
 
   await writeFile('.ccspecrc.json', JSON.stringify(config, null, 2))

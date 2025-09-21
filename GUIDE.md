@@ -120,7 +120,6 @@ Create `.ccspecrc.json` to customize behavior:
 
 ```json
 {
-  "specDir": "specs",           // Custom specs folder name
   "branchPrefix": "feature/",   // Remove prefix from folder names
   "autoNumbering": true         // Add 001-, 002- numbering
 }
@@ -130,7 +129,6 @@ Create `.ccspecrc.json` to customize behavior:
 
 | Option | Default | Description |
 |--------|---------|-------------|
-| `specDir` | `"specs"` | Directory name for specifications |
 | `branchPrefix` | `""` | Git branch prefix to remove from folder names |
 | `autoNumbering` | `false` | Add sequential numbering to spec folders |
 

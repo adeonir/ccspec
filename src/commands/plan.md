@@ -4,7 +4,7 @@ When user types `/plan`:
 
 ## Gate Check: Spec Validation
 
-1. **Verify spec exists**: Check `{specDir}/{branch}/spec.md`
+1. **Verify spec exists**: Check `specs/{branch}/spec.md`
    - If not found: Error "spec file not found. Run /spec first"
 2. **Validate spec completeness**: Check spec has required sections
    - Verify spec contains `## Overview` section
@@ -56,7 +56,7 @@ When user types `/plan`:
    - Replace `{DEPENDENCIES}` with dependencies using detected package manager and preferences
    - Replace `{RISKS}` with risks considering project constraints and guidelines
 7. **Resolve ambiguities**: Address any `[NEEDS CLARIFICATION]` items from spec
-8. **Save as**: `{specDir}/{branch}/plan.md`
+8. **Save as**: `specs/{branch}/plan.md`
 9. **Response**: "Technical plan created at {path}. Use /tasks next"
 
 ## Research Areas
@@ -81,6 +81,6 @@ When user types `/plan`:
 
 ## Example Output
 ```
-Technical plan created at {specDir}/feature-auth/plan.md
+Technical plan created at specs/feature-auth/plan.md
 Plan includes codebase research and technical approach. Use /tasks when ready to generate implementation tasks.
 ```

@@ -15,7 +15,7 @@ project/
 │       ├── plan.md
 │       └── tasks.md
 ├── .ccspecrc.json        # Optional configuration
-├── specs/                  # Or as per specDir config
+├── specs/                  # Generated specifications
 │   └── <branch-name>/      # Created on demand
 │       ├── spec.md         # Filled copy of template
 │       ├── plan.md         # Includes internal research
@@ -94,14 +94,12 @@ Implements the technical plan with checkbox tracking
 ```json
 {
   "branchPrefix": "feature/",
-  "specDir": "specs",
   "autoNumbering": false
 }
 ```
 
 **Properties:**
 - `branchPrefix` - Branch prefix (e.g., `"feat/"`)
-- `specDir` - Specs folder name (e.g., `"specs"`)
 - `autoNumbering` - Automatic numbering 001-, 002-
 
 ---

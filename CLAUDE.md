@@ -65,7 +65,6 @@ pnpm check
 
 ### Configuration
 Optional `.ccspecrc.json` supports:
-- `specDir` - Custom specs folder name
 - `branchPrefix` - Branch prefix to remove from folder names
 - `autoNumbering` - Add 001-, 002- numbering to spec folders
 

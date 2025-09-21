@@ -4,7 +4,7 @@ When user types `/tasks`:
 
 ## Gate Check: Plan Validation
 
-1. **Verify plan exists**: Check `{specDir}/{branch}/plan.md`
+1. **Verify plan exists**: Check `specs/{branch}/plan.md`
    - If not found: Error "plan file not found. Run /plan first"
 2. **Validate plan completeness**: Check plan has required sections
    - Verify plan contains `## Technical Approach` section
@@ -40,7 +40,7 @@ When user types `/tasks`:
    - Replace `{DATE}` with current date
    - Replace task category placeholders with generated tasks
    - Calculate and replace progress overview numbers
-8. **Save as**: `{specDir}/{branch}/tasks.md`
+8. **Save as**: `specs/{branch}/tasks.md`
 9. **Response**: "Task list created at {path}. Use /implement to start"
 
 ## Task Generation Rules
@@ -54,7 +54,7 @@ When user types `/tasks`:
 
 ## Example Output
 ```
-Task list created at {specDir}/feature-auth/tasks.md
+Task list created at specs/feature-auth/tasks.md
 Generated 12 implementation tasks. Use /implement to start interactive implementation.
 
 Example tasks format:

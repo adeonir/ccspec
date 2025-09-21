@@ -5,10 +5,10 @@ When user types `/spec [description]`:
 ## Gate Check: Initialization
 
 1. **Verify ccspec initialization**: Check if `.ccspec/` directory exists
-   - If not found: Error "ccspec not initialized. Run 'npx ccspec init' first"
+   - If not found: Error "ccspec not initialized in this project. Run 'npx ccspec init' in the project root to set up ccspec templates and commands."
 2. **Verify templates**: Check if `.ccspec/templates/` contains required templates
    - Check for `spec.md`, `plan.md`, `tasks.md` template files
-   - If any missing: Error "templates file not found. Run 'npx ccspec init' to restore templates"
+   - If any missing: Error "Template files missing. Run 'npx ccspec init' to restore the required template files (spec.md, plan.md, tasks.md)."
 
 ## Input Validation
 
@@ -27,6 +27,8 @@ When user types `/spec [description]`:
    - **DO NOT** attempt to read `.ccspecrc.json` unless you verify it exists first
    - Use Glob tool to check for `.ccspecrc.json` file existence
    - Only if file exists, then read it with Read tool
+   - **Validate JSON structure**: If file exists but contains invalid JSON, show warning "Invalid .ccspecrc.json format, using defaults" and use defaults
+   - **Check required fields**: Config should only contain `branchPrefix` (string) and `autoNumbering` (boolean)
    - If file doesn't exist, use these defaults: `{"branchPrefix": "", "autoNumbering": false}`
    - **NEVER** show "Error reading file" messages for missing config
 4. **Process branch name**:
@@ -42,8 +44,13 @@ When user types `/spec [description]`:
    - Parse description into user stories and requirements
    - Generate functional requirements from description
    - Mark ambiguous items with `[NEEDS CLARIFICATION: specific question]`
+
+### Placeholder Extraction Guidelines
+- **{FEATURE_NAME}**: Extract main subject/noun from description, convert to Title Case. If description is vague, ask "What should this feature be called?"
+- **{USER_STORIES}**: Generate stories using "As a [user], I want [goal] so that [benefit]" format
+- **{FUNCTIONAL_REQUIREMENTS}**: Create testable statements starting with "The system shall/must/should"
 9. **Save as**: `specs/{branch}/spec.md`
-10. **Response**: "Spec created at {path}. Review and use /plan next"
+10. **Response**: "Spec created at specs/{branch}/spec.md. Review and use /plan next."
 
 ## Config Defaults
 - `branchPrefix`: "" (empty)
@@ -53,8 +60,8 @@ When user types `/spec [description]`:
 - If not in git repository: Ask "No git repository found. Initialize git? (y/n)"
   - If **yes**: Run `git init` and continue with "main" branch
   - If **no**: Continue with "unknown-branch" as branch name
-- If directory already exists: Ask to overwrite or append timestamp
-- If template missing: Error with setup instructions
+- If directory already exists: Ask "Directory specs/{branch}/ already exists. Overwrite existing specification? (y/n)"
+- If template not found: Error "Template file .ccspec/templates/spec.md not found. Run 'npx ccspec init' to restore template files."
 
 ## Example Interactions
 

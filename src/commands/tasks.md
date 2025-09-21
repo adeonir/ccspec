@@ -41,7 +41,7 @@ When user types `/tasks`:
    - Replace task category placeholders with generated tasks
    - Calculate and replace progress overview numbers
 8. **Save as**: `specs/{branch}/tasks.md`
-9. **Response**: "Task list created at {path}. Use /implement to start"
+9. **Response**: "Tasks created at specs/{branch}/tasks.md. Review and use /implement next."
 
 ## Task Generation Rules
 - Each task should be specific and actionable

@@ -5,11 +5,11 @@ When user types `/plan`:
 ## Gate Check: Spec Validation
 
 1. **Verify spec exists**: Check `specs/{branch}/spec.md`
-   - If not found: Error "spec file not found. Run /spec first"
+   - If not found: Error "No specification found at specs/{branch}/spec.md. Run /spec first to create a feature specification."
 2. **Validate spec completeness**: Check spec has required sections
    - Verify spec contains `## Overview` section
    - Verify spec contains `## User Stories` or `## Requirements` section
-   - If missing: Error "spec incomplete. Ensure spec has Overview and User Stories sections"
+   - If missing: Error "Specification incomplete. The spec.md file must contain '## Overview' and '## User Stories' sections. Please complete the specification first."
 3. **Check for unresolved items**: Scan spec for `[NEEDS CLARIFICATION]` items
    - If found: List unresolved items and ask "Spec has unresolved clarifications. Continue anyway? (y/n)"
    - If user chooses 'n': Stop with message "Resolve clarifications in spec.md before proceeding"
@@ -57,7 +57,7 @@ When user types `/plan`:
    - Replace `{RISKS}` with risks considering project constraints and guidelines
 7. **Resolve ambiguities**: Address any `[NEEDS CLARIFICATION]` items from spec
 8. **Save as**: `specs/{branch}/plan.md`
-9. **Response**: "Technical plan created at {path}. Use /tasks next"
+9. **Response**: "Plan created at specs/{branch}/plan.md. Review and use /tasks next."
 
 ## Research Areas
 ### Enhanced CLAUDE.md Context

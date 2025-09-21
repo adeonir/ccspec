@@ -33,6 +33,12 @@ When user types `/implement` or `/implement --interactive` (or `/implement -i`):
    - Implement each task according to specifications
    - Respect parallelization markers `[P]` when possible
    - Handle blocked tasks `[B]` appropriately
+
+### Parallel Task Execution Strategy
+- **Group parallel tasks**: Identify all consecutive [P] tasks that can run together
+- **Batch execution**: Execute all [P] tasks simultaneously using multiple tool calls in single message
+- **Wait for completion**: Complete entire [P] group before proceeding to next tasks
+- **Sequential for [B]**: Execute [B] tasks one by one, respecting dependencies
 4. **After each task completion**:
    - Update tasks.md marking completed tasks by changing `- [ ]` to `- [x]`
    - **Batch mode (`/implement`)**: Continue to next task automatically without any prompts
@@ -70,7 +76,7 @@ Starting implementation of JWT Authentication System...
 ✓ T004 - Create login endpoint
 ✓ T005 - Add authentication tests
 
-All tasks completed successfully!
+Implementation completed. Review tasks.md and commit changes.
 ```
 
 ### Interactive Mode (`/implement --interactive`)

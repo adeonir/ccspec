@@ -21,6 +21,13 @@
 - Mark all ambiguities with [NEEDS CLARIFICATION: specific question]
 - Remove optional sections that don't apply
 - Remove this instruction section from final file
+
+### User Story Format
+Write user stories using this structure:
+- "As a [user type], I want [goal/action] so that [benefit/value]"
+- Focus on different user personas and their specific needs
+- Each story should be independently valuable
+- Break complex features into multiple simple stories
 -->
 
 ## Overview

@@ -2,12 +2,22 @@
 
 When user types `/plan`:
 
+## Gate Check: Spec Validation
+
+1. **Verify spec exists**: Check `{specDir}/{branch}/spec.md`
+   - If not found: Error "spec file not found. Run /spec first"
+2. **Validate spec completeness**: Check spec has required sections
+   - Verify spec contains `## Overview` section
+   - Verify spec contains `## User Stories` or `## Requirements` section
+   - If missing: Error "spec incomplete. Ensure spec has Overview and User Stories sections"
+3. **Check for unresolved items**: Scan spec for `[NEEDS CLARIFICATION]` items
+   - If found: List unresolved items and ask "Spec has unresolved clarifications. Continue anyway? (y/n)"
+   - If user chooses 'n': Stop with message "Resolve clarifications in spec.md before proceeding"
+
 ## Execution Steps
 
-1. **Verify spec exists**: Check `specs/{branch}/spec.md`
-   - If not found: Error "No spec found. Run /spec first"
-2. **Load spec content**: Read and parse the specification
-3. **Enhanced CLAUDE.md Integration**: Intelligent parsing of project guidelines and context extraction
+1. **Load spec content**: Read and parse the specification
+2. **Enhanced CLAUDE.md Integration**: Intelligent parsing of project guidelines and context extraction
    - **Read CLAUDE.md content**: Load full file content for analysis
    - **Smart pattern recognition**:
      * **Package management commands**: Scan for dependency installation and management patterns
@@ -26,14 +36,14 @@ When user types `/plan`:
      * **Dependency choices**: Identify preferred libraries and tools
      * **Workflow requirements**: Parse development and deployment processes
    - **Context synthesis**: Combine all findings into structured project context for template adaptation
-4. **Analyze codebase**:
+3. **Analyze codebase**:
    - Identify existing patterns and architecture
    - Find similar implementations
    - Detect framework and libraries in use
    - Understand project structure
-5. **Copy template** from `.ccspec/templates/plan.md`
-6. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
-7. **Fill template** with intelligent context and research findings:
+4. **Copy template** from `.ccspec/templates/plan.md`
+5. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
+6. **Fill template** with intelligent context and research findings:
    - Replace `{FEATURE_NAME}` with spec feature name
    - Replace `{BRANCH_NAME}` with current branch
    - Replace `{DATE}` with current date
@@ -45,9 +55,9 @@ When user types `/plan`:
    - Replace `{IMPLEMENTATION_STEPS}` with context-aware steps using correct commands/tools
    - Replace `{DEPENDENCIES}` with dependencies using detected package manager and preferences
    - Replace `{RISKS}` with risks considering project constraints and guidelines
-8. **Resolve ambiguities**: Address any `[NEEDS CLARIFICATION]` items from spec
-9. **Save as**: `specs/{branch}/plan.md`
-10. **Response**: "Technical plan created at {path}. Use /tasks next"
+7. **Resolve ambiguities**: Address any `[NEEDS CLARIFICATION]` items from spec
+8. **Save as**: `{specDir}/{branch}/plan.md`
+9. **Response**: "Technical plan created at {path}. Use /tasks next"
 
 ## Research Areas
 ### Enhanced CLAUDE.md Context
@@ -71,6 +81,6 @@ When user types `/plan`:
 
 ## Example Output
 ```
-Technical plan created at specs/feature-auth/plan.md
+Technical plan created at {specDir}/feature-auth/plan.md
 Plan includes codebase research and technical approach. Use /tasks when ready to generate implementation tasks.
 ```

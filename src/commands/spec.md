@@ -2,6 +2,14 @@
 
 When user types `/spec [description]`:
 
+## Gate Check: Initialization
+
+1. **Verify ccspec initialization**: Check if `.ccspec/` directory exists
+   - If not found: Error "ccspec not initialized. Run 'npx ccspec init' first"
+2. **Verify templates**: Check if `.ccspec/templates/` contains required templates
+   - Check for `spec.md`, `plan.md`, `tasks.md` template files
+   - If any missing: Error "templates file not found. Run 'npx ccspec init' to restore templates"
+
 ## Input Validation
 
 1. **Check for description parameter**:

@@ -6,28 +6,38 @@ When user types `/implement` or `/implement --interactive` (or `/implement -i`):
 - **`/implement`** (default): Batch mode - execute all tasks automatically without any pauses
 - **`/implement --interactive`** (or `-i`): Interactive mode - MUST pause after each task and wait for user confirmation
 
-## Execution Steps
+## Gate Check: Tasks Validation
 
 1. **Verify plan and tasks exist**:
-   - Check `specs/{branch}/plan.md` - If not found: Error "No plan found. Run /plan first"
-   - Check `specs/{branch}/tasks.md` - If not found: Error "No tasks found. Run /tasks first"
-2. **Load implementation context**:
+   - Check `{specDir}/{branch}/plan.md` - If not found: Error "plan file not found. Run /plan first"
+   - Check `{specDir}/{branch}/tasks.md` - If not found: Error "tasks file not found. Run /tasks first"
+2. **Validate tasks format**: Check tasks.md has properly formatted tasks
+   - Verify tasks have T### numbering (T001, T002, etc.)
+   - Verify tasks use checkbox format `- [ ]` or `- [x]`
+   - If malformed: Error "tasks format invalid. Regenerate tasks.md using /tasks"
+3. **Check task categories**: Ensure task categories are populated
+   - Verify at least one category has tasks (Setup, Core, Testing, Polish)
+   - If empty: Error "tasks categories empty. Regenerate tasks.md using /tasks"
+
+## Execution Steps
+
+1. **Load implementation context**:
    - Read plan.md for technical approach
    - Read tasks.md for task list and progress
    - Identify current task status
-3. **Implementation mode**:
+2. **Implementation mode**:
    - **Default (`/implement`)**: Batch mode - execute entire plan without any pauses or questions
    - **Interactive (`/implement --interactive` or `-i`)**: Interactive mode - MUST pause after each task and ask for confirmation
-4. **Execute tasks sequentially**:
+3. **Execute tasks sequentially**:
    - Follow the technical approach from plan.md
    - Implement each task according to specifications
    - Respect parallelization markers `[P]` when possible
    - Handle blocked tasks `[B]` appropriately
-5. **After each task completion**:
+4. **After each task completion**:
    - Update tasks.md marking completed tasks by changing `- [ ]` to `- [x]`
    - **Batch mode (`/implement`)**: Continue to next task automatically without any prompts
    - **Interactive mode (`/implement --interactive` or `-i`)**: ALWAYS ask "Continue with T### - [task name]? (y/n)" and wait for user input
-6. **Progress tracking**:
+5. **Progress tracking**:
    - Mark tasks as completed in tasks.md by checking boxes: `- [x] T### - Task description`
    - Update progress overview counters (Completed count)
    - Create commit suggestions with task numbers

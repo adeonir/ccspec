@@ -2,36 +2,46 @@
 
 When user types `/tasks`:
 
+## Gate Check: Plan Validation
+
+1. **Verify plan exists**: Check `{specDir}/{branch}/plan.md`
+   - If not found: Error "plan file not found. Run /plan first"
+2. **Validate plan completeness**: Check plan has required sections
+   - Verify plan contains `## Technical Approach` section
+   - Verify plan contains `## Implementation Steps` section
+   - If missing: Error "plan incomplete. Ensure plan has Technical Approach and Implementation Steps sections"
+3. **Check spec clarifications**: Verify all `[NEEDS CLARIFICATION]` items from spec are addressed
+   - Compare with original spec.md to ensure clarifications are resolved
+   - If unresolved items remain: Error "spec has unresolved clarifications. Update spec.md and regenerate plan"
+
 ## Execution Steps
 
-1. **Verify plan exists**: Check `specs/{branch}/plan.md`
-   - If not found: Error "No plan found. Run /plan first"
-2. **Load plan content**: Read and parse the technical plan
-3. **Extract implementation details**:
+1. **Load plan content**: Read and parse the technical plan
+2. **Extract implementation details**:
    - Implementation steps from plan
    - Dependencies and setup requirements
    - Architecture decisions
    - Testing strategy (if any)
-4. **Copy template** from `.ccspec/templates/tasks.md`
-5. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
-6. **Generate tasks by category**:
+3. **Copy template** from `.ccspec/templates/tasks.md`
+4. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
+5. **Generate tasks by category**:
    - **Setup & Dependencies**: Project setup, dependencies, configuration
    - **Testing & Validation**: Tests based on project methodology
    - **Core Implementation**: Main feature implementation
    - **Polish & Documentation**: Cleanup, docs, final touches
    - **Format each task with checkboxes**: `- [ ] T### - Task description`
-7. **Apply task rules**:
+6. **Apply task rules**:
    - Number sequentially (T001, T002, T003...)
    - Mark `[P]` for tasks that can run in parallel (different files)
    - Mark `[B]` for blocked tasks with dependencies
-8. **Fill template placeholders**:
+7. **Fill template placeholders**:
    - Replace `{FEATURE_NAME}` with plan feature name
    - Replace `{BRANCH_NAME}` with current branch
    - Replace `{DATE}` with current date
    - Replace task category placeholders with generated tasks
    - Calculate and replace progress overview numbers
-9. **Save as**: `specs/{branch}/tasks.md`
-10. **Response**: "Task list created at {path}. Use /implement to start"
+8. **Save as**: `{specDir}/{branch}/tasks.md`
+9. **Response**: "Task list created at {path}. Use /implement to start"
 
 ## Task Generation Rules
 - Each task should be specific and actionable
@@ -44,7 +54,7 @@ When user types `/tasks`:
 
 ## Example Output
 ```
-Task list created at specs/feature-auth/tasks.md
+Task list created at {specDir}/feature-auth/tasks.md
 Generated 12 implementation tasks. Use /implement to start interactive implementation.
 
 Example tasks format:

@@ -7,7 +7,25 @@ When user types `/plan`:
 1. **Verify spec exists**: Check `specs/{branch}/spec.md`
    - If not found: Error "No spec found. Run /spec first"
 2. **Load spec content**: Read and parse the specification
-3. **Read project guidelines**: Check for CLAUDE.md file and read project-specific conventions and guidelines
+3. **Enhanced CLAUDE.md Integration**: Intelligent parsing of project guidelines and context extraction
+   - **Read CLAUDE.md content**: Load full file content for analysis
+   - **Smart pattern recognition**:
+     * **Package management commands**: Scan for dependency installation and management patterns
+     * **Build and compilation**: Identify build systems, bundlers, and compilation processes
+     * **Testing approaches**: Detect testing frameworks, test runners, and testing methodologies
+     * **Code quality tools**: Find linting, formatting, and static analysis tool usage
+     * **Runtime platforms**: Identify programming languages and runtime environments
+     * **Framework patterns**: Detect web frameworks, API frameworks, and architectural libraries
+   - **File references discovery**:
+     * **Configuration files**: Find explicit file references in CLAUDE.md content
+     * **Code blocks**: Extract file paths from code examples and configurations
+     * **Documentation links**: Identify references to other project docs
+   - **Architecture decisions extraction**:
+     * **Directory patterns**: Understand project structure preferences
+     * **Coding conventions**: Extract style and pattern guidelines
+     * **Dependency choices**: Identify preferred libraries and tools
+     * **Workflow requirements**: Parse development and deployment processes
+   - **Context synthesis**: Combine all findings into structured project context for template adaptation
 4. **Analyze codebase**:
    - Identify existing patterns and architecture
    - Find similar implementations
@@ -15,30 +33,41 @@ When user types `/plan`:
    - Understand project structure
 5. **Copy template** from `.ccspec/templates/plan.md`
 6. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
-7. **Fill template** with research findings:
+7. **Fill template** with intelligent context and research findings:
    - Replace `{FEATURE_NAME}` with spec feature name
    - Replace `{BRANCH_NAME}` with current branch
    - Replace `{DATE}` with current date
    - Replace `{SPEC_SUMMARY}` with extracted summary from spec
-   - Replace `{CODEBASE_RESEARCH}` with plan mode findings
-   - Replace `{PATTERNS}` with identified patterns
-   - Replace `{ARCHITECTURE}` with architectural decisions
-   - Replace `{TECHNICAL_DECISIONS}` with approach details
-   - Replace `{IMPLEMENTATION_STEPS}` with step-by-step plan
-   - Replace `{DEPENDENCIES}` with required dependencies
-   - Replace `{RISKS}` with identified risks
+   - Replace `{CODEBASE_RESEARCH}` with enhanced findings from CLAUDE.md + codebase analysis
+   - Replace `{PATTERNS}` with project patterns from CLAUDE.md + identified code patterns
+   - Replace `{ARCHITECTURE}` with architectural decisions from CLAUDE.md context
+   - Replace `{TECHNICAL_DECISIONS}` with approach details informed by project guidelines
+   - Replace `{IMPLEMENTATION_STEPS}` with context-aware steps using correct commands/tools
+   - Replace `{DEPENDENCIES}` with dependencies using detected package manager and preferences
+   - Replace `{RISKS}` with risks considering project constraints and guidelines
 8. **Resolve ambiguities**: Address any `[NEEDS CLARIFICATION]` items from spec
 9. **Save as**: `specs/{branch}/plan.md`
 10. **Response**: "Technical plan created at {path}. Use /tasks next"
 
 ## Research Areas
-- Project guidelines and conventions (CLAUDE.md)
-- Existing code patterns to follow
-- Framework conventions and best practices
-- Database schema and models (if applicable)
-- API patterns and middleware
-- Testing strategies used in the project
-- Build and deployment processes
+### Enhanced CLAUDE.md Context
+- **Package management**: Dependency installation and management approach
+- **Runtime environment**: Platform and language-specific configurations
+- **Framework choices**: Web frameworks, API frameworks, and architectural libraries
+- **Testing methodology**: Testing approaches, coverage requirements, and quality standards
+- **Code quality**: Linting, formatting, and static analysis standards
+- **Build systems**: Build processes, compilation, and deployment configurations
+- **Architecture patterns**: Directory structure, design patterns, and project organization
+- **Team conventions**: Coding standards, commit patterns, and development workflow
+- **Configuration management**: Referenced files and environment-specific settings
+
+### Codebase Analysis
+- **Implementation patterns**: Existing code structure and architectural patterns
+- **Framework conventions**: Framework-specific patterns and best practices in use
+- **Data layer**: Database schemas, ORM patterns, data access layers
+- **API design**: REST/GraphQL patterns, middleware, authentication approaches
+- **Testing structure**: Test organization, mocking patterns, integration approaches
+- **Infrastructure**: Docker, CI/CD, deployment, and environment configurations
 
 ## Example Output
 ```

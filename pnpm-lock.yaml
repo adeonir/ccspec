@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      boxen:
+        specifier: 8.0.1
+        version: 8.0.1
       chalk:
         specifier: 5.6.2
         version: 5.6.2
@@ -17,6 +20,9 @@ importers:
       fs-extra:
         specifier: 11.3.2
         version: 11.3.2
+      inquirer:
+        specifier: 12.9.6
+        version: 12.9.6(@types/node@24.5.2)
       ora:
         specifier: 9.0.0
         version: 9.0.0
@@ -27,6 +33,9 @@ importers:
       '@types/fs-extra':
         specifier: 11.0.4
         version: 11.0.4
+      '@types/inquirer':
+        specifier: 9.0.9
+        version: 9.0.9
       '@types/node':
         specifier: 24.5.2
         version: 24.5.2
@@ -568,6 +577,9 @@ packages:
   '@types/fs-extra@11.0.4':
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
 
+  '@types/inquirer@9.0.9':
+    resolution: {integrity: sha512-/mWx5136gts2Z2e5izdoRCo46lPp5TMs9R15GTSsgg/XnZyxDWVqoVU3R9lWnccKpqwsJLvRoxbCjoJtZB7DSw==}
+
   '@types/jsonfile@6.1.4':
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
 
@@ -576,6 +588,9 @@ packages:
 
   '@types/normalize-package-data@2.4.4':
     resolution: {integrity: sha512-37i+OaWTh9qeK4LSHPsyRC7NahnGotNuZvjLSgcPzblpHB3rrCJxAOgI5gCdKm7coonsaX1Of0ILiTcnZjbfxA==}
+
+  '@types/through@0.0.33':
+    resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
 
   acorn@8.15.0:
     resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
@@ -2341,6 +2356,11 @@ snapshots:
       '@types/jsonfile': 6.1.4
       '@types/node': 24.5.2
 
+  '@types/inquirer@9.0.9':
+    dependencies:
+      '@types/through': 0.0.33
+      rxjs: 7.8.2
+
   '@types/jsonfile@6.1.4':
     dependencies:
       '@types/node': 24.5.2
@@ -2350,6 +2370,10 @@ snapshots:
       undici-types: 7.12.0
 
   '@types/normalize-package-data@2.4.4': {}
+
+  '@types/through@0.0.33':
+    dependencies:
+      '@types/node': 24.5.2
 
   acorn@8.15.0: {}
 

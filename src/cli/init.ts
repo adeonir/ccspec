@@ -1,4 +1,6 @@
+import boxen from 'boxen'
 import chalk from 'chalk'
+import inquirer from 'inquirer'
 import ora from 'ora'
 import { commands } from '../commands'
 import { templates } from '../templates'
@@ -8,14 +10,53 @@ interface InitOptions {
   config?: boolean
 }
 
+const banner = [
+  ' ██████╗ ██████╗███████╗██████╗ ███████╗ ██████╗',
+  '██╔════╝██╔════╝██╔════╝██╔══██╗██╔════╝██╔════╝',
+  '██║     ██║     ███████╗██████╔╝█████╗  ██║     ',
+  '██║     ██║     ╚════██║██╔═══╝ ██╔══╝  ██║     ',
+  '╚██████╗╚██████╗███████║██║     ███████╗╚██████╗',
+  ' ╚═════╝ ╚═════╝╚══════╝╚═╝     ╚══════╝ ╚═════╝',
+].join('\n')
+
+const tagline = 'Simplified Spec-Driven Development for Claude Code'
+
+function printBanner(): void {
+  console.log()
+  console.log(
+    boxen(`${chalk.blue(banner)}\n\n${chalk.blue.bold(tagline)}`, {
+      padding: 1,
+      borderStyle: 'round',
+      borderColor: 'cyan',
+      textAlignment: 'center',
+      width: process.stdout.columns - 4,
+    }),
+  )
+  console.log()
+}
+
 export async function init(options: InitOptions): Promise<void> {
   try {
+    printBanner()
+
     if (fileExists('.ccspec')) {
-      console.log(chalk.yellow('\nccspec already initialized!\n'))
+      console.log(chalk.yellow(`⚠ ${chalk.bold('ccspec')} already initialized!\n`))
       return
     }
 
-    console.log(chalk.blue.bold('\nInitializing ccspec...\n'))
+    const { proceed } = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'proceed',
+        message: `Initialize ${chalk.bold('ccspec')} in this directory?`,
+        default: true,
+      },
+    ])
+
+    if (!proceed) {
+      console.log(chalk.gray('Initialization cancelled.\n'))
+      return
+    }
 
     const spinner = ora('Creating directories...').start()
     await createDirectories()
@@ -29,12 +70,12 @@ export async function init(options: InitOptions): Promise<void> {
       await createConfig()
     }
 
-    spinner.succeed('ccspec initialized!')
+    spinner.succeed(chalk.green(`✓ ${chalk.bold('ccspec')} initialized successfully!`))
     printSuccess()
   } catch (error) {
-    ora().fail('Initialization failed')
-    console.log(chalk.red.bold('\nError:\n'))
-    console.log(chalk.red(error instanceof Error ? error.message : String(error)))
+    ora().fail(chalk.red('✗ Initialization failed'))
+    console.log(chalk.red.bold('\nError:'))
+    console.log(chalk.red(`   ${error instanceof Error ? error.message : String(error)}\n`))
     process.exit(1)
   }
 }
@@ -67,7 +108,19 @@ async function createConfig(): Promise<void> {
 }
 
 function printSuccess(): void {
-  console.log(chalk.cyan('\nNext steps:'))
-  console.log(`  1. ${chalk.white('Open Claude Code')}`)
-  console.log(`  2. ${chalk.white('Type /spec to get started\n')}`)
+  const nextSteps = `1. Open Claude Code
+2. Type ${chalk.blue.bold('/spec')} to get started
+3. Follow: ${chalk.gray.bold('/spec')} → ${chalk.gray.bold('/plan')} → ${chalk.gray.bold('/tasks')} → ${chalk.gray.bold('/implement')}`
+
+  console.log(
+    boxen(nextSteps, {
+      padding: 1,
+      borderStyle: 'round',
+      borderColor: 'blue',
+      title: 'Next Steps',
+      titleAlignment: 'center',
+      width: process.stdout.columns - 4,
+    }),
+  )
+  console.log()
 }

@@ -12,19 +12,19 @@ npx ccspec init
 
 ### 2. Use Slash Commands in Claude Code
 
-```
-/spec Add user authentication with JWT tokens
-/plan
-/tasks
-/implement
-```
+After running `ccspec init`, Claude Code will have access to these slash commands for structured development:
 
-This generates:
-- `specs/feature-auth/spec.md` - Feature specification
-- `specs/feature-auth/plan.md` - Technical implementation plan
-- `specs/feature-auth/tasks.md` - Implementation checklist with progress tracking
+| Command         | Description                                                           |
+|-----------------|-----------------------------------------------------------------------|
+| `/spec`         | Define what you want to build (requirements and user stories)        |
+| `/plan`         | Create technical implementation plan by analyzing CLAUDE.md and codebase |
+| `/tasks`        | Generate actionable task lists for implementation                     |
+| `/implement`    | Execute all tasks (batch mode) or step-by-step (interactive mode)    |
 
-That's it! ccspec creates structured specs, plans, and tasks, then helps you implement them step-by-step.
+
+**Workflow**: Follow the commands in sequence → `/spec` → `/plan` → `/tasks` → `/implement`
+
+> That's it! **ccspec** creates structured specs, plans, and tasks, then helps you implement them step-by-step.
 
 ---
 
@@ -36,7 +36,6 @@ That's it! ccspec creates structured specs, plans, and tasks, then helps you imp
 
 ISC License - see [LICENSE](LICENSE) file for details.
 
-## Related Projects
+## Acknowledgements
 
-- [Claude Code](https://claude.ai/code) - AI-powered development environment
-- [Conventional Commits](https://conventionalcommits.org/) - Commit message specification
+This project is inspired by [Spec Kit](https://github.com/github/spec-kit).

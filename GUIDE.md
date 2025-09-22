@@ -1,6 +1,27 @@
 # ccspec Complete Guide
 
-This guide covers everything you need to know about using ccspec for specification-driven development with Claude Code.
+## What is ccspec?
+
+**ccspec (Claude Code Specification)** is a lightweight CLI tool that brings structured, specification-driven development to Claude Code. It provides templates and slash commands to guide you through creating specifications, technical plans, and implementation tasks in a clear, sequential workflow.
+
+Instead of ad-hoc feature development, ccspec establishes a consistent process: specify what you want to build, plan how to build it within your existing codebase, break it down into tasks, then implement step by step.
+
+## Philosophy
+
+ccspec follows a simple principle: **structured thinking before coding**. Instead of jumping straight into implementation, it guides you through a clear sequence:
+
+- **Specification first**: Define what you want to build and why
+- **Plan with context**: Analyze your existing codebase and create a technical approach
+- **Break down systematically**: Convert plans into actionable, trackable tasks
+- **Implement iteratively**: Execute with clear progress tracking
+
+This approach helps you:
+- Build features that actually solve the right problems
+- Maintain consistency with existing code patterns
+- Track progress transparently
+- Reduce implementation surprises
+
+**ccspec is designed for developers who want structure without bureaucracy** - simple templates, clear workflow, minimal configuration.
 
 ## Features
 
@@ -11,26 +32,37 @@ This guide covers everything you need to know about using ccspec for specificati
 - **Configurable**: Optional `.ccspecrc.json` for customization
 - **Zero Dependencies**: Templates bundled in executable, no external files needed
 
-## Workflow
+## Get Started
 
-### Complete Development Cycle
+### 1. Initialize Your Project
 
-```mermaid
-graph LR
-    User --> A["/spec"]
-    User --> C["/plan"]
-    User --> E["/tasks"]
-    User --> G["/implement"]
-
-    A --> B["spec.md"]
-    C --> D["plan.md"]
-    E --> F["tasks.md"]
-    G --> H["Code"]
-
-    B -.-> C
-    D -.-> E
-    F -.-> G
+```bash
+npx ccspec init
 ```
+
+This creates the necessary templates and Claude Code commands in your project.
+
+### 2. Start Your First Feature
+
+```bash
+# In Claude Code, use the slash commands:
+/spec Add user authentication with JWT tokens
+/plan
+/tasks
+/implement
+```
+
+**That's it!** Follow the four commands in sequence to go from idea to implementation.
+
+### 3. What You Get
+
+After running through the workflow, you'll have:
+- **specs/{branch}/spec.md** - Clear requirements and user stories
+- **specs/{branch}/plan.md** - Technical approach tailored to your codebase
+- **specs/{branch}/tasks.md** - Actionable checklist with progress tracking
+- **Working code** - Implementation following your plan
+
+## Workflow
 
 ### 1. Create Specification (`/spec`)
 

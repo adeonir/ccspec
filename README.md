@@ -1,6 +1,6 @@
 # ccspec
 
-**ccspec (Claude Code Specification)** is a lightweight CLI tool that streamlines specification-driven development by integrating seamlessly with Claude Code. It generates structured templates and provides slash commands for creating specifications, technical plans, and implementation tasks interactively.
+**ccspec (Claude Code Specification)** is a lightweight CLI tool that streamlines specification-driven development by integrating seamlessly with Claude Code. It generates structured templates and provides slash commands for creating specifications, technical plans, and implementation tasks with intelligent analysis and context validation.
 
 ## How to Use
 
@@ -16,13 +16,20 @@ After running `ccspec init`, Claude Code will have access to these slash command
 
 | Command         | Description                                                           |
 |-----------------|-----------------------------------------------------------------------|
-| `/spec`         | Define what you want to build (requirements and user stories)        |
-| `/plan`         | Create technical implementation plan by analyzing CLAUDE.md and codebase |
-| `/tasks`        | Generate actionable task lists for implementation                     |
-| `/implement`    | Execute all tasks (batch mode) or step-by-step (interactive mode)    |
+| `/spec`         | Define what you want to build with intelligent requirement analysis  |
+| `/plan`         | Create technical plan with codebase research and thinking modes      |
+| `/tasks`        | Generate strategic task lists with dependency analysis               |
+| `/implement`    | Execute tasks with progress tracking (batch or interactive modes)    |
 
 
-**Workflow**: Follow the commands in sequence → `/spec` → `/plan` → `/tasks` → `/implement`
+**Smart Workflow**: Each command builds on the previous → `/spec` (requirements) → `/plan` (technical approach) → `/tasks` (implementation steps) → `/implement` (execution)
+
+## Key Features
+
+- **Intelligent Analysis**: Uses Claude Code's `think` and `ultrathink` modes for deeper reasoning
+- **Context Validation**: Ensures consistency across specs, plans, and tasks
+- **Codebase Integration**: Analyzes existing patterns from CLAUDE.md and project structure
+- **Flexible Implementation**: Batch or interactive execution modes
 
 > That's it! **ccspec** creates structured specs, plans, and tasks, then helps you implement them step-by-step.
 

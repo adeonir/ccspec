@@ -22,3 +22,11 @@ export async function writeFileVerbose(path: string, content: string): Promise<v
 export function fileExists(path: string): boolean {
   return fs.existsSync(path)
 }
+
+export async function removeDir(path: string): Promise<void> {
+  await fs.remove(path)
+}
+
+export async function removeFile(path: string): Promise<void> {
+  await fs.remove(path)
+}

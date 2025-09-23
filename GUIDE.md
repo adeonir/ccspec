@@ -42,6 +42,19 @@ npx ccspec init
 
 This creates the necessary templates and Claude Code commands in your project.
 
+### Removing ccspec from a Project
+
+```bash
+npx ccspec clear
+```
+
+This removes all ccspec files and configuration:
+- `.ccspec/` directory with templates
+- `.claude/commands/` ccspec command files
+- `.ccspecrc.json` configuration file (if exists)
+
+The command asks for confirmation and shows exactly what will be removed before proceeding.
+
 ### 2. Start Your First Feature
 
 ```bash
@@ -253,6 +266,7 @@ When using `/implement --interactive`:
 |---------|-------------|
 | `npx ccspec init` | Initialize ccspec in current project |
 | `npx ccspec init --config` | Initialize with `.ccspecrc.json` |
+| `npx ccspec clear` | Remove all ccspec files and configuration |
 
 ### Slash Commands (Claude Code)
 
@@ -317,7 +331,8 @@ npm --version
 
 ### Claude Code slash commands not working
 ```bash
-# Reinitialize
+# Clear and reinitialize
+npx ccspec clear
 npx ccspec init
 # Check files exist
 ls .claude/commands/

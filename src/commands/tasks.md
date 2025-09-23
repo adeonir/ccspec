@@ -2,7 +2,7 @@
 
 When user types `/tasks`:
 
-## Gate Check: Plan Validation
+## Gate Check: Context Validation & Plan Analysis
 
 1. **Verify plan exists**: Check `specs/{branch}/plan.md`
    - If not found: Error "plan file not found. Run /plan first"
@@ -10,7 +10,11 @@ When user types `/tasks`:
    - Verify plan contains `## Technical Approach` section
    - Verify plan contains `## Implementation Steps` section
    - If missing: Error "plan incomplete. Ensure plan has Technical Approach and Implementation Steps sections"
-3. **Check spec clarifications**: Verify all `[NEEDS CLARIFICATION]` items from spec are addressed
+3. **Context consistency validation**:
+   - Verify plan branch matches current git branch
+   - Check that plan references match spec feature name
+   - Ensure plan.md and spec.md are in same directory structure
+4. **Check spec clarifications**: Verify all `[NEEDS CLARIFICATION]` items from spec are addressed
    - Compare with original spec.md to ensure clarifications are resolved
    - If unresolved items remain: Error "spec has unresolved clarifications. Update spec.md and regenerate plan"
 

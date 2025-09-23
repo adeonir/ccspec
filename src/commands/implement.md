@@ -6,7 +6,7 @@ When user types `/implement` or `/implement --interactive` (or `/implement -i`):
 - **`/implement`** (default): Batch mode - execute all tasks automatically without any pauses
 - **`/implement --interactive`** (or `-i`): Interactive mode - MUST pause after each task and wait for user confirmation
 
-## Gate Check: Tasks Validation
+## Gate Check: Context Validation & Tasks Analysis
 
 1. **Verify plan and tasks exist**:
    - Check `specs/{branch}/plan.md` - If not found: Error "plan file not found. Run /plan first"
@@ -15,7 +15,11 @@ When user types `/implement` or `/implement --interactive` (or `/implement -i`):
    - Verify tasks have T### numbering (T001, T002, etc.)
    - Verify tasks use checkbox format `- [ ]` or `- [x]`
    - If malformed: Error "tasks format invalid. Regenerate tasks.md using /tasks"
-3. **Check task categories**: Ensure task categories are populated
+3. **Context consistency validation**:
+   - Verify all files (spec.md, plan.md, tasks.md) reference same feature and branch
+   - Check that task numbering is sequential and consistent
+   - Ensure plan implementation steps align with generated tasks
+4. **Check task categories**: Ensure task categories are populated
    - Verify at least one category has tasks (Setup, Core, Testing, Polish)
    - If empty: Error "tasks categories empty. Regenerate tasks.md using /tasks"
 

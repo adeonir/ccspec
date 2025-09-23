@@ -2,7 +2,7 @@
 
 When user types `/plan`:
 
-## Gate Check: Spec Validation
+## Gate Check: Context Validation & Spec Analysis
 
 1. **Verify spec exists**: Check `specs/{branch}/spec.md`
    - If not found: Error "No specification found at specs/{branch}/spec.md. Run /spec first to create a feature specification."
@@ -10,7 +10,10 @@ When user types `/plan`:
    - Verify spec contains `## Overview` section
    - Verify spec contains `## User Stories` or `## Requirements` section
    - If missing: Error "Specification incomplete. The spec.md file must contain '## Overview' and '## User Stories' sections. Please complete the specification first."
-3. **Check for unresolved items**: Scan spec for `[NEEDS CLARIFICATION]` items
+3. **Context consistency validation**:
+   - Verify git branch matches spec branch name from file header
+   - Ensure spec directory structure aligns with current working state
+4. **Check for unresolved items**: Scan spec for `[NEEDS CLARIFICATION]` items
    - If found: List unresolved items and ask "Spec has unresolved clarifications. Continue anyway? (y/n)"
    - If user chooses 'n': Stop with message "Resolve clarifications in spec.md before proceeding"
 

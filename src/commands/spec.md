@@ -38,6 +38,14 @@ When user types `/spec [description]`:
 6. **Copy template** from `.ccspec/templates/spec.md`
 7. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
 8. **Fill template** based on user description:
+   Use think to analyze the user description and extract requirements:
+   - Understand the core functionality and scope
+   - Identify user roles and workflows
+   - Generate appropriate user stories following "As a [user], I want [goal] so that [benefit]" format
+   - Create testable functional requirements
+   - Spot ambiguous areas that need clarification
+
+   Replace template placeholders:
    - Replace `{FEATURE_NAME}` with extracted feature name
    - Replace `{BRANCH_NAME}` with final branch name
    - Replace `{DATE}` with current date

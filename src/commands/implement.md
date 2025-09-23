@@ -29,6 +29,14 @@ When user types `/implement` or `/implement --interactive` (or `/implement -i`):
    - **Default (`/implement`)**: Batch mode - execute entire plan without any pauses or questions
    - **Interactive (`/implement --interactive` or `-i`)**: Interactive mode - MUST pause after each task and ask for confirmation
 3. **Execute tasks sequentially**:
+   Use think for implementation decisions and strategy:
+   - Analyze code integration requirements for each task
+   - Consider testing approach and validation strategy
+   - Evaluate implementation alternatives and trade-offs
+   - Plan commit strategy for atomic, focused changes
+   - Assess task dependencies and parallel execution opportunities
+
+   Follow implementation guidelines:
    - Follow the technical approach from plan.md
    - Implement each task according to specifications
    - Respect parallelization markers `[P]` when possible

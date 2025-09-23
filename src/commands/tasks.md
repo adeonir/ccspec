@@ -25,6 +25,14 @@ When user types `/tasks`:
 3. **Copy template** from `.ccspec/templates/tasks.md`
 4. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
 5. **Generate tasks by category**:
+   Use think to organize work strategically:
+   - Analyze implementation steps complexity and dependencies
+   - Identify tasks that can run in parallel vs sequential requirements
+   - Consider project testing methodology and quality standards
+   - Plan logical execution sequence and task groupings
+   - Evaluate task granularity for manageable implementation
+
+   Generate tasks by category:
    - **Setup & Dependencies**: Project setup, dependencies, configuration
    - **Testing & Validation**: Tests based on project methodology
    - **Core Implementation**: Main feature implementation

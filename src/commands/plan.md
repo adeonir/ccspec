@@ -37,13 +37,23 @@ When user types `/plan`:
      * **Workflow requirements**: Parse development and deployment processes
    - **Context synthesis**: Combine all findings into structured project context for template adaptation
 3. **Analyze codebase**:
-   - Identify existing patterns and architecture
-   - Find similar implementations
-   - Detect framework and libraries in use
-   - Understand project structure
+   Use think to structure your codebase analysis:
+   - Review existing patterns and architecture
+   - Evaluate how the new feature integrates with current systems
+   - Consider framework conventions and project standards
+   - Identify similar implementations for reference
+   - Assess technical constraints and opportunities
 4. **Copy template** from `.ccspec/templates/plan.md`
 5. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
 6. **Fill template** with intelligent context and research findings:
+   Use ultrathink for complex technical decisions and architectural trade-offs:
+   - Evaluate multiple implementation approaches
+   - Consider technical risks and mitigation strategies
+   - Assess integration complexity and dependencies
+   - Plan testing strategy and quality assurance
+   - Review scalability and performance implications
+
+   Replace template placeholders:
    - Replace `{FEATURE_NAME}` with spec feature name
    - Replace `{BRANCH_NAME}` with current branch
    - Replace `{DATE}` with current date

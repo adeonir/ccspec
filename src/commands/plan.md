@@ -92,6 +92,32 @@ When user types `/plan`:
 - **Testing structure**: Test organization, mocking patterns, integration approaches
 - **Infrastructure**: Docker, CI/CD, deployment, and environment configurations
 
+## Error Recovery
+
+### Specification Errors
+- **No spec found**: Run `/spec [description]` first to create feature specification
+- **Incomplete spec**: Add missing sections (Overview, User Stories) to spec.md and rerun
+- **Invalid spec format**: Check spec.md has proper markdown structure with required headings
+
+### Context Validation Errors
+- **Branch mismatch**: Switch to correct branch or update spec.md branch reference
+- **Directory structure misaligned**: Verify specs/{branch}/ directory structure is correct
+
+### Clarification Handling
+- **Unresolved clarifications**:
+  - Choose "Continue anyway (y)" to proceed with assumptions documented as risks
+  - Choose "No (n)" to resolve clarifications in spec.md first, then rerun `/plan`
+- **How to resolve**: Edit spec.md, replace `[NEEDS CLARIFICATION: question]` with specific requirements
+
+### Template and Analysis Errors
+- **Template missing**: Run `npx ccspec init` to restore plan.md template
+- **CLAUDE.md not found**: Continue without project-specific patterns (plan will use generic approaches)
+- **Codebase analysis fails**: Ensure project directory is accessible and contains source code
+
+### Research Failures
+- **Pattern detection fails**: Plan will use generic implementation approaches
+- **Framework identification fails**: Manually specify framework in plan.md after generation
+
 ## Example Output
 ```
 Technical plan created at specs/feature-auth/plan.md

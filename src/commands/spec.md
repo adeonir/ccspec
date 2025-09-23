@@ -71,6 +71,27 @@ When user types `/spec [description]`:
 - If directory already exists: Ask "Directory specs/{branch}/ already exists. Overwrite existing specification? (y/n)"
 - If template not found: Error "Template file .ccspec/templates/spec.md not found. Run 'npx ccspec init' to restore template files."
 
+## Error Recovery
+
+### Initialization Errors
+- **ccspec not initialized**: Run `npx ccspec init` in project root to set up templates and commands
+- **Missing templates**: Run `npx ccspec init` to restore template files (spec.md, plan.md, tasks.md)
+
+### Git Repository Errors
+- **No git repository**: Choose "Initialize git? (y/n)" - Yes creates repo, No continues with 'unknown-branch'
+- **Branch creation fails**: Verify branch name is valid (no spaces, special characters)
+
+### Configuration Errors
+- **Invalid config file**: Shows warning and uses defaults, command continues normally
+
+### Directory Conflicts
+- **Directory exists**: Choose "Overwrite existing specification? (y/n)" - Yes replaces, No cancels operation
+- **Permission denied**: Check write permissions in project directory
+
+### Template Processing Errors
+- **Template not found**: Run `npx ccspec init` to restore missing template files
+- **Placeholder extraction fails**: Provide clearer feature description or specify feature name when prompted
+
 ## Example Interactions
 
 ### With existing git repository:

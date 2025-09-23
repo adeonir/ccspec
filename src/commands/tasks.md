@@ -64,6 +64,36 @@ When user types `/tasks`:
 - **Use checkbox format**: `- [ ] T### - Task description [P]` (unchecked by default)
 - Add parallelization markers `[P]` and blocking markers `[B]` after task description
 
+## Error Recovery
+
+### Plan Dependencies
+- **No plan found**: Run `/plan` first to create technical plan
+- **Incomplete plan**: Ensure plan.md has Technical Approach and Implementation Steps sections
+- **Plan format errors**: Check plan.md has proper markdown structure with required headings
+
+### Context Validation Errors
+- **Branch mismatch**: Verify plan.md and current git branch are aligned
+- **Feature name mismatch**: Check plan.md and spec.md reference same feature name
+- **Directory structure issues**: Ensure plan.md and spec.md are in same specs/{branch}/ directory
+
+### Clarification Issues
+- **Unresolved spec clarifications**: Update spec.md to resolve `[NEEDS CLARIFICATION]` items, then regenerate plan and rerun `/tasks`
+- **Missing implementation details**: Add more specific implementation steps to plan.md
+
+### Task Generation Errors
+- **Empty task categories**: Plan lacks sufficient implementation details - add more specific steps to plan.md
+- **Template missing**: Run `npx ccspec init` to restore tasks.md template
+- **Task numbering conflicts**: Delete existing tasks.md and regenerate
+
+### Planning Methodology Issues
+- **Testing approach unclear**: Specify testing methodology in plan.md (TDD, post-implementation, or none)
+- **Dependency analysis fails**: Manually review plan.md and add dependency information
+
+### Recovery Commands
+- **Regenerate tasks**: Delete tasks.md and rerun `/tasks` after fixing underlying issues
+- **Manual task adjustment**: Edit generated tasks.md to add missing tasks or fix categorization
+- **Reset workflow**: If issues persist, regenerate plan with `/plan` and then `/tasks`
+
 ## Example Output
 ```
 Task list created at specs/feature-auth/tasks.md

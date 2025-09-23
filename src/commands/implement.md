@@ -104,3 +104,34 @@ Continue with T003 - Add JWT token generation? (y/n): n
 Implementation stopped. Progress saved to tasks.md
 Resume anytime with /implement
 ```
+
+## Error Recovery
+
+### Prerequisites Missing
+- **No plan found**: Run `/plan` first to create technical plan
+- **No tasks found**: Run `/tasks` first to generate implementation task list
+- **Invalid task format**: Run `/tasks` to regenerate properly formatted task list
+
+### Context Validation Errors
+- **File inconsistency**: Verify spec.md, plan.md, and tasks.md reference same feature and branch
+- **Task numbering issues**: Delete tasks.md and regenerate with `/tasks`
+- **Plan-task misalignment**: Review plan.md implementation steps and regenerate tasks if needed
+
+### Implementation Failures
+- **Task implementation blocked**: Mark task as `[B]` in tasks.md and add dependency information
+- **Code integration issues**: Review existing codebase patterns and adjust implementation approach
+- **Testing failures**: Update task to address test requirements or adjust testing strategy
+
+### Progress Management
+- **Lost progress**: Check tasks.md for completed tasks marked with `- [x]`
+- **Resume implementation**: Use `/implement` to continue from last completed task
+- **Reset progress**: Manually uncheck tasks in tasks.md to re-implement
+
+### Mode-Specific Issues
+- **Interactive mode stuck**: Use Ctrl+C to stop and resume with `/implement` for batch mode
+- **Batch mode errors**: Switch to interactive mode with `/implement -i` for step-by-step control
+
+### Recovery Strategies
+- **Partial implementation**: Review completed tasks and manually commit when ready, then resume with remaining tasks
+- **Approach change**: Update plan.md with new approach and regenerate tasks
+- **Quality issues**: Run project lint/test commands and fix issues before continuing

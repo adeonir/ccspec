@@ -42,6 +42,14 @@ npx ccspec init
 
 This creates the necessary templates and Claude Code commands in your project.
 
+### Updating ccspec in a Project
+
+```bash
+npx ccspec init
+```
+
+If ccspec is already initialized, running `init` again will ask if you want to update templates and commands. This is useful to get the latest versions after ccspec updates.
+
 ### Removing ccspec from a Project
 
 ```bash
@@ -264,8 +272,8 @@ When using `/implement --interactive`:
 
 | Command | Description |
 |---------|-------------|
-| `npx ccspec init` | Initialize ccspec in current project |
-| `npx ccspec init --config` | Initialize with `.ccspecrc.json` |
+| `npx ccspec init` | Initialize ccspec in current project (or update if already initialized) |
+| `npx ccspec init --config` | Initialize with `.ccspecrc.json` configuration file |
 | `npx ccspec clear` | Remove all ccspec files and configuration |
 
 ### Slash Commands (Claude Code)

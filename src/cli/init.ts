@@ -15,23 +15,38 @@ export async function init(options: InitOptions): Promise<void> {
   try {
     printBanner()
 
+    let isUpdate = false
+
     if (fileExists('.ccspec')) {
-      console.log(chalk.yellow(`⚠ ${chalk.bold('ccspec')} already initialized!\n`))
-      return
-    }
+      const { update } = await inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'update',
+          message: `${chalk.bold('ccspec')} already initialized. Update templates and commands?`,
+          default: true,
+        },
+      ])
 
-    const { proceed } = await inquirer.prompt([
-      {
-        type: 'confirm',
-        name: 'proceed',
-        message: `Initialize ${chalk.bold('ccspec')} in this directory?`,
-        default: true,
-      },
-    ])
+      if (!update) {
+        console.log(chalk.gray('Update cancelled.\n'))
+        return
+      }
 
-    if (!proceed) {
-      console.log(chalk.gray('Initialization cancelled.\n'))
-      return
+      isUpdate = true
+    } else {
+      const { proceed } = await inquirer.prompt([
+        {
+          type: 'confirm',
+          name: 'proceed',
+          message: `Initialize ${chalk.bold('ccspec')} in this directory?`,
+          default: true,
+        },
+      ])
+
+      if (!proceed) {
+        console.log(chalk.gray('Initialization cancelled.\n'))
+        return
+      }
     }
 
     const spinner = ora('Creating directories...').start()
@@ -46,7 +61,11 @@ export async function init(options: InitOptions): Promise<void> {
       await createConfig()
     }
 
-    spinner.succeed(chalk.green(`✓ ${chalk.bold('ccspec')} initialized successfully!`))
+    const successMessage = isUpdate
+      ? `✓ ${chalk.bold('ccspec')} updated successfully!`
+      : `✓ ${chalk.bold('ccspec')} initialized successfully!`
+
+    spinner.succeed(chalk.green(successMessage))
     printSuccess()
   } catch (error) {
     ora().fail(chalk.red('✗ Initialization failed'))

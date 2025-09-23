@@ -4,10 +4,10 @@ When user types `/spec [description]`:
 
 ## Gate Check: Initialization
 
-1. **Verify ccspec initialization**: Check if `.ccspec/` directory exists
+1. **Verify ccspec initialization**: Use `Bash` command `test -d .ccspec` to silently check if `.ccspec/` directory exists
    - If not found: Error "ccspec not initialized in this project. Run 'npx ccspec init' in the project root to set up ccspec templates and commands."
-2. **Verify templates**: Check if `.ccspec/templates/` contains required templates
-   - Check for `spec.md`, `plan.md`, `tasks.md` template files
+2. **Verify templates**: Use `Bash` command `test -d .ccspec/templates` to silently check if `.ccspec/templates/` directory exists
+   - Then use `Bash` command `test -f .ccspec/templates/spec.md && test -f .ccspec/templates/plan.md && test -f .ccspec/templates/tasks.md` to check template files
    - If any missing: Error "Template files missing. Run 'npx ccspec init' to restore the required template files (spec.md, plan.md, tasks.md)."
 
 ## Input Validation
@@ -25,7 +25,7 @@ When user types `/spec [description]`:
    - If **no**: Ask "Enter new branch name:" and create it with `git switch -c {new-branch}`
 3. **Load configuration**:
    - **DO NOT** attempt to read `.ccspecrc.json` unless you verify it exists first
-   - Use Glob tool to check for `.ccspecrc.json` file existence
+   - Use `Bash` command `test -f .ccspecrc.json` to silently check if config file exists
    - Only if file exists, then read it with Read tool
    - **Validate JSON structure**: If file exists but contains invalid JSON, show warning "Invalid .ccspecrc.json format, using defaults" and use defaults
    - **Check required fields**: Config should only contain `branchPrefix` (string) and `autoNumbering` (boolean)

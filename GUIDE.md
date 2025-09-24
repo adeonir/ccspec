@@ -60,6 +60,7 @@ This removes all ccspec files and configuration:
 - `.ccspec/` directory with templates
 - `.claude/commands/` ccspec command files
 - `.ccspecrc.json` configuration file (if exists)
+- `specs/` directory with all specifications
 
 The command asks for confirmation and shows exactly what will be removed before proceeding.
 

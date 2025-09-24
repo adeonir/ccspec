@@ -11,7 +11,7 @@ function hasCommandFiles(): boolean {
 
 export async function clear(): Promise<void> {
   try {
-    if (!fileExists('.ccspec') && !hasCommandFiles() && !fileExists('.ccspecrc.json')) {
+    if (!fileExists('.ccspec') && !hasCommandFiles() && !fileExists('.ccspecrc.json') && !fileExists('specs')) {
       console.log(chalk.yellow(`⚠ No ${chalk.bold('ccspec')} files found to clear.\n`))
       return
     }
@@ -22,6 +22,7 @@ export async function clear(): Promise<void> {
     if (fileExists('.ccspec')) filesToClear.push('.ccspec directory')
     if (hasCommandFiles()) filesToClear.push('Claude commands in .claude/commands/')
     if (fileExists('.ccspecrc.json')) filesToClear.push('.ccspecrc.json config')
+    if (fileExists('specs')) filesToClear.push('specs directory with all specifications')
 
     console.log(chalk.yellow(`\n⚠ This will remove:`))
     for (const file of filesToClear) {
@@ -61,6 +62,10 @@ export async function clear(): Promise<void> {
 
     if (fileExists('.ccspecrc.json')) {
       await removeFile('.ccspecrc.json')
+    }
+
+    if (fileExists('specs')) {
+      await removeDir('specs')
     }
 
     spinner.succeed(chalk.green(`✓ ${chalk.bold('ccspec')} files cleared successfully!`))

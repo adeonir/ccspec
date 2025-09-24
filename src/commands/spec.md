@@ -4,11 +4,10 @@ When user types `/spec [description]`:
 
 ## Gate Check: Initialization
 
-1. **Verify ccspec initialization**: Use `Bash` command `test -d .ccspec` to silently check if `.ccspec/` directory exists
-   - If not found: Error "ccspec not initialized in this project. Run 'npx ccspec init' in the project root to set up ccspec templates and commands."
-2. **Verify templates**: Use `Bash` command `test -d .ccspec/templates` to silently check if `.ccspec/templates/` directory exists
-   - Then use `Bash` command `test -f .ccspec/templates/spec.md && test -f .ccspec/templates/plan.md && test -f .ccspec/templates/tasks.md` to check template files
-   - If any missing: Error "Template files missing. Run 'npx ccspec init' to restore the required template files (spec.md, plan.md, tasks.md)."
+1. **Verify ccspec initialization**: Use `Read` tool to check if all required files exist:
+   - Templates: `.ccspec/templates/spec.md`, `.ccspec/templates/plan.md`, `.ccspec/templates/tasks.md`
+   - Commands: `.claude/commands/spec.md`, `.claude/commands/plan.md`, `.claude/commands/tasks.md`, `.claude/commands/implement.md`
+   - If any file not found: Error "ccspec not initialized or incomplete. Run 'npx ccspec init' in the project root to set up or update all required templates and commands."
 
 ## Input Validation
 
@@ -24,13 +23,10 @@ When user types `/spec [description]`:
    - If **yes**: Continue with current branch
    - If **no**: Ask "Enter new branch name:" and create it with `git switch -c {new-branch}`
 3. **Load configuration**:
-   - **DO NOT** attempt to read `.ccspecrc.json` unless you verify it exists first
-   - Use `Bash` command `test -f .ccspecrc.json` to silently check if config file exists
-   - Only if file exists, then read it with Read tool
-   - **Validate JSON structure**: If file exists but contains invalid JSON, show warning "Invalid .ccspecrc.json format, using defaults" and use defaults
-   - **Check required fields**: Config should only contain `branchPrefix` (string) and `autoNumbering` (boolean)
-   - If file doesn't exist, use these defaults: `{"branchPrefix": "", "autoNumbering": false}`
+   - Try to read `.ccspecrc.json` with `Read` tool
    - **NEVER** show "Error reading file" messages for missing config
+   - **If file doesn't exist**: Use defaults `{"branchPrefix": "", "autoNumbering": false}`
+   - **If file exists but invalid JSON**: Show warning "Invalid .ccspecrc.json format, using defaults" and use defaults
 4. **Process branch name**:
    - Remove `branchPrefix` if present in config
    - Add auto-numbering if `autoNumbering: true` (scan existing folders)
@@ -49,8 +45,7 @@ When user types `/spec [description]`:
    - Replace `{FEATURE_NAME}` with extracted feature name
    - Replace `{BRANCH_NAME}` with final branch name
    - Replace `{DATE}` with current date
-   - Parse description into user stories and requirements
-   - Generate functional requirements from description
+   - Parse description into user stories and functional requirements
    - Mark ambiguous items with `[NEEDS CLARIFICATION: specific question]`
 
 ### Placeholder Extraction Guidelines
@@ -60,9 +55,6 @@ When user types `/spec [description]`:
 9. **Save as**: `specs/{branch}/spec.md`
 10. **Response**: "Spec created at specs/{branch}/spec.md. Review and use /plan next."
 
-## Config Defaults
-- `branchPrefix`: "" (empty)
-- `autoNumbering`: false
 
 ## Error Handling
 - If not in git repository: Ask "No git repository found. Initialize git? (y/n)"
@@ -80,9 +72,6 @@ When user types `/spec [description]`:
 ### Git Repository Errors
 - **No git repository**: Choose "Initialize git? (y/n)" - Yes creates repo, No continues with 'unknown-branch'
 - **Branch creation fails**: Verify branch name is valid (no spaces, special characters)
-
-### Configuration Errors
-- **Invalid config file**: Shows warning and uses defaults, command continues normally
 
 ### Directory Conflicts
 - **Directory exists**: Choose "Overwrite existing specification? (y/n)" - Yes replaces, No cancels operation

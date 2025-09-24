@@ -39,16 +39,27 @@ When user types `/plan`:
      * **Dependency choices**: Identify preferred libraries and tools
      * **Workflow requirements**: Parse development and deployment processes
    - **Context synthesis**: Combine all findings into structured project context for template adaptation
-3. **Analyze codebase**:
-   Use think to structure your codebase analysis:
+3. **Project research caching**:
+   - Try to read `specs/research.md` with `Read` tool
+   - **If file doesn't exist**: Perform full project research and save to `specs/research.md`:
+     * Analyze project structure and architecture
+     * Identify frameworks, tools, and technologies
+     * Document key patterns and conventions
+     * Save research for reuse by future /plan commands
+   - **If file exists**: Use cached research to avoid repeating full codebase analysis
+   - **Update detection**: If major changes detected (new dependencies, structural changes), update the research file
+4. **Feature-specific codebase analysis**:
+   Use think to structure your codebase analysis. Analyze the codebase using Grep to find patterns, then Read specific files found. Prefer Glob for file discovery over multiple Grep calls:
+   - **If research cached**: Use cached research from `specs/research.md` as foundation, focus on feature-specific analysis
+   - **If no cached research**: Perform comprehensive analysis and include in `specs/research.md`
    - Review existing patterns and architecture
    - Evaluate how the new feature integrates with current systems
    - Consider framework conventions and project standards
    - Identify similar implementations for reference
    - Assess technical constraints and opportunities
-4. **Copy template** from `.ccspec/templates/plan.md`
-5. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
-6. **Fill template** with intelligent context and research findings:
+5. **Copy template** from `.ccspec/templates/plan.md`
+6. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
+7. **Fill template** with intelligent context and research findings:
    Use ultrathink for complex technical decisions and architectural trade-offs:
    - Evaluate multiple implementation approaches
    - Consider technical risks and mitigation strategies
@@ -61,16 +72,16 @@ When user types `/plan`:
    - Replace `{BRANCH_NAME}` with current branch
    - Replace `{DATE}` with current date
    - Replace `{SPEC_SUMMARY}` with extracted summary from spec
-   - Replace `{CODEBASE_RESEARCH}` with enhanced findings from CLAUDE.md + codebase analysis
+   - Replace `{CODEBASE_RESEARCH}` with cached research from specs/research.md + feature-specific analysis
    - Replace `{PATTERNS}` with project patterns from CLAUDE.md + identified code patterns
    - Replace `{ARCHITECTURE}` with architectural decisions from CLAUDE.md context
    - Replace `{TECHNICAL_DECISIONS}` with approach details informed by project guidelines
    - Replace `{IMPLEMENTATION_STEPS}` with context-aware steps using correct commands/tools
    - Replace `{DEPENDENCIES}` with dependencies using detected package manager and preferences
    - Replace `{RISKS}` with risks considering project constraints and guidelines
-7. **Resolve ambiguities**: Address any `[NEEDS CLARIFICATION]` items from spec
-8. **Save as**: `specs/{branch}/plan.md`
-9. **Response**: "Plan created at specs/{branch}/plan.md. Review and use /tasks next."
+8. **Resolve ambiguities**: Address any `[NEEDS CLARIFICATION]` items from spec
+9. **Save as**: `specs/{branch}/plan.md`
+10. **Response**: "Plan created at specs/{branch}/plan.md. Review and use /tasks next."
 
 ## Research Areas
 ### Enhanced CLAUDE.md Context

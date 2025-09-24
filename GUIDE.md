@@ -108,7 +108,8 @@ After running through the workflow, you'll have:
 
 **What it does:**
 - Reads the specification file
-- Analyzes codebase patterns and architecture
+- **Smart research caching**: Creates/uses `specs/research.md` to avoid repeating full codebase analysis
+- Analyzes codebase patterns and architecture (cached on first run)
 - Reads project guidelines (CLAUDE.md)
 - Creates `specs/{branch}/plan.md` with:
   - Technical approach and decisions
@@ -161,6 +162,7 @@ your-project/
 │       ├── plan.md
 │       └── tasks.md
 ├── specs/                 # Generated specifications (git-tracked)
+│   ├── research.md        # Project research cache (shared across features)
 │   └── {branch-name}/
 │       ├── spec.md
 │       ├── plan.md

@@ -8,7 +8,7 @@ When user types `/implement` or `/implement --interactive` (or `/implement -i`):
 
 ## Gate Check: Context Validation & Tasks Analysis
 
-1. **Verify plan and tasks exist**:
+1. **Verify plan and tasks exist**: Use `Read` tool to check required files. Claude Code can call multiple Read tools in parallel for better performance:
    - Check `specs/{branch}/plan.md` - If not found: Error "plan file not found. Run /plan first"
    - Check `specs/{branch}/tasks.md` - If not found: Error "tasks file not found. Run /tasks first"
 2. **Validate tasks format**: Check tasks.md has properly formatted tasks
@@ -25,7 +25,7 @@ When user types `/implement` or `/implement --interactive` (or `/implement -i`):
 
 ## Execution Steps
 
-1. **Load implementation context**:
+1. **Load implementation context**: Use `Read` tool to load required context:
    - Read plan.md for technical approach
    - Read tasks.md for task list and progress
    - Identify current task status

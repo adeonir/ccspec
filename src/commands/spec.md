@@ -4,7 +4,7 @@ When user types `/spec [description]`:
 
 ## Gate Check: Initialization
 
-1. **Verify ccspec initialization**: Use `Read` tool to check if all required files exist:
+1. **Verify ccspec initialization**: Use `Read` tool to check if all required files exist. Claude Code can call multiple Read tools in parallel for better performance:
    - Templates: `.ccspec/templates/spec.md`, `.ccspec/templates/plan.md`, `.ccspec/templates/tasks.md`
    - Commands: `.claude/commands/spec.md`, `.claude/commands/plan.md`, `.claude/commands/tasks.md`, `.claude/commands/implement.md`
    - If any file not found: Error "ccspec not initialized or incomplete. Run 'npx ccspec init' in the project root to set up or update all required templates and commands."

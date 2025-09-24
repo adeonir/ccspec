@@ -4,7 +4,7 @@ When user types `/tasks`:
 
 ## Gate Check: Context Validation & Plan Analysis
 
-1. **Verify plan exists**: Check `specs/{branch}/plan.md`
+1. **Verify plan exists**: Use `Read` tool to check `specs/{branch}/plan.md`
    - If not found: Error "plan file not found. Run /plan first"
 2. **Validate plan completeness**: Check plan has required sections
    - Verify plan contains `## Technical Approach` section
@@ -20,7 +20,7 @@ When user types `/tasks`:
 
 ## Execution Steps
 
-1. **Load plan content**: Read and parse the technical plan
+1. **Load plan content**: Use `Read` tool to load and parse the technical plan
 2. **Extract implementation details**:
    - Implementation steps from plan
    - Dependencies and setup requirements

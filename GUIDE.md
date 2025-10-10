@@ -79,6 +79,7 @@ The command asks for confirmation and shows exactly what will be removed before 
 ### 3. What You Get
 
 After running through the workflow, you'll have:
+- **specs/research.md** - Cached codebase analysis for efficient planning
 - **specs/{branch}/spec.md** - Clear requirements and user stories
 - **specs/{branch}/plan.md** - Technical approach tailored to your codebase
 - **specs/{branch}/tasks.md** - Actionable checklist with progress tracking

@@ -124,46 +124,92 @@ This approach gives us:
 - Type-safe imports and bundling
 - Clean distribution (only need the compiled CLI)
 
-### Slash Command Instructions (Markdown Files)
+### Template Structure
 
-The CLI will create markdown instruction files in `.claude/commands/` that Claude Code reads:
+**spec.md template:**
+```markdown
+# Feature Specification: {FEATURE_NAME}
+
+**Branch**: {BRANCH_NAME}
+**Created**: {DATE}
+**Status**: Draft
+
+<!--
+Instructions for filling this template:
+- Focus on WHAT users need and WHY, not HOW to implement
+- Mark unclear aspects with [NEEDS CLARIFICATION: specific question]
+- User stories format: "As a [user], I want [goal] so that [benefit]"
+- Requirements must be testable
+-->
+
+## Overview
+{FEATURE_DESCRIPTION}
+
+## User Stories
+{USER_STORIES}
+
+## Functional Requirements
+{FUNCTIONAL_REQUIREMENTS}
+
+## Acceptance Criteria
+{ACCEPTANCE_CRITERIA}
+
+## Key Entities (optional)
+{ENTITIES}
+```
+
+Templates use placeholders (e.g., `{FEATURE_NAME}`, `{BRANCH_NAME}`) that are filled by slash commands. HTML comments provide inline instructions for users inspecting templates directly.
+
+### Slash Command Instructions
+
+The CLI creates markdown instruction files in `.claude/commands/` with YAML frontmatter:
 
 ```markdown
 <!-- .claude/commands/spec.md -->
-# /spec Command
+---
+description: Create feature specification from description
+argument-hint: [description]
+allowed-tools: Read, Write, Bash(git:*)
+---
 
-When user types `/spec [description]`:
+When user types `/spec $ARGUMENTS`:
 
-## Execution Steps:
-1. Check for git repository: `git status` or similar
-2. If no git repository → Ask "Initialize git? (y/n)"
-   - If yes → run `git init` and use "main" branch
-   - If no → continue with "unknown-branch"
-3. If git exists → Get current branch: `git branch --show-current`
-4. Ask about branch usage: "Use current branch? (y/n)"
-5. If no → ask for new branch name and create with `git switch -c`
-6. Load `.ccspecrc.json` if exists (read config)
-7. Process branch name:
-   - Remove `branchPrefix` if present in config
-   - Add auto-numbering if `autoNumbering: true` (scan existing folders)
-8. Create directory: `specs/{processed-branch}/`
-9. Copy template from `.ccspec/templates/spec.md`
-10. Fill template based on user description:
-    - Parse feature name
-    - Generate user stories from description
-    - Create functional requirements
-    - Mark `[NEEDS CLARIFICATION]` for ambiguous items
-11. Save as: `specs/{branch}/spec.md`
-12. Response: "Spec created at {path}. Review and use /plan next"
+## Gate Check: Initialization
+Verify ccspec initialization using Read tool in parallel:
+- Templates: `.ccspec/templates/spec.md`, `.ccspec/templates/plan.md`, `.ccspec/templates/tasks.md`
+- Commands: `.claude/commands/spec.md`, `.claude/commands/plan.md`, `.claude/commands/tasks.md`, `.claude/commands/implement.md`
+- If any file not found: Error "ccspec not initialized..."
 
-## Config Defaults:
-- branchPrefix: "" (empty)
-- autoNumbering: false
+## Input Validation
+**Check for description parameter**:
+- If `$ARGUMENTS` is empty: Ask "What feature would you like to specify?"
+- Wait for user response before proceeding
+
+## Execution Steps
+1. **Get current git branch**: `git branch --show-current`
+2. **Ask about branch usage**: "Current branch: {current-branch}. Use this branch? (y/n)"
+3. **Load configuration**: Try to read `.ccspecrc.json` with Read tool
+4. **Process branch name**: Remove `branchPrefix` if present, add auto-numbering if enabled
+5. **Create directory**: `specs/{processed-branch}/`
+6. **Copy template** from `.ccspec/templates/spec.md`
+7. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
+8. **Fill template** based on user description
+9. **Save as**: `specs/{branch}/spec.md`
+10. **Response**: "Spec created at specs/{branch}/spec.md. Review and use /plan next."
+
+## Error Handling
+- **No git repository**: Ask "No git repository found. Initialize git? (y/n)"
+- **Directory exists**: Ask "Directory specs/{branch}/ already exists. Overwrite? (y/n)"
+- **Template not found**: Error "Template file not found. Run 'npx ccspec init'..."
 ```
 
-Similar instruction files will be created for `/plan`, `/tasks`, and `/implement` commands.
+#### Frontmatter Fields:
+- **description**: Brief command description (appears in Claude Code context)
+- **allowed-tools**: Whitelist of permitted tools for security (e.g., `Read, Write, Bash(git:*)`)
+- **argument-hint**: Hint for expected arguments (e.g., `[description]`)
+- **$ARGUMENTS**: Variable that captures all arguments passed to the command
 
-#### Key Implementation Details:
+#### Implementation Details:
 - **Tasks format**: Generated with checkboxes `- [ ] T### - Task description`
 - **Progress tracking**: `/implement` updates `- [ ]` to `- [x]` as tasks complete
 - **Interactive control**: `/implement --interactive` asks "Continue with T### - [task name]? (y/n)"

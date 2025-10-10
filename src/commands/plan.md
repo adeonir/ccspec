@@ -1,4 +1,7 @@
-# /plan Command
+---
+description: Generate technical plan from specification
+allowed-tools: Read, Write, Grep, Glob
+---
 
 When user types `/plan`:
 
@@ -40,7 +43,7 @@ When user types `/plan`:
      * **Workflow requirements**: Parse development and deployment processes
    - **Context synthesis**: Combine all findings into structured project context for template adaptation
 3. **Project research caching**:
-   - Try to read `specs/research.md` with `Read` tool
+   - Try to read `specs/research.md` with Read tool
    - **If file doesn't exist**: Perform full project research and save to `specs/research.md`:
      * Analyze project structure and architecture
      * Identify frameworks, tools, and technologies
@@ -49,7 +52,7 @@ When user types `/plan`:
    - **If file exists**: Use cached research to avoid repeating full codebase analysis
    - **Update detection**: If major changes detected (new dependencies, structural changes), update the research file
 4. **Feature-specific codebase analysis**:
-   Use think to structure your codebase analysis. Analyze the codebase using Grep to find patterns, then Read specific files found. Prefer Glob for file discovery over multiple Grep calls:
+   - Analyze the codebase using Grep to find patterns, then Read specific files found. Prefer Glob for file discovery over multiple Grep calls
    - **If research cached**: Use cached research from `specs/research.md` as foundation, focus on feature-specific analysis
    - **If no cached research**: Perform comprehensive analysis and include in `specs/research.md`
    - Review existing patterns and architecture
@@ -60,7 +63,6 @@ When user types `/plan`:
 5. **Copy template** from `.ccspec/templates/plan.md`
 6. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
 7. **Fill template** with intelligent context and research findings:
-   Use ultrathink for complex technical decisions and architectural trade-offs:
    - Evaluate multiple implementation approaches
    - Consider technical risks and mitigation strategies
    - Assess integration complexity and dependencies
@@ -84,6 +86,7 @@ When user types `/plan`:
 10. **Response**: "Plan created at specs/{branch}/plan.md. Review and use /tasks next."
 
 ## Research Areas
+
 ### Enhanced CLAUDE.md Context
 - **Package management**: Dependency installation and management approach
 - **Runtime environment**: Platform and language-specific configurations
@@ -103,34 +106,11 @@ When user types `/plan`:
 - **Testing structure**: Test organization, mocking patterns, integration approaches
 - **Infrastructure**: Docker, CI/CD, deployment, and environment configurations
 
-## Error Recovery
+## Error Handling
 
-### Specification Errors
 - **No spec found**: Run `/spec [description]` first to create feature specification
 - **Incomplete spec**: Add missing sections (Overview, User Stories) to spec.md and rerun
-- **Invalid spec format**: Check spec.md has proper markdown structure with required headings
-
-### Context Validation Errors
 - **Branch mismatch**: Switch to correct branch or update spec.md branch reference
-- **Directory structure misaligned**: Verify specs/{branch}/ directory structure is correct
-
-### Clarification Handling
-- **Unresolved clarifications**:
-  - Choose "Continue anyway (y)" to proceed with assumptions documented as risks
-  - Choose "No (n)" to resolve clarifications in spec.md first, then rerun `/plan`
-- **How to resolve**: Edit spec.md, replace `[NEEDS CLARIFICATION: question]` with specific requirements
-
-### Template and Analysis Errors
+- **Unresolved clarifications**: Choose "Continue anyway (y)" to proceed with assumptions documented as risks, or "No (n)" to resolve clarifications in spec.md first
 - **Template missing**: Run `npx ccspec init` to restore plan.md template
 - **CLAUDE.md not found**: Continue without project-specific patterns (plan will use generic approaches)
-- **Codebase analysis fails**: Ensure project directory is accessible and contains source code
-
-### Research Failures
-- **Pattern detection fails**: Plan will use generic implementation approaches
-- **Framework identification fails**: Manually specify framework in plan.md after generation
-
-## Example Output
-```
-Technical plan created at specs/feature-auth/plan.md
-Plan includes codebase research and technical approach. Use /tasks when ready to generate implementation tasks.
-```

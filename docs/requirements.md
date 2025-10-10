@@ -9,18 +9,25 @@ ccspec is a lightweight specification-driven development tool designed to stream
 
 ```
 project/
+├── .claude/
+│   └── commands/           # Slash command instructions
+│       ├── spec.md
+│       ├── plan.md
+│       ├── tasks.md
+│       └── implement.md
 ├── .ccspec/
 │   └── templates/          # Default templates
 │       ├── spec.md
 │       ├── plan.md
 │       └── tasks.md
-├── .ccspecrc.json        # Optional configuration
+├── .ccspecrc.json          # Optional configuration
 ├── specs/                  # Generated specifications
+│   ├── research.md         # Cached codebase analysis
 │   └── <branch-name>/      # Created on demand
-│       ├── spec.md         # Filled copy of template
-│       ├── plan.md         # Includes internal research
-│       └── tasks.md        # List of executable tasks
-└── .claude.md              # Uses existing
+│       ├── spec.md         # Feature specification
+│       ├── plan.md         # Technical plan
+│       └── tasks.md        # Implementation tasks
+└── CLAUDE.md               # Project guidelines
 ```
 
 ---
@@ -41,51 +48,91 @@ Same as `init` but also creates `.ccspecrc.json` with customizable settings
 
 ## Slash Commands (Claude Code)
 
-### `/spec [optional prompt]`
-Generates feature specification
-1. If prompt empty → asks interactively
-2. Checks for git repository:
-   - If no git → asks "Initialize git? (y/n)"
-   - If yes → runs `git init` and uses "main" branch
-   - If no → continues with "unknown-branch"
-3. If git exists → asks: "Use current branch? (y/n)"
-4. If no → asks for new branch name and creates it with `git switch -c`
-5. Creates `specs/<branch>/` if it doesn't exist
-6. Analyzes prompt and generates specification content
-7. Copies `.ccspec/templates/spec.md` and fills with generated content
-8. Marks ambiguities with `[NEEDS CLARIFICATION]`
-9. Saves as `specs/<branch>/spec.md`
+### `/spec [description]`
+Generates feature specification using `$ARGUMENTS` variable
+
+**Frontmatter:**
+```yaml
+description: Create feature specification from description
+argument-hint: [description]
+allowed-tools: Read, Write, Bash(git:*)
+```
+
+**Execution flow:**
+1. If description empty, asks interactively for feature description
+2. Verifies ccspec initialization
+3. Checks for git repository:
+   - If no git: asks "Initialize git? (y/n)"
+   - If yes: runs `git init` and uses "main" branch
+   - If no: continues with "unknown-branch"
+4. If git exists, asks: "Use current branch? (y/n)"
+5. If no, asks for new branch name and creates it with `git switch -c`
+6. Loads `.ccspecrc.json` if exists
+7. Creates `specs/<branch>/` if it doesn't exist
+8. Generates feature specification from description
+9. Marks ambiguities with `[NEEDS CLARIFICATION]`
+10. Saves as `specs/<branch>/spec.md`
 
 ### `/plan`
-Generates technical plan with research
+Generates technical plan with codebase research and caching
+
+**Frontmatter:**
+```yaml
+description: Generate technical plan from specification
+allowed-tools: Read, Write, Grep, Glob
+```
+
+**Execution flow:**
 1. Verifies if `spec.md` exists
-2. Reads `spec.md` + `.claude.md` for context
-3. Does codebase research (plan mode style)
-4. Copies `.ccspec/templates/plan.md` and fills with research findings and technical decisions
-5. Saves as `specs/<branch>/plan.md`
+2. Validates spec completeness (required sections)
+3. Checks for unresolved `[NEEDS CLARIFICATION]` items
+4. Reads `spec.md` + `CLAUDE.md` for context
+5. Checks for `specs/research.md`
+   - If exists: uses cached research
+   - If not exists: performs full codebase analysis and saves to `specs/research.md`
+6. Performs feature-specific codebase analysis
+7. Generates technical plan with research findings, patterns, and decisions
+8. Saves as `specs/<branch>/plan.md`
 
 ### `/tasks`
 Generates progress tracking checklist with checkboxes
+
+**Frontmatter:**
+```yaml
+description: Generate implementation tasks from plan
+allowed-tools: Read, Write
+```
+
+**Execution flow:**
 1. Verifies if `plan.md` exists
-2. Analyzes plan and extracts key milestones and deliverables
-3. Copies `.ccspec/templates/tasks.md` and fills with checkbox tasks
-4. Creates numbered tasks with checkboxes (- [ ] T001, - [ ] T002...)
-5. Marks parallel tasks with `[P]` and blocked tasks with `[B]`
-6. Saves as `specs/<branch>/tasks.md` (used for progress verification and real-time tracking)
+2. Validates plan completeness (required sections)
+3. Checks context consistency (branch alignment)
+4. Analyzes plan and extracts implementation steps
+5. Generates numbered tasks with checkboxes (`- [ ] T001`, `- [ ] T002`...)
+6. Marks parallel tasks with `[P]` and blocked tasks with `[B]`
+7. Organizes by category (Setup, Core, Testing, Polish)
+8. Saves as `specs/<branch>/tasks.md`
 
 ### `/implement`
 Implements the technical plan with checkbox tracking
-1. Reads `plan.md` for implementation details
-2. Executes the technical plan step by step
-3. After each task completion:
-   - Updates checkboxes in `tasks.md` from `- [ ]` to `- [x]`
-   - Updates progress counters
-4. Uses the detailed technical approach from the plan
-5. Developer manually commits changes when ready
 
-**Variations:**
-- `/implement` → Batch mode (default) - executes all tasks automatically
-- `/implement --interactive` (or `-i`) → Interactive mode - pauses between tasks asking "Continue with T### - [task name]? (y/n)"
+**Frontmatter:**
+```yaml
+description: Execute implementation tasks interactively or in batch
+allowed-tools: Read, Write, Edit, Bash(*), Glob, Grep
+```
+
+**Execution flow:**
+1. Verifies `plan.md` and `tasks.md` exist
+2. Validates tasks format and context consistency
+3. Loads implementation context from plan
+4. Executes tasks according to plan approach
+5. Respects parallelization `[P]` and blocking `[B]` markers
+6. Updates checkboxes in `tasks.md` from `- [ ]` to `- [x]` as tasks complete
+
+**Modes:**
+- `/implement` - Batch mode (default): executes all tasks automatically
+- `/implement --interactive` or `/implement -i` - Interactive mode: pauses after each task asking "Continue with T### - [task name]? (y/n)"
 
 ---
 
@@ -136,9 +183,11 @@ npx ccspec init
 ## Key Features
 
 - **Simple Templates** - Direct, focused templates without over-engineering
+- **YAML Frontmatter** - Commands use frontmatter with security-focused tool restrictions
+- **Smart Caching** - Research results cached in `specs/research.md` for faster planning
 - **Optional Configuration** - Sensible defaults with optional customization
 - **Interactive Implementation** - Step-by-step task execution with `/implement`
-- **Atomic Commits** - Built-in workflow for clean commit history
+- **Progress Tracking** - Real-time checkbox updates in `tasks.md`
 - **Claude Code Integration** - Native slash commands for seamless workflow
 
 ---

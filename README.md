@@ -17,7 +17,7 @@ After running `ccspec init`, Claude Code will have access to these slash command
 | Command         | Description                                                           |
 |-----------------|-----------------------------------------------------------------------|
 | `/spec`         | Define what you want to build with intelligent requirement analysis  |
-| `/plan`         | Create technical plan with codebase research and thinking modes      |
+| `/plan`         | Create technical plan with codebase research and validation          |
 | `/tasks`        | Generate strategic task lists with dependency analysis               |
 | `/implement`    | Execute tasks with progress tracking (batch or interactive modes)    |
 
@@ -26,7 +26,7 @@ After running `ccspec init`, Claude Code will have access to these slash command
 
 ## Key Features
 
-- **Intelligent Analysis**: Uses Claude Code's `think` and `ultrathink` modes for deeper reasoning
+- **Intelligent Analysis**: Deep requirement and codebase analysis for optimal solutions
 - **Context Validation**: Ensures consistency across specs, plans, and tasks
 - **Codebase Integration**: Analyzes existing patterns from CLAUDE.md and project structure
 - **Flexible Implementation**: Batch or interactive execution modes

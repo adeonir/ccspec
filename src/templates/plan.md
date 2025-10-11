@@ -15,16 +15,13 @@ Instructions for filling this template:
 ## Summary
 {SPEC_SUMMARY}
 
-## Research Findings
+## Project Context
+<!-- Cached from specs/research.md - general project information -->
+{PROJECT_CONTEXT}
 
-### Codebase Analysis
-{CODEBASE_RESEARCH}
-
-### Existing Patterns
-{PATTERNS}
-
-### Architecture Decisions
-{ARCHITECTURE}
+## Feature Analysis
+<!-- Feature-specific research and integration points -->
+{FEATURE_ANALYSIS}
 
 ## Technical Approach
 {TECHNICAL_DECISIONS}

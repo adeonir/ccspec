@@ -74,9 +74,8 @@ When user types `/plan`:
    - Replace `{BRANCH_NAME}` with current branch
    - Replace `{DATE}` with current date
    - Replace `{SPEC_SUMMARY}` with extracted summary from spec
-   - Replace `{CODEBASE_RESEARCH}` with cached research from specs/research.md + feature-specific analysis
-   - Replace `{PATTERNS}` with project patterns from CLAUDE.md + identified code patterns
-   - Replace `{ARCHITECTURE}` with architectural decisions from CLAUDE.md context
+   - Replace `{PROJECT_CONTEXT}` with content from specs/research.md (general project info: architecture, frameworks, tools, patterns, conventions)
+   - Replace `{FEATURE_ANALYSIS}` with feature-specific research (integration points, affected components, similar patterns in codebase, specific files/modules to modify)
    - Replace `{TECHNICAL_DECISIONS}` with approach details informed by project guidelines
    - Replace `{IMPLEMENTATION_STEPS}` with context-aware steps using correct commands/tools
    - Replace `{DEPENDENCIES}` with dependencies using detected package manager and preferences

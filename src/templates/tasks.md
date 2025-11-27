@@ -4,12 +4,11 @@
 **Generated**: {DATE}
 **Based on**: plan.md
 
-<!--
-Instructions for filling this template:
+<instructions>
 - Tasks are marked complete during /implement execution
-- Use task numbers for commit references
-- Task markers: [P] = parallel, [B] = blocked
--->
+- Use task numbers for commit references (e.g., "feat: implement T001")
+- Task markers: [P] = parallel-safe, [B] = blocked by dependency
+</instructions>
 
 ## Progress Overview
 - Total Tasks: {TOTAL_COUNT}

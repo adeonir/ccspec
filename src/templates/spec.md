@@ -4,13 +4,12 @@
 **Created**: {DATE}
 **Status**: Draft
 
-<!--
-Instructions for filling this template:
+<instructions>
 - Focus on WHAT users need and WHY, not HOW to implement
 - Mark unclear aspects with [NEEDS CLARIFICATION: specific question]
 - User stories format: "As a [user], I want [goal] so that [benefit]"
-- Requirements must be testable
--->
+- Requirements must be testable and verifiable
+</instructions>
 
 ## Overview
 {FEATURE_DESCRIPTION}

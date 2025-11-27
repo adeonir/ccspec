@@ -3,85 +3,79 @@ description: Execute implementation tasks interactively or in batch
 allowed-tools: Read, Write, Edit, Bash(*), Glob, Grep
 ---
 
-When user types `/implement` or `/implement --interactive` (or `/implement -i`):
+<objective>
+Execute implementation tasks from the task list. Supports two modes: batch (default) for automatic execution of all tasks, and interactive (-i) for step-by-step confirmation. Tracks progress by updating task checkboxes and suggests atomic commits.
+</objective>
 
-## IMPORTANT: Mode Behavior
+<context>
+Read in parallel to validate prerequisites:
+- `specs/{branch}/plan.md` - technical approach reference
+- `specs/{branch}/tasks.md` - task list with T### numbering and checkbox format
 
-- **`/implement`** (default): Batch mode - execute all tasks automatically without any pauses
-- **`/implement --interactive`** (or `-i`): Interactive mode - MUST pause after each task and wait for user confirmation
+Validate:
+- Tasks have T### numbering (T001, T002, etc.)
+- Tasks use checkbox format `- [ ]` or `- [x]`
+- All files reference same feature and branch
+- At least one category has tasks
+</context>
 
-## Gate Check: Context Validation & Tasks Analysis
+<modes>
+**Batch mode** (`/implement`):
+- Execute all tasks automatically without pauses
+- No user confirmation between tasks
 
-1. **Verify plan and tasks exist**: Use Read tool to check required files in parallel:
-   - Check `specs/{branch}/plan.md` - If not found: Error "plan file not found. Run /plan first"
-   - Check `specs/{branch}/tasks.md` - If not found: Error "tasks file not found. Run /tasks first"
-2. **Validate tasks format**: Check tasks.md has properly formatted tasks
-   - Verify tasks have T### numbering (T001, T002, etc.)
-   - Verify tasks use checkbox format `- [ ]` or `- [x]`
-   - If malformed: Error "tasks format invalid. Regenerate tasks.md using /tasks"
-3. **Context consistency validation**:
-   - Verify all files (spec.md, plan.md, tasks.md) reference same feature and branch
-   - Check that task numbering is sequential and consistent
-   - Ensure plan implementation steps align with generated tasks
-4. **Check task categories**: Ensure task categories are populated
-   - Verify at least one category has tasks (Setup, Core, Testing, Polish)
-   - If empty: Error "tasks categories empty. Regenerate tasks.md using /tasks"
+**Interactive mode** (`/implement --interactive` or `-i`):
+- Pause after each task completion
+- Ask "Continue with T### - [task name]? (y/n)"
+- Wait for user confirmation before proceeding
+</modes>
 
-## Execution Steps
-
-1. **Load implementation context**: Use Read tool to load required context:
+<process>
+1. Load implementation context:
    - Read plan.md for technical approach
-   - Read tasks.md for task list and progress
-   - Identify current task status
-2. **Implementation mode**:
-   - **Default (`/implement`)**: Batch mode - execute entire plan without any pauses or questions
-   - **Interactive (`/implement --interactive` or `-i`)**: Interactive mode - MUST pause after each task and ask for confirmation
-3. **Execute tasks sequentially**:
-   - Analyze code integration requirements for each task
-   - Consider testing approach and validation strategy
-   - Evaluate implementation alternatives and trade-offs
-   - Plan commit strategy for atomic, focused changes
-   - Assess task dependencies and parallel execution opportunities
-
-   Follow implementation guidelines:
-   - Follow the technical approach from plan.md
+   - Read tasks.md for task list and current progress
+   - Identify incomplete tasks (unchecked boxes)
+2. Execute tasks following plan.md approach:
    - Implement each task according to specifications
-   - Respect parallelization markers `[P]` when possible
+   - Respect parallelization markers `[P]`
    - Handle blocked tasks `[B]` appropriately
+3. Parallel execution strategy for `[P]` tasks:
+   - Group consecutive parallel-safe tasks
+   - Execute simultaneously using multiple tool calls
+   - Complete entire group before proceeding
+4. After each task completion:
+   - Update tasks.md: change `- [ ]` to `- [x]`
+   - Update progress counters
+   - **Batch**: Continue automatically
+   - **Interactive**: Ask for confirmation
+5. Suggest commit messages with task references (e.g., "feat: implement T001, T002")
+</process>
 
-### Parallel Task Execution Strategy
-
-- **Group parallel tasks**: Identify all consecutive [P] tasks that can run together
-- **Batch execution**: Execute all [P] tasks simultaneously using multiple tool calls in single message
-- **Wait for completion**: Complete entire [P] group before proceeding to next tasks
-- **Sequential for [B]**: Execute [B] tasks one by one, respecting dependencies
-
-4. **After each task completion**:
-   - Update tasks.md marking completed tasks by changing `- [ ]` to `- [x]`
-   - **Batch mode (`/implement`)**: Continue to next task automatically without any prompts
-   - **Interactive mode (`/implement --interactive` or `-i`)**: ALWAYS ask "Continue with T### - [task name]? (y/n)" and wait for user input
-5. **Progress tracking**:
-   - Mark tasks as completed in tasks.md by checking boxes: `- [x] T### - Task description`
-   - Update progress overview counters (Completed count)
-   - Create commit suggestions with task numbers
-
-## Interactive Controls
-
-- **y/yes**: Continue to next task
-- **n/no**: Stop implementation and save progress
-
-## Implementation Guidelines
-
-- Follow the technical approach outlined in plan.md
-- Implement according to existing code patterns
-- Respect project's testing methodology
+<implementation_guidelines>
+- Follow technical approach from plan.md
+- Match existing code patterns in the project
+- Respect project testing methodology
 - Create atomic, focused changes
-- Suggest meaningful commit messages with task references
+- Include file paths in task updates
+</implementation_guidelines>
 
-## Error Handling
+<interactive_controls>
+- `y` / `yes`: Continue to next task
+- `n` / `no`: Stop implementation and save progress
+</interactive_controls>
 
-- **Prerequisites Missing**: Run `/plan` first to create technical plan, then `/tasks` to generate implementation task list
-- **Invalid task format**: Run `/tasks` to regenerate properly formatted task list
-- **File inconsistency**: Verify spec.md, plan.md, and tasks.md reference same feature and branch
-- **Task implementation blocked**: Mark task as `[B]` in tasks.md and add dependency information
-- **Mode-specific issues**: Switch between batch (`/implement`) and interactive (`/implement -i`) modes as needed
+<success_criteria>
+- All tasks executed successfully
+- tasks.md updated with checked boxes for completed tasks
+- Progress counters reflect actual completion state
+- Code follows project patterns and plan.md approach
+- Meaningful commit suggestions provided
+</success_criteria>
+
+<error_handling>
+- **No plan found**: "Run /plan first to create technical plan."
+- **No tasks found**: "Run /tasks first to generate task list."
+- **Invalid task format**: "Regenerate tasks.md using /tasks."
+- **File inconsistency**: "Verify spec.md, plan.md, and tasks.md reference same feature."
+- **Task blocked**: Mark as `[B]` and document dependency.
+</error_handling>

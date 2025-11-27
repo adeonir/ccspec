@@ -88,6 +88,7 @@ async function writeTemplates(): Promise<void> {
 
 async function writeCommands(): Promise<void> {
   await writeFile('.claude/commands/spec.md', commands.spec)
+  await writeFile('.claude/commands/clarify.md', commands.clarify)
   await writeFile('.claude/commands/plan.md', commands.plan)
   await writeFile('.claude/commands/tasks.md', commands.tasks)
   await writeFile('.claude/commands/implement.md', commands.implement)
@@ -105,7 +106,7 @@ async function createConfig(): Promise<void> {
 function printSuccess(): void {
   const nextSteps = `1. Open Claude Code
 2. Type ${chalk.blue.bold('/spec')} to get started
-3. Follow: ${chalk.gray.bold('/spec')} → ${chalk.gray.bold('/plan')} → ${chalk.gray.bold('/tasks')} → ${chalk.gray.bold('/implement')}`
+3. Follow: ${chalk.gray.bold('/spec')} → ${chalk.gray.bold('/clarify')} → ${chalk.gray.bold('/plan')} → ${chalk.gray.bold('/tasks')} → ${chalk.gray.bold('/implement')}`
 
   console.log(
     boxen(nextSteps, {

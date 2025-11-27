@@ -17,12 +17,13 @@ After running `ccspec init`, Claude Code will have access to these slash command
 | Command         | Description                                                           |
 |-----------------|-----------------------------------------------------------------------|
 | `/spec`         | Define what you want to build with intelligent requirement analysis  |
+| `/clarify`      | Resolve ambiguous items in the specification interactively           |
 | `/plan`         | Create technical plan with codebase research and validation          |
 | `/tasks`        | Generate strategic task lists with dependency analysis               |
 | `/implement`    | Execute tasks with progress tracking (batch or interactive modes)    |
 
 
-**Smart Workflow**: Each command builds on the previous → `/spec` (requirements) → `/plan` (technical approach) → `/tasks` (implementation steps) → `/implement` (execution)
+**Smart Workflow**: `/spec` (requirements) -> `/clarify` (resolve ambiguities) -> `/plan` (technical approach) -> `/tasks` (implementation steps) -> `/implement` (execution)
 
 ## Key Features
 

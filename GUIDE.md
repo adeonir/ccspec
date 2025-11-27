@@ -69,12 +69,13 @@ The command asks for confirmation and shows exactly what will be removed before 
 ```bash
 # In Claude Code, use the slash commands:
 /spec Add user authentication with JWT tokens
+/clarify    # Optional: resolve any ambiguous items
 /plan
 /tasks
 /implement
 ```
 
-**That's it!** Follow the four commands in sequence to go from idea to implementation.
+**That's it!** Follow the commands in sequence to go from idea to implementation.
 
 ### 3. What You Get
 
@@ -101,7 +102,32 @@ After running through the workflow, you'll have:
   - Acceptance criteria
   - Key entities (if applicable)
 
-### 2. Technical Planning (`/plan`)
+### 2. Resolve Clarifications (`/clarify`)
+
+```
+/clarify
+```
+
+**What it does:**
+- Scans the specification for `[NEEDS CLARIFICATION]` items
+- Interactively prompts for each unclear aspect
+- Updates `specs/{branch}/spec.md` with resolved content
+- If no clarifications needed, suggests proceeding to `/plan`
+
+**Example output:**
+```
+Found 2 items needing clarification:
+
+1. [NEEDS CLARIFICATION: Should export support CSV or Excel?]
+   > Your answer: Both formats
+
+2. [NEEDS CLARIFICATION: Maximum file size allowed?]
+   > Your answer: 10MB
+
+Spec updated with 2 clarifications resolved. Run /plan to continue.
+```
+
+### 3. Technical Planning (`/plan`)
 
 ```
 /plan
@@ -117,7 +143,7 @@ After running through the workflow, you'll have:
   - Implementation steps
   - Dependencies and risks
 
-### 3. Task Generation (`/tasks`)
+### 4. Task Generation (`/tasks`)
 
 ```
 /tasks
@@ -131,7 +157,7 @@ After running through the workflow, you'll have:
   - Parallel execution markers `[P]`
   - Real-time progress tracking with checkbox updates
 
-### 4. Implementation (`/implement`)
+### 5. Implementation (`/implement`)
 
 ```
 /implement              # Batch mode - execute all tasks
@@ -154,6 +180,7 @@ your-project/
 ├── .claude/
 │   └── commands/          # Claude Code slash commands
 │       ├── spec.md
+│       ├── clarify.md
 │       ├── plan.md
 │       ├── tasks.md
 │       └── implement.md
@@ -197,13 +224,16 @@ Create `.ccspecrc.json` to customize behavior:
 # 1. Create specification
 /spec Add JWT authentication with login/logout endpoints
 
-# 2. Generate technical plan
+# 2. Resolve any clarifications (optional)
+/clarify
+
+# 3. Generate technical plan
 /plan
 
-# 3. Create implementation tasks
+# 4. Create implementation tasks
 /tasks
 
-# 4. Execute implementation
+# 5. Execute implementation
 /implement
 ```
 
@@ -285,6 +315,7 @@ When using `/implement --interactive`:
 | Command | Description | Requires |
 |---------|-------------|----------|
 | `/spec [description]` | Create feature specification | - |
+| `/clarify` | Resolve clarification items interactively | spec.md |
 | `/plan` | Generate technical plan | spec.md |
 | `/tasks` | Create implementation tasks | plan.md |
 | `/implement` | Execute implementation (batch mode) | tasks.md |
@@ -314,13 +345,21 @@ When using `/implement --interactive`:
 Modify templates in `.ccspec/templates/` to match your workflow:
 
 ```markdown
-<!-- .ccspec/templates/spec.md -->
 # Feature Specification: {FEATURE_NAME}
 
 **Epic**: {EPIC_NAME}
 **Story Points**: {POINTS}
-<!-- ... customize as needed ... -->
+
+<instructions>
+- Instructions for Claude on how to fill this template
+- These blocks are removed when the template is processed
+</instructions>
+
+## Overview
+{FEATURE_DESCRIPTION}
 ```
+
+Templates use `<instructions>` blocks to provide guidance to Claude during processing. These blocks are automatically removed from the final output.
 
 ### Team Workflows
 

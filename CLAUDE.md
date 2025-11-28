@@ -58,15 +58,11 @@ pnpm check
 4. User runs slash commands in Claude Code to generate and implement specs
 
 ### Slash Commands Flow
-- `/spec` - Generates feature specification from template
+- `/spec` - Generates feature specification from description or PRD file
+- `/clarify` - Resolves ambiguous items in the specification interactively
 - `/plan` - Creates technical implementation plan with codebase research
 - `/tasks` - Generates progress tracking checklist from plan
 - `/implement` - Implements the technical plan interactively, updating task checklist
-
-### Configuration
-Optional `.ccspecrc.json` supports:
-- `branchPrefix` - Branch prefix to remove from folder names
-- `autoNumbering` - Add 001-, 002- numbering to spec folders
 
 ### Build System
 - **tsup** for fast TypeScript bundling with `.md` file loading

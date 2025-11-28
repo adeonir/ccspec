@@ -29,7 +29,6 @@ This approach helps you:
 - **Structured Templates**: Auto-generated spec, plan, and task templates
 - **Claude Code Integration**: Custom slash commands for interactive development
 - **Git Integration**: Branch-based organization and workflow
-- **Configurable**: Optional `.ccspecrc.json` for customization
 - **Zero Dependencies**: Templates bundled in executable, no external files needed
 
 ## Get Started
@@ -56,10 +55,9 @@ If ccspec is already initialized, running `init` again will ask if you want to u
 npx ccspec clear
 ```
 
-This removes all ccspec files and configuration:
+This removes all ccspec files:
 - `.ccspec/` directory with templates
 - `.claude/commands/` ccspec command files
-- `.ccspecrc.json` configuration file (if exists)
 - `specs/` directory with all specifications
 
 The command asks for confirmation and shows exactly what will be removed before proceeding.
@@ -189,32 +187,13 @@ your-project/
 │       ├── spec.md
 │       ├── plan.md
 │       └── tasks.md
-├── specs/                 # Generated specifications (git-tracked)
-│   ├── research.md        # Project research cache (shared across features)
-│   └── {branch-name}/
-│       ├── spec.md
-│       ├── plan.md
-│       └── tasks.md
-└── .ccspecrc.json         # Optional configuration
+└── specs/                 # Generated specifications (git-tracked)
+    ├── research.md        # Project research cache (shared across features)
+    └── {branch-name}/
+        ├── spec.md
+        ├── plan.md
+        └── tasks.md
 ```
-
-## Configuration
-
-Create `.ccspecrc.json` to customize behavior:
-
-```json
-{
-  "branchPrefix": "feature/",   // Remove prefix from folder names
-  "autoNumbering": true         // Add 001-, 002- numbering
-}
-```
-
-### Configuration Options
-
-| Option | Default | Description |
-|--------|---------|-------------|
-| `branchPrefix` | `""` | Git branch prefix to remove from folder names |
-| `autoNumbering` | `false` | Add sequential numbering to spec folders |
 
 ## Examples
 
@@ -307,8 +286,7 @@ When using `/implement --interactive`:
 | Command | Description |
 |---------|-------------|
 | `npx ccspec init` | Initialize ccspec in current project (or update if already initialized) |
-| `npx ccspec init --config` | Initialize with `.ccspecrc.json` configuration file |
-| `npx ccspec clear` | Remove all ccspec files and configuration |
+| `npx ccspec clear` | Remove all ccspec files |
 
 ### Slash Commands (Claude Code)
 
@@ -363,12 +341,10 @@ Templates use `<instructions>` blocks to provide guidance to Claude during proce
 
 ### Team Workflows
 
-1. **Shared Configuration**: Commit `.ccspecrc.json` to establish team standards
-2. **Template Customization**: Modify templates for project-specific requirements
-3. **Branch Conventions**: Use `branchPrefix` to enforce naming patterns
-4. **Review Process**: Use generated specs for feature reviews
-5. **Progress Tracking**: Share tasks.md with team to track implementation progress
-6. **Implementation Modes**: Use `/implement --interactive` for collaborative development, `/implement` for solo work
+1. **Template Customization**: Modify templates for project-specific requirements
+2. **Review Process**: Use generated specs for feature reviews
+3. **Progress Tracking**: Share tasks.md with team to track implementation progress
+4. **Implementation Modes**: Use `/implement --interactive` for collaborative development, `/implement` for solo work
 
 ## Common Issues
 
@@ -387,12 +363,6 @@ npx ccspec clear
 npx ccspec init
 # Check files exist
 ls .claude/commands/
-```
-
-### Configuration not loading
-```bash
-# Verify JSON syntax
-cat .ccspecrc.json | jq .
 ```
 
 ### Debug Mode

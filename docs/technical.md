@@ -1,4 +1,8 @@
-# ccspec - Technical Planning
+# ccspec - Technical Documentation
+
+## Objective
+
+**ccspec** is a lightweight specification-driven development tool designed to streamline feature planning and implementation workflows. It provides structured templates for requirements, technical planning, and task management, with native integration for Claude Code through slash commands. The tool emphasizes simplicity, atomic commits, and interactive implementation to boost developer productivity.
 
 ## Technology Stack
 
@@ -10,6 +14,8 @@
 - **commander** - CLI framework for building command-line tools
 - **chalk** - Terminal colors and styling for better user experience
 - **fs-extra** - Enhanced file system operations with async/await support
+- **inquirer** - Interactive command-line prompts
+- **ora** - Terminal spinner for visual feedback
 
 ### Dev Dependencies
 - **typescript** - Type-safe JavaScript development
@@ -28,7 +34,8 @@ ccspec/
 ├── src/
 │   ├── index.ts           # Entry point & CLI setup
 │   ├── cli/               # CLI command implementations
-│   │   └── init.ts        # Init command implementation
+│   │   ├── init.ts        # Init command implementation
+│   │   └── clear.ts       # Clear command implementation
 │   ├── templates/         # Spec templates (Markdown files)
 │   │   ├── spec.md
 │   │   ├── plan.md
@@ -36,12 +43,15 @@ ccspec/
 │   │   └── index.ts       # Imports all templates
 │   ├── commands/          # Claude slash command instructions
 │   │   ├── spec.md        # Instructions for /spec
+│   │   ├── clarify.md     # Instructions for /clarify
 │   │   ├── plan.md        # Instructions for /plan
 │   │   ├── tasks.md       # Instructions for /tasks
 │   │   ├── implement.md   # Instructions for /implement
 │   │   └── index.ts       # Imports all instruction files
 │   └── utils/
+│       ├── banner.ts      # CLI banner display
 │       └── files.ts       # File operations helpers
+├── docs/                  # Technical documentation
 ├── dist/                  # Compiled output
 ├── package.json
 ├── tsconfig.json
@@ -56,11 +66,12 @@ ccspec/
 Creates ccspec base structure
 
 **Actions:**
-1. Check if `.ccspec/` already exists (warn if yes)
+1. Check if `.ccspec/` already exists (offer to update if yes)
 2. Create `.claude/commands/`
 3. Create `.ccspec/templates/`
 4. Write slash command instructions (markdown files) to `.claude/commands/`:
    - `spec.md` - Instructions for `/spec` command
+   - `clarify.md` - Instructions for `/clarify` command
    - `plan.md` - Instructions for `/plan` command
    - `tasks.md` - Instructions for `/tasks` command
    - `implement.md` - Instructions for `/implement` command
@@ -70,11 +81,17 @@ Creates ccspec base structure
    - `tasks.md` - Task list template
 6. Display success message with next steps
 
-### `ccspec init --config`
-Same as `init` + create `.ccspecrc.json`
+### `ccspec clear`
+Removes all ccspec files from project
 
-**Additional actions:**
-7. Write `.ccspecrc.json` with default configuration values
+**Actions:**
+1. Check for existing ccspec files
+2. Display list of files to be removed
+3. Ask for confirmation
+4. Remove `.ccspec/` directory
+5. Remove ccspec command files from `.claude/commands/`
+6. Remove `specs/` directory
+7. Display success message
 
 ---
 
@@ -106,12 +123,14 @@ export const templates = {
 
 // src/commands/index.ts
 import specCommand from './spec.md?raw'
+import clarifyCommand from './clarify.md?raw'
 import planCommand from './plan.md?raw'
 import tasksCommand from './tasks.md?raw'
 import implementCommand from './implement.md?raw'
 
-export const instructions = {
+export const commands = {
   spec: specCommand,
+  clarify: clarifyCommand,
   plan: planCommand,
   tasks: tasksCommand,
   implement: implementCommand
@@ -126,6 +145,8 @@ This approach gives us:
 
 ### Template Structure
 
+Templates use `<instructions>` XML blocks to provide guidance to Claude during processing. These blocks are automatically removed from the final output.
+
 **spec.md template:**
 ```markdown
 # Feature Specification: {FEATURE_NAME}
@@ -134,13 +155,12 @@ This approach gives us:
 **Created**: {DATE}
 **Status**: Draft
 
-<!--
-Instructions for filling this template:
+<instructions>
 - Focus on WHAT users need and WHY, not HOW to implement
 - Mark unclear aspects with [NEEDS CLARIFICATION: specific question]
 - User stories format: "As a [user], I want [goal] so that [benefit]"
 - Requirements must be testable
--->
+</instructions>
 
 ## Overview
 {FEATURE_DESCRIPTION}
@@ -158,49 +178,57 @@ Instructions for filling this template:
 {ENTITIES}
 ```
 
-Templates use placeholders (e.g., `{FEATURE_NAME}`, `{BRANCH_NAME}`) that are filled by slash commands. HTML comments provide inline instructions for users inspecting templates directly.
+Templates use placeholders (e.g., `{FEATURE_NAME}`, `{BRANCH_NAME}`) that are filled by slash commands.
 
 ### Slash Command Instructions
 
-The CLI creates markdown instruction files in `.claude/commands/` with YAML frontmatter:
+The CLI creates markdown instruction files in `.claude/commands/` with YAML frontmatter and semantic XML tags:
 
 ```markdown
 <!-- .claude/commands/spec.md -->
 ---
-description: Create feature specification from description
-argument-hint: [description]
+description: Create feature specification from description or PRD file
+argument-hint: [description] or @file.md
 allowed-tools: Read, Write, Bash(git:*)
 ---
 
-When user types `/spec $ARGUMENTS`:
+<objective>
+Create a feature specification document from a user-provided description or PRD file.
+</objective>
 
-## Gate Check: Initialization
-Verify ccspec initialization using Read tool in parallel:
+<context>
+Verify ccspec initialization by reading in parallel:
 - Templates: `.ccspec/templates/spec.md`, `.ccspec/templates/plan.md`, `.ccspec/templates/tasks.md`
-- Commands: `.claude/commands/spec.md`, `.claude/commands/plan.md`, `.claude/commands/tasks.md`, `.claude/commands/implement.md`
-- If any file not found: Error "ccspec not initialized..."
+- Commands: `.claude/commands/spec.md`, `.claude/commands/clarify.md`, `.claude/commands/plan.md`, `.claude/commands/tasks.md`, `.claude/commands/implement.md`
 
-## Input Validation
-**Check for description parameter**:
-- If `$ARGUMENTS` is empty: Ask "What feature would you like to specify?"
-- Wait for user response before proceeding
+Parse `$ARGUMENTS` to determine input type:
+- If empty: Ask for feature description
+- If contains `@file.md` reference: Use expanded file content as PRD context
+- If text only: Use as feature description
+</context>
 
-## Execution Steps
-1. **Get current git branch**: `git branch --show-current`
-2. **Ask about branch usage**: "Current branch: {current-branch}. Use this branch? (y/n)"
-3. **Load configuration**: Try to read `.ccspecrc.json` with Read tool
-4. **Process branch name**: Remove `branchPrefix` if present, add auto-numbering if enabled
-5. **Create directory**: `specs/{processed-branch}/`
-6. **Copy template** from `.ccspec/templates/spec.md`
-7. **Remove instruction sections**: Delete all content between `<!--` and `-->` comments
-8. **Fill template** based on user description
-9. **Save as**: `specs/{branch}/spec.md`
-10. **Response**: "Spec created at specs/{branch}/spec.md. Review and use /plan next."
+<process>
+1. Process input from `$ARGUMENTS`
+2. Get current git branch with `git branch --show-current`
+3. Ask about branch usage
+4. Create directory `specs/{branch}/`
+5. Read template from `.ccspec/templates/spec.md`
+6. Fill template placeholders
+7. Remove `<instructions>` blocks from template
+8. Save to `specs/{branch}/spec.md`
+</process>
 
-## Error Handling
-- **No git repository**: Ask "No git repository found. Initialize git? (y/n)"
-- **Directory exists**: Ask "Directory specs/{branch}/ already exists. Overwrite? (y/n)"
-- **Template not found**: Error "Template file not found. Run 'npx ccspec init'..."
+<success_criteria>
+- Spec file created at `specs/{branch}/spec.md`
+- All placeholders replaced with meaningful content
+- Ambiguous items marked with `[NEEDS CLARIFICATION: question]`
+</success_criteria>
+
+<error_handling>
+- **Not initialized**: "ccspec not initialized. Run 'npx ccspec init' first."
+- **No git repo**: Ask to initialize git or use "unknown-branch"
+- **Directory exists**: Ask to overwrite existing specification
+</error_handling>
 ```
 
 #### Frontmatter Fields:
@@ -208,6 +236,13 @@ Verify ccspec initialization using Read tool in parallel:
 - **allowed-tools**: Whitelist of permitted tools for security (e.g., `Read, Write, Bash(git:*)`)
 - **argument-hint**: Hint for expected arguments (e.g., `[description]`)
 - **$ARGUMENTS**: Variable that captures all arguments passed to the command
+
+#### XML Tag Structure:
+- **`<objective>`**: Clear statement of what the command accomplishes
+- **`<context>`**: Prerequisites, validation checks, and input parsing
+- **`<process>`**: Step-by-step execution instructions
+- **`<success_criteria>`**: Expected outcomes and response format
+- **`<error_handling>`**: Error scenarios and recovery actions
 
 #### Implementation Details:
 - **Tasks format**: Generated with checkboxes `- [ ] T### - Task description`
@@ -243,81 +278,15 @@ console.log('  3. ' + chalk.white('Type /spec to get started\n'));
 
 ---
 
-## Configuration (.ccspecrc.json)
-
-### Schema TypeScript
-```typescript
-interface ccspecConfig {
-  branchPrefix?: string;      // default: ''
-  autoNumbering?: boolean;    // default: false
-}
-```
-
-### Generated Default File
-```json
-{
-  // "branchPrefix": "feature/",        // Prefix to remove from branch names
-  // "autoNumbering": false             // Add 001-, 002- numbering to folders
-}
-```
-
----
-
-## Function Implementation
-
-### Main Function (init.ts)
-```typescript
-export async function init(options: { config?: boolean }) {
-  // 1. Check if already initialized
-  if (fs.existsSync('.ccspec')) {
-    console.log(chalk.yellow('.ccspec/ already exists'));
-    return;
-  }
-
-  console.log(chalk.blue.bold('\nInitializing ccspec...\n'));
-
-  // 2. Create directories
-  await createDirectories();
-
-  // 3. Write templates
-  await writeTemplates();
-
-  // 4. Write command files
-  await writeCommands();
-
-  // 5. Optionally create config
-  if (options.config) {
-    await createConfig();
-  }
-
-  // 6. Success message
-  printSuccess();
-}
-```
-
-### Helpers (utils/files.ts)
-```typescript
-export async function ensureDir(path: string) {
-  await fs.ensureDir(path);
-  console.log(chalk.green('✓') + ` Created ${path}`);
-}
-
-export async function writeFile(path: string, content: string) {
-  await fs.writeFile(path, content, 'utf8');
-  console.log(chalk.green('✓') + ` Added ${path}`);
-}
-```
-
----
-
 ## Build and Distribution
 
 ### TypeScript Config (tsconfig.json)
 ```json
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "commonjs",
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
@@ -349,8 +318,8 @@ import { defineConfig } from 'tsup'
 
 export default defineConfig({
   entry: ['src/index.ts'],
-  format: ['cjs'],
-  target: 'node18',
+  format: ['esm'],
+  target: 'node22',
   outDir: 'dist',
   clean: true,
   minify: false,
@@ -369,7 +338,7 @@ export default defineConfig({
 ### Biome Configuration (biome.json)
 ```json
 {
-  "$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.0/schema.json",
   "files": {
     "includes": ["src/**/*.ts"],
     "ignore": ["dist/**/*", "node_modules/**/*"]
@@ -383,21 +352,7 @@ export default defineConfig({
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
-      "style": {
-        "noNonNullAssertion": "warn",
-        "useConst": "error"
-      },
-      "suspicious": {
-        "noExplicitAny": "warn"
-      }
-    }
-  },
-  "assist": {
-    "actions": {
-      "source": {
-        "organizeImports": "on"
-      }
+      "recommended": true
     }
   }
 }
@@ -433,7 +388,6 @@ pnpm publish
 ```bash
 # Using npx (npm)
 npx ccspec init
-npx ccspec init --config
 
 # Alternative package managers
 pnpx ccspec init     # pnpm
@@ -446,6 +400,7 @@ bunx ccspec init     # bun
 
 import { Command } from 'commander';
 import { init } from './cli/init';
+import { clear } from './cli/clear';
 
 const program = new Command();
 
@@ -457,8 +412,12 @@ program
 program
   .command('init')
   .description('Initialize ccspec in current project')
-  .option('--config', 'Create .ccspecrc.json configuration file')
   .action(init);
+
+program
+  .command('clear')
+  .description('Remove all ccspec files')
+  .action(clear);
 
 program.parse();
 ```
@@ -469,7 +428,7 @@ program.parse();
 
 ### Developer executes:
 ```bash
-npx ccspec init --config
+npx ccspec init
 ```
 
 ### CLI executes:
@@ -477,12 +436,12 @@ npx ccspec init --config
 2. Creates directory structure
 3. Writes spec templates in `.ccspec/templates/`
 4. Writes slash command instructions (markdown) in `.claude/commands/`
-5. Creates `.ccspecrc.json` (if --config flag used)
-6. Shows success message
+5. Shows success message
 
 ### Developer uses in Claude Code:
 ```
 /spec Create authentication system
+/clarify                # Resolve any ambiguous items
 /plan
 /tasks
 /implement              # Batch mode
@@ -500,29 +459,17 @@ npx ccspec init --config
 ## Validations and Errors
 
 ### Checks
-- `.ccspec/` already exists → warn user
+- `.ccspec/` already exists → offer to update
 - Not a git repository → warn user
 - Write permissions → handle errors
 
 ### Error Handling
 ```typescript
 try {
-  await init(options);
+  await init();
 } catch (error) {
   console.log(chalk.red.bold('\nError:\n'));
   console.log(chalk.red(error.message));
   process.exit(1);
 }
 ```
-
----
-
-## Next Implementation Steps
-
-1. Initial npm project setup
-2. Implement basic `init` command
-3. Add native Markdown templates with hybrid import system
-4. Test with Claude Code
-5. Refine messages and UX
-6. Publish alpha version
-7. Collect feedback and iterate

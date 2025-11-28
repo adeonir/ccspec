@@ -11,11 +11,7 @@ const program = new Command()
 
 program.name('ccspec').description('Simplified Spec-Driven Development for Claude Code').version(packageJson.version)
 
-program
-  .command('init')
-  .description('Initialize ccspec in current project')
-  .option('--config', 'Create .ccspecrc.json configuration file')
-  .action(init)
+program.command('init').description('Initialize ccspec in current project').action(init)
 
 program.command('clear').description('Remove all ccspec files and configuration').action(clear)
 

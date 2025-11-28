@@ -7,11 +7,7 @@ import { templates } from '../templates'
 import { printBanner } from '../utils/banner'
 import { ensureDir, fileExists, writeFile } from '../utils/files'
 
-interface InitOptions {
-  config?: boolean
-}
-
-export async function init(options: InitOptions): Promise<void> {
+export async function init(): Promise<void> {
   try {
     printBanner()
 
@@ -56,11 +52,6 @@ export async function init(options: InitOptions): Promise<void> {
     spinner.text = 'Writing commands...'
     await writeCommands()
 
-    if (options.config) {
-      spinner.text = 'Creating configuration file...'
-      await createConfig()
-    }
-
     const successMessage = isUpdate
       ? `✓ ${chalk.bold('ccspec')} updated successfully!`
       : `✓ ${chalk.bold('ccspec')} initialized successfully!`
@@ -92,15 +83,6 @@ async function writeCommands(): Promise<void> {
   await writeFile('.claude/commands/plan.md', commands.plan)
   await writeFile('.claude/commands/tasks.md', commands.tasks)
   await writeFile('.claude/commands/implement.md', commands.implement)
-}
-
-async function createConfig(): Promise<void> {
-  const config = {
-    branchPrefix: '',
-    autoNumbering: false,
-  }
-
-  await writeFile('.ccspecrc.json', JSON.stringify(config, null, 2))
 }
 
 function printSuccess(): void {

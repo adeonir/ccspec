@@ -5,13 +5,13 @@ import { printBanner } from '../utils/banner'
 import { fileExists, removeDir, removeFile } from '../utils/files'
 
 function hasCommandFiles(): boolean {
-  const commandFiles = ['spec.md', 'plan.md', 'tasks.md', 'implement.md']
+  const commandFiles = ['spec.md', 'clarify.md', 'plan.md', 'tasks.md', 'implement.md']
   return commandFiles.some((file) => fileExists(`.claude/commands/${file}`))
 }
 
 export async function clear(): Promise<void> {
   try {
-    if (!fileExists('.ccspec') && !hasCommandFiles() && !fileExists('.ccspecrc.json') && !fileExists('specs')) {
+    if (!fileExists('.ccspec') && !hasCommandFiles() && !fileExists('specs')) {
       console.log(chalk.yellow(`⚠ No ${chalk.bold('ccspec')} files found to clear.\n`))
       return
     }
@@ -21,7 +21,6 @@ export async function clear(): Promise<void> {
     const filesToClear = []
     if (fileExists('.ccspec')) filesToClear.push('.ccspec directory')
     if (hasCommandFiles()) filesToClear.push('Claude commands in .claude/commands/')
-    if (fileExists('.ccspecrc.json')) filesToClear.push('.ccspecrc.json config')
     if (fileExists('specs')) filesToClear.push('specs directory with all specifications')
 
     console.log(chalk.yellow(`\n⚠ This will remove:`))
@@ -51,17 +50,13 @@ export async function clear(): Promise<void> {
     }
 
     if (hasCommandFiles()) {
-      const commandFiles = ['spec.md', 'plan.md', 'tasks.md', 'implement.md']
+      const commandFiles = ['spec.md', 'clarify.md', 'plan.md', 'tasks.md', 'implement.md']
       for (const file of commandFiles) {
         const filePath = `.claude/commands/${file}`
         if (fileExists(filePath)) {
           await removeFile(filePath)
         }
       }
-    }
-
-    if (fileExists('.ccspecrc.json')) {
-      await removeFile('.ccspecrc.json')
     }
 
     if (fileExists('specs')) {

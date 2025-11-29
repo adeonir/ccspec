@@ -9,9 +9,14 @@ function hasCommandFiles(): boolean {
   return commandFiles.some((file) => fileExists(`.claude/commands/${file}`))
 }
 
+function hasAgentFiles(): boolean {
+  const agentFiles = ['plan-agent.md', 'tasks-agent.md', 'implement-agent.md']
+  return agentFiles.some((file) => fileExists(`.claude/agents/${file}`))
+}
+
 export async function clear(): Promise<void> {
   try {
-    if (!fileExists('.ccspec') && !hasCommandFiles() && !fileExists('specs')) {
+    if (!fileExists('.ccspec') && !hasCommandFiles() && !hasAgentFiles() && !fileExists('specs')) {
       console.log(chalk.yellow(`⚠ No ${chalk.bold('ccspec')} files found to clear.\n`))
       return
     }
@@ -21,6 +26,7 @@ export async function clear(): Promise<void> {
     const filesToClear = []
     if (fileExists('.ccspec')) filesToClear.push('.ccspec directory')
     if (hasCommandFiles()) filesToClear.push('Claude commands in .claude/commands/')
+    if (hasAgentFiles()) filesToClear.push('Claude agents in .claude/agents/')
     if (fileExists('specs')) filesToClear.push('specs directory with all specifications')
 
     console.log(chalk.yellow(`\n⚠ This will remove:`))
@@ -53,6 +59,16 @@ export async function clear(): Promise<void> {
       const commandFiles = ['spec.md', 'clarify.md', 'plan.md', 'tasks.md', 'implement.md']
       for (const file of commandFiles) {
         const filePath = `.claude/commands/${file}`
+        if (fileExists(filePath)) {
+          await removeFile(filePath)
+        }
+      }
+    }
+
+    if (hasAgentFiles()) {
+      const agentFiles = ['plan-agent.md', 'tasks-agent.md', 'implement-agent.md']
+      for (const file of agentFiles) {
+        const filePath = `.claude/agents/${file}`
         if (fileExists(filePath)) {
           await removeFile(filePath)
         }

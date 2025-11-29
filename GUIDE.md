@@ -27,7 +27,8 @@ This approach helps you:
 
 - **Quick Setup**: Initialize your project with `ccspec init`
 - **Structured Templates**: Auto-generated spec, plan, and task templates
-- **Claude Code Integration**: Custom slash commands for interactive development
+- **Claude Code Integration**: Custom slash commands and subagents for interactive development
+- **Subagents**: Dedicated agents for planning, task generation, and implementation with isolated context
 - **Git Integration**: Branch-based organization and workflow
 - **Zero Dependencies**: Templates bundled in executable, no external files needed
 
@@ -158,16 +159,16 @@ Spec updated with 2 clarifications resolved. Run /plan to continue.
 ### 5. Implementation (`/implement`)
 
 ```
-/implement              # Batch mode - execute all tasks
-/implement --interactive # Interactive mode with pauses
-/implement -i           # Short form of --interactive
+/implement              # Execute all pending tasks
+/implement T001         # Execute only task T001
+/implement T001-T005    # Execute tasks T001 through T005
 ```
 
 **What it does:**
-- Executes tasks according to the plan
+- Invokes the implement-agent subagent with isolated context
+- Executes tasks within the specified scope (all, single, or range)
 - Updates checkboxes in tasks.md as tasks complete
 - Suggests meaningful commit messages
-- Optional pauses for confirmation between tasks (use `--interactive` flag)
 
 ## Project Structure
 
@@ -176,12 +177,16 @@ After initialization, your project will have:
 ```
 your-project/
 ├── .claude/
-│   └── commands/          # Claude Code slash commands
-│       ├── spec.md
-│       ├── clarify.md
-│       ├── plan.md
-│       ├── tasks.md
-│       └── implement.md
+│   ├── commands/          # Claude Code slash commands
+│   │   ├── spec.md
+│   │   ├── clarify.md
+│   │   ├── plan.md
+│   │   ├── tasks.md
+│   │   └── implement.md
+│   └── agents/            # Claude Code subagents
+│       ├── plan-agent.md
+│       ├── tasks-agent.md
+│       └── implement-agent.md
 ├── .ccspec/
 │   └── templates/         # Specification templates
 │       ├── spec.md
@@ -273,11 +278,12 @@ As `/implement` executes, checkboxes are automatically updated:
 - [ ] T007 - Create logout endpoint
 ```
 
-### Interactive Controls
+### Selective Execution
 
-When using `/implement --interactive`:
-- **`y`**: Continue to next task
-- **`n`**: Stop implementation and save progress
+Execute specific tasks or ranges:
+- `/implement T001` - Execute only task T001
+- `/implement T001-T005` - Execute tasks T001 through T005
+- `/implement` - Execute all pending tasks
 
 ## Commands Reference
 
@@ -294,10 +300,11 @@ When using `/implement --interactive`:
 |---------|-------------|----------|
 | `/spec [description]` | Create feature specification | - |
 | `/clarify` | Resolve clarification items interactively | spec.md |
-| `/plan` | Generate technical plan | spec.md |
-| `/tasks` | Create implementation tasks | plan.md |
-| `/implement` | Execute implementation (batch mode) | tasks.md |
-| `/implement --interactive` | Execute with interactive pauses | tasks.md |
+| `/plan` | Generate technical plan (via plan-agent) | spec.md |
+| `/tasks` | Create implementation tasks (via tasks-agent) | plan.md |
+| `/implement` | Execute all pending tasks (via implement-agent) | tasks.md |
+| `/implement T001` | Execute specific task | tasks.md |
+| `/implement T001-T005` | Execute range of tasks | tasks.md |
 
 ## Integration with Development Tools
 

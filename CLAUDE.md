@@ -49,20 +49,28 @@ pnpm check
 - `src/cli/` - CLI command implementations (init.ts)
 - `src/templates/` - User-facing templates (spec.md, plan.md, tasks.md) + TypeScript index
 - `src/commands/` - Claude Code slash command instructions + TypeScript index
+- `src/agents/` - Claude Code subagent definitions (plan-agent, tasks-agent, implement-agent)
 - `src/utils/` - File operation helpers
 
 ### CLI Workflow
 1. User runs `ccspec init` to create project structure
 2. CLI creates `.claude/commands/` with slash command instruction files
-3. CLI creates `.ccspec/templates/` with spec templates
-4. User runs slash commands in Claude Code to generate and implement specs
+3. CLI creates `.claude/agents/` with subagent definitions
+4. CLI creates `.ccspec/templates/` with spec templates
+5. User runs slash commands in Claude Code to generate and implement specs
 
 ### Slash Commands Flow
 - `/spec` - Generates feature specification from description or PRD file
 - `/clarify` - Resolves ambiguous items in the specification interactively
-- `/plan` - Creates technical implementation plan with codebase research
-- `/tasks` - Generates progress tracking checklist from plan
-- `/implement` - Implements the technical plan interactively, updating task checklist
+- `/plan` - Invokes plan-agent to create technical implementation plan
+- `/tasks` - Invokes tasks-agent to generate task checklist from plan
+- `/implement [T001] [T001-T005]` - Invokes implement-agent to execute tasks
+
+### Subagents
+The `/plan`, `/tasks`, and `/implement` commands delegate to dedicated subagents with isolated context:
+- `plan-agent` - Analyzes codebase and generates technical plan
+- `tasks-agent` - Converts plan into categorized, numbered tasks
+- `implement-agent` - Executes tasks and updates progress
 
 ### Build System
 - **tsup** for fast TypeScript bundling with `.md` file loading

@@ -18,19 +18,20 @@ After running `ccspec init`, Claude Code will have access to these slash command
 |-----------------|-----------------------------------------------------------------------|
 | `/spec`         | Define what you want to build with intelligent requirement analysis  |
 | `/clarify`      | Resolve ambiguous items in the specification interactively           |
-| `/plan`         | Create technical plan with codebase research and validation          |
-| `/tasks`        | Generate strategic task lists with dependency analysis               |
-| `/implement`    | Execute tasks with progress tracking (batch or interactive modes)    |
+| `/plan`         | Create technical plan via plan-agent subagent                        |
+| `/tasks`        | Generate task lists via tasks-agent subagent                         |
+| `/implement`    | Execute tasks via implement-agent (supports T001 or T001-T005 scope) |
 
 
 **Smart Workflow**: `/spec` (requirements) -> `/clarify` (resolve ambiguities) -> `/plan` (technical approach) -> `/tasks` (implementation steps) -> `/implement` (execution)
 
 ## Key Features
 
+- **Subagents**: Dedicated agents (plan-agent, tasks-agent, implement-agent) with isolated context
 - **Intelligent Analysis**: Deep requirement and codebase analysis for optimal solutions
 - **Context Validation**: Ensures consistency across specs, plans, and tasks
 - **Codebase Integration**: Analyzes existing patterns from CLAUDE.md and project structure
-- **Flexible Implementation**: Batch or interactive execution modes
+- **Flexible Execution**: Execute all tasks, a single task, or a range (T001-T005)
 
 > That's it! **ccspec** creates structured specs, plans, and tasks, then helps you implement them step-by-step.
 

@@ -1,8 +1,8 @@
 import chalk from 'chalk'
 import inquirer from 'inquirer'
 import ora from 'ora'
-import { printBanner } from '../utils/banner'
-import { fileExists, removeDir, removeFile } from '../utils/files'
+import { printBanner } from '~/utils/banner'
+import { fileExists, removeDir, removeFile } from '~/utils/files'
 
 function hasCommandFiles(): boolean {
   const commandFiles = ['spec.md', 'clarify.md', 'plan.md', 'tasks.md', 'implement.md']

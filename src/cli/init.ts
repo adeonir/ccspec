@@ -2,48 +2,32 @@ import boxen from 'boxen'
 import chalk from 'chalk'
 import inquirer from 'inquirer'
 import ora from 'ora'
-import { agents } from '../agents'
-import { commands } from '../commands'
-import { templates } from '../templates'
-import { printBanner } from '../utils/banner'
-import { ensureDir, fileExists, writeFile } from '../utils/files'
+import { printBanner } from '~/utils/banner'
+import { fileExists } from '~/utils/files'
+import { createDirectories, writeAgents, writeCommands, writeTemplates } from '~/utils/setup'
 
 export async function init(): Promise<void> {
   try {
     printBanner()
 
-    let isUpdate = false
-
     if (fileExists('.ccspec')) {
-      const { update } = await inquirer.prompt([
-        {
-          type: 'confirm',
-          name: 'update',
-          message: `${chalk.bold('ccspec')} already initialized. Update templates and commands?`,
-          default: true,
-        },
-      ])
+      console.log(chalk.yellow(`\nccspec already initialized.`))
+      console.log(chalk.gray(`Run ${chalk.bold('ccspec update')} to update templates and commands.\n`))
+      return
+    }
 
-      if (!update) {
-        console.log(chalk.gray('Update cancelled.\n'))
-        return
-      }
+    const { proceed } = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'proceed',
+        message: `Initialize ${chalk.bold('ccspec')} in this directory?`,
+        default: true,
+      },
+    ])
 
-      isUpdate = true
-    } else {
-      const { proceed } = await inquirer.prompt([
-        {
-          type: 'confirm',
-          name: 'proceed',
-          message: `Initialize ${chalk.bold('ccspec')} in this directory?`,
-          default: true,
-        },
-      ])
-
-      if (!proceed) {
-        console.log(chalk.gray('Initialization cancelled.\n'))
-        return
-      }
+    if (!proceed) {
+      console.log(chalk.gray('Initialization cancelled.\n'))
+      return
     }
 
     const spinner = ora('Creating directories...').start()
@@ -55,44 +39,14 @@ export async function init(): Promise<void> {
     spinner.text = 'Writing commands...'
     await writeCommands()
 
-    const successMessage = isUpdate
-      ? `✓ ${chalk.bold('ccspec')} updated successfully!`
-      : `✓ ${chalk.bold('ccspec')} initialized successfully!`
-
-    spinner.succeed(chalk.green(successMessage))
+    spinner.succeed(chalk.green(`ccspec initialized successfully!`))
     printSuccess()
   } catch (error) {
-    ora().fail(chalk.red('✗ Initialization failed'))
+    ora().fail(chalk.red('Initialization failed'))
     console.log(chalk.red.bold('\nError:'))
     console.log(chalk.red(`   ${error instanceof Error ? error.message : String(error)}\n`))
     process.exit(1)
   }
-}
-
-async function createDirectories(): Promise<void> {
-  await ensureDir('.claude/commands')
-  await ensureDir('.claude/agents')
-  await ensureDir('.ccspec/templates')
-}
-
-async function writeTemplates(): Promise<void> {
-  await writeFile('.ccspec/templates/spec.md', templates.spec)
-  await writeFile('.ccspec/templates/plan.md', templates.plan)
-  await writeFile('.ccspec/templates/tasks.md', templates.tasks)
-}
-
-async function writeAgents(): Promise<void> {
-  await writeFile('.claude/agents/plan-agent.md', agents.plan)
-  await writeFile('.claude/agents/tasks-agent.md', agents.tasks)
-  await writeFile('.claude/agents/implement-agent.md', agents.implement)
-}
-
-async function writeCommands(): Promise<void> {
-  await writeFile('.claude/commands/spec.md', commands.spec)
-  await writeFile('.claude/commands/clarify.md', commands.clarify)
-  await writeFile('.claude/commands/plan.md', commands.plan)
-  await writeFile('.claude/commands/tasks.md', commands.tasks)
-  await writeFile('.claude/commands/implement.md', commands.implement)
 }
 
 function printSuccess(): void {

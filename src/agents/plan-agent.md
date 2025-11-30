@@ -96,12 +96,12 @@ Summary:
 - [Key decisions made]
 - [Number of implementation steps]
 
-Next: Review the plan and use /tasks to generate the task list.
+Next: Review the plan and use /spec:tasks to generate the task list.
 ```
 
 ## Error Handling
 
-- **No spec found**: "Run /spec first to create feature specification."
+- **No spec found**: "Run /spec:create first to create feature specification."
 - **Incomplete spec**: "Add missing sections (Overview, User Stories) to spec.md."
 - **Branch mismatch**: "Switch to correct branch or update spec.md."
 - **Template missing**: "Run 'npx ccspec init' to restore templates."

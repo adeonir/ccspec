@@ -1,16 +1,17 @@
 ---
+title: Resolve Clarifications
 description: Resolve clarification items in specification
 allowed-tools: Read, Write
 ---
 
 <objective>
-Interactively resolve all `[NEEDS CLARIFICATION]` items in the feature specification. This command guides the user through each unclear aspect, collects answers, and updates the spec.md with resolved content. Ensures the specification is complete before proceeding to /plan.
+Interactively resolve all `[NEEDS CLARIFICATION]` items in the feature specification. This command guides the user through each unclear aspect, collects answers, and updates the spec.md with resolved content. Ensures the specification is complete before proceeding to /spec:plan.
 </objective>
 
 <context>
 Read `specs/{branch}/spec.md` and scan for `[NEEDS CLARIFICATION: ...]` patterns.
 
-If no clarifications found, respond: "No clarifications needed. Spec is complete. Run /plan to continue."
+If no clarifications found, respond: "No clarifications needed. Spec is complete. Run /spec:plan to continue."
 </context>
 
 <process>
@@ -37,7 +38,7 @@ Found {count} items needing clarification:
    > Your answer:
 ```
 
-After all answers collected, confirm: "Spec updated with {count} clarifications resolved. Run /plan to continue."
+After all answers collected, confirm: "Spec updated with {count} clarifications resolved. Run /spec:plan to continue."
 </output_format>
 
 <success_criteria>
@@ -45,11 +46,11 @@ After all answers collected, confirm: "Spec updated with {count} clarifications 
 - User prompted for each clarification
 - spec.md updated with resolved content
 - No `[NEEDS CLARIFICATION]` markers remain in spec
-- Response confirms completion and suggests /plan
+- Response confirms completion and suggests /spec:plan
 </success_criteria>
 
 <error_handling>
-- **No spec found**: "No specification found. Run /spec first."
-- **No clarifications**: "No clarifications needed. Spec is complete. Run /plan to continue."
-- **User skips item**: Keep original `[NEEDS CLARIFICATION]` marker, warn that /plan may fail
+- **No spec found**: "No specification found. Run /spec:create first."
+- **No clarifications**: "No clarifications needed. Spec is complete. Run /spec:plan to continue."
+- **User skips item**: Keep original `[NEEDS CLARIFICATION]` marker, warn that /spec:plan may fail
 </error_handling>

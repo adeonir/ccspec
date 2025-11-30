@@ -1,17 +1,18 @@
 ---
+title: Create Specification
 description: Create feature specification from description or PRD file
 argument-hint: [description] or @file.md
 allowed-tools: Read, Write, Bash(git:*)
 ---
 
 <objective>
-Create a feature specification document from a user-provided description or PRD file. This command transforms informal feature requests or existing PRD documents into structured specifications with user stories, functional requirements, and acceptance criteria. The spec serves as the foundation for the /plan -> /tasks -> /implement workflow.
+Create a feature specification document from a user-provided description or PRD file. This command transforms informal feature requests or existing PRD documents into structured specifications with user stories, functional requirements, and acceptance criteria. The spec serves as the foundation for the /spec:plan -> /spec:tasks -> /spec:implement workflow.
 </objective>
 
 <context>
 Verify ccspec initialization by reading in parallel:
 - Templates: `.ccspec/templates/spec.md`, `.ccspec/templates/plan.md`, `.ccspec/templates/tasks.md`
-- Commands: `.claude/commands/spec.md`, `.claude/commands/clarify.md`, `.claude/commands/plan.md`, `.claude/commands/tasks.md`, `.claude/commands/implement.md`
+- Commands: `.claude/commands/spec/create.md`, `.claude/commands/spec/clarify.md`, `.claude/commands/spec/plan.md`, `.claude/commands/spec/tasks.md`, `.claude/commands/spec/implement.md`
 
 Parse `$ARGUMENTS` to determine input type:
 - If empty: Ask "What feature would you like to specify? Provide a description or reference a PRD file with @path/to/file.md:"
@@ -50,7 +51,7 @@ Parse `$ARGUMENTS` to determine input type:
 - All placeholders replaced with meaningful content
 - User stories follow correct format
 - Ambiguous items clearly marked for clarification
-- Response: "Spec created at specs/{branch}/spec.md. Review and use /clarify to resolve any clarifications, or /plan to continue."
+- Response: "Spec created at specs/{branch}/spec.md. Review and use /spec:clarify to resolve any clarifications, or /spec:plan to continue."
 </success_criteria>
 
 <error_handling>

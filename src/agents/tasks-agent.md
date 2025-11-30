@@ -100,13 +100,13 @@ Summary:
 - Setup: {count} | Testing: {count} | Core: {count} | Polish: {count}
 - Parallel-safe: {count} | Blocked: {count}
 
-Next: Review the tasks and use /implement to start execution.
+Next: Review the tasks and use /spec:implement to start execution.
 ```
 
 ## Error Handling
 
-- **No plan found**: "Run /plan first to create technical plan."
+- **No plan found**: "Run /spec:plan first to create technical plan."
 - **Incomplete plan**: "Ensure plan.md has Technical Approach and Implementation Steps sections."
 - **Branch mismatch**: "Verify plan.md and current git branch are aligned."
-- **Unresolved clarifications**: "Update spec.md, regenerate plan with /plan, then rerun /tasks."
+- **Unresolved clarifications**: "Update spec.md, regenerate plan with /spec:plan, then rerun /spec:tasks."
 - **Template missing**: "Run 'npx ccspec init' to restore templates."

@@ -99,14 +99,14 @@ Remaining (if any):
 
 Suggested commit: feat: implement T001-T002 - [description]
 
-Next: Continue with /implement T003-T005 or review changes.
+Next: Continue with /spec:implement T003-T005 or review changes.
 ```
 
 ## Error Handling
 
-- **No plan found**: "Run /plan first to create technical plan."
-- **No tasks found**: "Run /tasks first to generate task list."
-- **Invalid task format**: "Regenerate tasks.md using /tasks."
+- **No plan found**: "Run /spec:plan first to create technical plan."
+- **No tasks found**: "Run /spec:tasks first to generate task list."
+- **Invalid task format**: "Regenerate tasks.md using /spec:tasks."
 - **Task not found**: "Task T### not found in tasks.md."
 - **Invalid range**: "Invalid task range. Use format: T001-T005"
 - **All tasks complete**: "All tasks in scope are already completed."

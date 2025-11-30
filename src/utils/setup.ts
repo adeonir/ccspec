@@ -4,7 +4,7 @@ import { templates } from '~/templates'
 import { ensureDir, writeFile } from '~/utils/files'
 
 export async function createDirectories(): Promise<void> {
-  await ensureDir('.claude/commands')
+  await ensureDir('.claude/commands/spec')
   await ensureDir('.claude/agents')
   await ensureDir('.ccspec/templates')
 }
@@ -22,9 +22,9 @@ export async function writeAgents(): Promise<void> {
 }
 
 export async function writeCommands(): Promise<void> {
-  await writeFile('.claude/commands/spec.md', commands.spec)
-  await writeFile('.claude/commands/clarify.md', commands.clarify)
-  await writeFile('.claude/commands/plan.md', commands.plan)
-  await writeFile('.claude/commands/tasks.md', commands.tasks)
-  await writeFile('.claude/commands/implement.md', commands.implement)
+  await writeFile('.claude/commands/spec/create.md', commands.create)
+  await writeFile('.claude/commands/spec/clarify.md', commands.clarify)
+  await writeFile('.claude/commands/spec/plan.md', commands.plan)
+  await writeFile('.claude/commands/spec/tasks.md', commands.tasks)
+  await writeFile('.claude/commands/spec/implement.md', commands.implement)
 }

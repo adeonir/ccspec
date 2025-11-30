@@ -1,4 +1,5 @@
 ---
+title: Execute Tasks
 description: Execute implementation tasks
 argument-hint: "[T001] [T001-T005]"
 ---
@@ -32,7 +33,7 @@ Wait for the agent to complete and inform the user of the result.
 </instructions>
 
 <error_handling>
-- **No plan found**: "Run /plan first to create technical plan."
-- **No tasks found**: "Run /tasks first to generate task list."
+- **No plan found**: "Run /spec:plan first to create technical plan."
+- **No tasks found**: "Run /spec:tasks first to generate task list."
 - **Invalid task format**: "Use T### or T###-T### format."
 </error_handling>

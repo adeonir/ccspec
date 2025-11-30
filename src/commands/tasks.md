@@ -1,4 +1,5 @@
 ---
+title: Generate Tasks
 description: Generate implementation tasks from plan
 ---
 
@@ -19,6 +20,6 @@ Wait for the agent to complete and inform the user of the result.
 </instructions>
 
 <error_handling>
-- **No plan found**: "Run /plan first to create technical plan."
+- **No plan found**: "Run /spec:plan first to create technical plan."
 - **Template missing**: "Run 'npx ccspec init' to restore templates."
 </error_handling>

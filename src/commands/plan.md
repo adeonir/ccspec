@@ -1,4 +1,5 @@
 ---
+title: Generate Plan
 description: Generate technical plan from specification
 ---
 
@@ -21,6 +22,6 @@ If the spec has unresolved `[NEEDS CLARIFICATION]` items, the agent will ask whe
 </instructions>
 
 <error_handling>
-- **No spec found**: "Run /spec first to create feature specification."
+- **No spec found**: "Run /spec:create first to create feature specification."
 - **Template missing**: "Run 'npx ccspec init' to restore templates."
 </error_handling>

@@ -46,11 +46,11 @@ pnpm check
 - **Purpose**: `src/templates/` contains spec templates, `src/commands/` contains Claude Code instruction files
 
 ### Key Directories
-- `src/cli/` - CLI command implementations (init.ts)
+- `src/cli/` - CLI command implementations (init.ts, update.ts, clear.ts)
 - `src/templates/` - User-facing templates (spec.md, plan.md, tasks.md) + TypeScript index
 - `src/commands/` - Claude Code slash command instructions + TypeScript index
 - `src/agents/` - Claude Code subagent definitions (plan-agent, tasks-agent, implement-agent)
-- `src/utils/` - File operation helpers
+- `src/utils/` - Shared utilities (files.ts, setup.ts, banner.ts, node-check.ts)
 
 ### CLI Workflow
 1. User runs `ccspec init` to create project structure
@@ -79,6 +79,9 @@ The `/plan`, `/tasks`, and `/implement` commands delegate to dedicated subagents
 - **pnpm** as package manager
 
 ## Quality Guidelines
+
+### Language
+- All code and documentation must be written in English
 
 ### Development Workflow
 **After implementing features**, run this sequence to validate:

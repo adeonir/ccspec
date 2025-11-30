@@ -45,10 +45,14 @@ This creates the necessary templates and Claude Code commands in your project.
 ### Updating ccspec in a Project
 
 ```bash
-npx ccspec init
+npx ccspec update
 ```
 
-If ccspec is already initialized, running `init` again will ask if you want to update templates and commands. This is useful to get the latest versions after ccspec updates.
+Updates templates, commands, and agents to the latest version. Use `--force` to skip confirmation:
+
+```bash
+npx ccspec update --force
+```
 
 ### Removing ccspec from a Project
 
@@ -291,7 +295,9 @@ Execute specific tasks or ranges:
 
 | Command | Description |
 |---------|-------------|
-| `npx ccspec init` | Initialize ccspec in current project (or update if already initialized) |
+| `npx ccspec init` | Initialize ccspec in current project |
+| `npx ccspec update` | Update templates and commands to latest version |
+| `npx ccspec update --force` | Update without confirmation prompt |
 | `npx ccspec clear` | Remove all ccspec files |
 
 ### Slash Commands (Claude Code)
@@ -365,7 +371,9 @@ npm --version
 
 ### Claude Code slash commands not working
 ```bash
-# Clear and reinitialize
+# Try updating to latest version
+npx ccspec update --force
+# Or clear and reinitialize
 npx ccspec clear
 npx ccspec init
 # Check files exist

@@ -14,16 +14,16 @@ npx ccspec init
 
 After running `ccspec init`, Claude Code will have access to these slash commands for structured development:
 
-| Command         | Description                                                           |
-|-----------------|-----------------------------------------------------------------------|
-| `/spec`         | Define what you want to build with intelligent requirement analysis  |
-| `/clarify`      | Resolve ambiguous items in the specification interactively           |
-| `/plan`         | Create technical plan via plan-agent subagent                        |
-| `/tasks`        | Generate task lists via tasks-agent subagent                         |
-| `/implement`    | Execute tasks via implement-agent (supports T001 or T001-T005 scope) |
+| Command             | Description                                                           |
+|---------------------|-----------------------------------------------------------------------|
+| `/spec:create`      | Define what you want to build with intelligent requirement analysis  |
+| `/spec:clarify`     | Resolve ambiguous items in the specification interactively           |
+| `/spec:plan`        | Create technical plan via plan-agent subagent                        |
+| `/spec:tasks`       | Generate task lists via tasks-agent subagent                         |
+| `/spec:implement`   | Execute tasks via implement-agent (supports T001 or T001-T005 scope) |
 
 
-**Smart Workflow**: `/spec` (requirements) -> `/clarify` (resolve ambiguities) -> `/plan` (technical approach) -> `/tasks` (implementation steps) -> `/implement` (execution)
+**Smart Workflow**: `/spec:create` (requirements) -> `/spec:clarify` (resolve ambiguities) -> `/spec:plan` (technical approach) -> `/spec:tasks` (implementation steps) -> `/spec:implement` (execution)
 
 ## Key Features
 

@@ -54,20 +54,21 @@ pnpm check
 
 ### CLI Workflow
 1. User runs `ccspec init` to create project structure
-2. CLI creates `.claude/commands/` with slash command instruction files
+2. CLI creates `.claude/commands/spec/` with slash command instruction files
 3. CLI creates `.claude/agents/` with subagent definitions
 4. CLI creates `.ccspec/templates/` with spec templates
 5. User runs slash commands in Claude Code to generate and implement specs
 
 ### Slash Commands Flow
-- `/spec` - Generates feature specification from description or PRD file
-- `/clarify` - Resolves ambiguous items in the specification interactively
-- `/plan` - Invokes plan-agent to create technical implementation plan
-- `/tasks` - Invokes tasks-agent to generate task checklist from plan
-- `/implement [T001] [T001-T005]` - Invokes implement-agent to execute tasks
+Commands are namespaced under `spec/` to avoid conflicts with native Claude Code commands:
+- `/spec:create` - Generates feature specification from description or PRD file
+- `/spec:clarify` - Resolves ambiguous items in the specification interactively
+- `/spec:plan` - Invokes plan-agent to create technical implementation plan
+- `/spec:tasks` - Invokes tasks-agent to generate task checklist from plan
+- `/spec:implement [T001] [T001-T005]` - Invokes implement-agent to execute tasks
 
 ### Subagents
-The `/plan`, `/tasks`, and `/implement` commands delegate to dedicated subagents with isolated context:
+The `/spec:plan`, `/spec:tasks`, and `/spec:implement` commands delegate to dedicated subagents with isolated context:
 - `plan-agent` - Analyzes codebase and generates technical plan
 - `tasks-agent` - Converts plan into categorized, numbered tasks
 - `implement-agent` - Executes tasks and updates progress

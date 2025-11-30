@@ -71,11 +71,11 @@ The command asks for confirmation and shows exactly what will be removed before 
 
 ```bash
 # In Claude Code, use the slash commands:
-/spec Add user authentication with JWT tokens
-/clarify    # Optional: resolve any ambiguous items
-/plan
-/tasks
-/implement
+/spec:create Add user authentication with JWT tokens
+/spec:clarify    # Optional: resolve any ambiguous items
+/spec:plan
+/spec:tasks
+/spec:implement
 ```
 
 **That's it!** Follow the commands in sequence to go from idea to implementation.
@@ -91,10 +91,10 @@ After running through the workflow, you'll have:
 
 ## Workflow
 
-### 1. Create Specification (`/spec`)
+### 1. Create Specification (`/spec:create`)
 
 ```
-/spec Add user authentication with JWT tokens
+/spec:create Add user authentication with JWT tokens
 ```
 
 **What it does:**
@@ -105,17 +105,17 @@ After running through the workflow, you'll have:
   - Acceptance criteria
   - Key entities (if applicable)
 
-### 2. Resolve Clarifications (`/clarify`)
+### 2. Resolve Clarifications (`/spec:clarify`)
 
 ```
-/clarify
+/spec:clarify
 ```
 
 **What it does:**
 - Scans the specification for `[NEEDS CLARIFICATION]` items
 - Interactively prompts for each unclear aspect
 - Updates `specs/{branch}/spec.md` with resolved content
-- If no clarifications needed, suggests proceeding to `/plan`
+- If no clarifications needed, suggests proceeding to `/spec:plan`
 
 **Example output:**
 ```
@@ -127,13 +127,13 @@ Found 2 items needing clarification:
 2. [NEEDS CLARIFICATION: Maximum file size allowed?]
    > Your answer: 10MB
 
-Spec updated with 2 clarifications resolved. Run /plan to continue.
+Spec updated with 2 clarifications resolved. Run /spec:plan to continue.
 ```
 
-### 3. Technical Planning (`/plan`)
+### 3. Technical Planning (`/spec:plan`)
 
 ```
-/plan
+/spec:plan
 ```
 
 **What it does:**
@@ -146,10 +146,10 @@ Spec updated with 2 clarifications resolved. Run /plan to continue.
   - Implementation steps
   - Dependencies and risks
 
-### 4. Task Generation (`/tasks`)
+### 4. Task Generation (`/spec:tasks`)
 
 ```
-/tasks
+/spec:tasks
 ```
 
 **What it does:**
@@ -160,12 +160,12 @@ Spec updated with 2 clarifications resolved. Run /plan to continue.
   - Parallel execution markers `[P]`
   - Real-time progress tracking with checkbox updates
 
-### 5. Implementation (`/implement`)
+### 5. Implementation (`/spec:implement`)
 
 ```
-/implement              # Execute all pending tasks
-/implement T001         # Execute only task T001
-/implement T001-T005    # Execute tasks T001 through T005
+/spec:implement              # Execute all pending tasks
+/spec:implement T001         # Execute only task T001
+/spec:implement T001-T005    # Execute tasks T001 through T005
 ```
 
 **What it does:**
@@ -181,12 +181,13 @@ After initialization, your project will have:
 ```
 your-project/
 ├── .claude/
-│   ├── commands/          # Claude Code slash commands
-│   │   ├── spec.md
-│   │   ├── clarify.md
-│   │   ├── plan.md
-│   │   ├── tasks.md
-│   │   └── implement.md
+│   ├── commands/
+│   │   └── spec/          # Claude Code slash commands (namespaced)
+│   │       ├── create.md
+│   │       ├── clarify.md
+│   │       ├── plan.md
+│   │       ├── tasks.md
+│   │       └── implement.md
 │   └── agents/            # Claude Code subagents
 │       ├── plan-agent.md
 │       ├── tasks-agent.md
@@ -210,19 +211,19 @@ your-project/
 
 ```bash
 # 1. Create specification
-/spec Add JWT authentication with login/logout endpoints
+/spec:create Add JWT authentication with login/logout endpoints
 
 # 2. Resolve any clarifications (optional)
-/clarify
+/spec:clarify
 
 # 3. Generate technical plan
-/plan
+/spec:plan
 
 # 4. Create implementation tasks
-/tasks
+/spec:tasks
 
 # 5. Execute implementation
-/implement
+/spec:implement
 ```
 
 **Generated Structure:**
@@ -237,11 +238,11 @@ specs/feature-auth/
 
 ```bash
 git checkout -b feature/user-profiles
-/spec User profile management with avatar upload
+/spec:create User profile management with avatar upload
 # Creates: specs/feature-user-profiles/spec.md
 
 git checkout -b fix/login-validation
-/spec Fix email validation in login form
+/spec:create Fix email validation in login form
 # Creates: specs/fix-login-validation/spec.md
 ```
 
@@ -285,9 +286,9 @@ As `/implement` executes, checkboxes are automatically updated:
 ### Selective Execution
 
 Execute specific tasks or ranges:
-- `/implement T001` - Execute only task T001
-- `/implement T001-T005` - Execute tasks T001 through T005
-- `/implement` - Execute all pending tasks
+- `/spec:implement T001` - Execute only task T001
+- `/spec:implement T001-T005` - Execute tasks T001 through T005
+- `/spec:implement` - Execute all pending tasks
 
 ## Commands Reference
 
@@ -304,13 +305,13 @@ Execute specific tasks or ranges:
 
 | Command | Description | Requires |
 |---------|-------------|----------|
-| `/spec [description]` | Create feature specification | - |
-| `/clarify` | Resolve clarification items interactively | spec.md |
-| `/plan` | Generate technical plan (via plan-agent) | spec.md |
-| `/tasks` | Create implementation tasks (via tasks-agent) | plan.md |
-| `/implement` | Execute all pending tasks (via implement-agent) | tasks.md |
-| `/implement T001` | Execute specific task | tasks.md |
-| `/implement T001-T005` | Execute range of tasks | tasks.md |
+| `/spec:create [description]` | Create feature specification | - |
+| `/spec:clarify` | Resolve clarification items interactively | spec.md |
+| `/spec:plan` | Generate technical plan (via plan-agent) | spec.md |
+| `/spec:tasks` | Create implementation tasks (via tasks-agent) | plan.md |
+| `/spec:implement` | Execute all pending tasks (via implement-agent) | tasks.md |
+| `/spec:implement T001` | Execute specific task | tasks.md |
+| `/spec:implement T001-T005` | Execute range of tasks | tasks.md |
 
 ## Integration with Development Tools
 
@@ -377,7 +378,7 @@ npx ccspec update --force
 npx ccspec clear
 npx ccspec init
 # Check files exist
-ls .claude/commands/
+ls .claude/commands/spec/
 ```
 
 ### Debug Mode

@@ -1,7 +1,7 @@
 ---
 title: Create Specification
 description: Create feature specification from description or PRD file
-argument-hint: [description] or @file.md
+argument-hint: "[description] or @file.md"
 allowed-tools: Read, Write, Bash(git:*)
 ---
 

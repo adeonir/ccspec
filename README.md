@@ -1,6 +1,24 @@
 # ccspec
 
+> **This CLI has been deprecated.** The project has been migrated to a Claude Code plugin with improved features and better integration. Please use the new plugin instead:
+>
+> **[spec-driven plugin](https://github.com/adeonir/claude-code-plugins/tree/main/plugins/spec-driven)**
+
+---
+
 **ccspec (Claude Code Specification)** is a lightweight CLI tool that streamlines specification-driven development by integrating seamlessly with Claude Code. It generates structured templates and provides slash commands for creating specifications, technical plans, and implementation tasks with intelligent analysis and context validation.
+
+## Migration to Plugin
+
+The functionality of this CLI has been moved to a Claude Code plugin called `spec-driven`. For installation instructions and additional plugins, visit:
+
+**[claude-code-plugins](https://github.com/adeonir/claude-code-plugins)**
+
+---
+
+## Legacy Documentation
+
+The information below is kept for reference purposes only. This CLI will no longer receive updates.
 
 ## How to Use
 
